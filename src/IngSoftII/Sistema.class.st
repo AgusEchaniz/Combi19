@@ -10,14 +10,27 @@ Class {
 		'combis',
 		'provincias'
 	],
+	#classInstVars : [
+		'soleInstance'
+	],
 	#category : #'IngSoftII-model'
 }
 
+{ #category : #'as yet unclassified' }
+Sistema class >> clearSoleInstance [
+	soleInstance := nil
+]
+
+{ #category : #'as yet unclassified' }
+Sistema class >> soleInstance [
+	^ soleInstance ifNil: [ soleInstance := self new ]
+]
+
 { #category : #insumo }
 Sistema >> agregarInsumoWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
-(	self existeInsumo:unNombre ) ifFalse:[Insumo newWithNombre: unNombre
-		andTipo: unTipo
-		andPrecio: unPrecio]
+	(self existeInsumo: unNombre)
+		ifFalse:
+			[ insumos add:(Insumo newWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio )]
 ]
 
 { #category : #usuario }
@@ -106,6 +119,14 @@ Sistema >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña con
 				ifTrue: [ (self esMayorDeEdad: unaFecha)
 						ifTrue: [ ^ true ] ] ].
 	^ false
+]
+
+{ #category : #usuario }
+Sistema >> userWithEmail: anEmail protectedBy: aPassword [
+	^ usuarios
+		detect:
+			[ :usuario | usuario nombreUsuario = anEmail & (usuario contraseña = aPassword) ]
+		ifNone: [ nil ]
 ]
 
 { #category : #usuario }
