@@ -28,3 +28,13 @@ Insumo >> initializeWithNombre: unNombre
 	tipo:=unTipo .
 	precio:= unPrecio 
 ]
+
+{ #category : #'as yet unclassified' }
+Insumo >> modificarWithNombre: unNombre
+		andTipo: unTipo
+		andPrecio: unPrecio [
+		
+	nombre:=unNombre .
+	tipo:=unTipo .
+	precio:=unPrecio 
+]

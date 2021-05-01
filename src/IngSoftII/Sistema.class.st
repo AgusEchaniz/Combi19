@@ -13,14 +13,14 @@ Class {
 	#category : #'IngSoftII-model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #insumo }
 Sistema >> agregarInsumoWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
 (	self existeInsumo:unNombre ) ifFalse:[Insumo newWithNombre: unNombre
 		andTipo: unTipo
 		andPrecio: unPrecio]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #usuario }
 Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni [
 	|usuario|
 	(self
@@ -41,28 +41,28 @@ Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContras
 				
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #insumo }
 Sistema >> eliminarInsumo:unInsumo [
 insumos remove:unInsumo
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #usuario }
 Sistema >> eliminarUsuario:unUsuario [
 	usuarios remove:unUsuario.
 (	viajes select:[:viaje| viaje incluyenPasajero:unUsuario]) do:[:viaje| viaje eliminarPasajero:unUsuario].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #usuario }
 Sistema >> esMayorDeEdad: unaFecha [
 	^ (Date today - unaFecha)asDays/365 >= 18
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #usuario }
 Sistema >> esValidaContraseña: unaContraseña [
 ^unaContraseña size >=6
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #insumo }
 Sistema >> existeInsumo: unNombre [
 
 insumos detect:[:insumo |insumo es:unNombre ]
@@ -70,7 +70,7 @@ ifFound:[^true]
 ifNone:[^false]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #usuario }
 Sistema >> existeUsuario: unNombreDeUsuario [
 	 usuarios detect: [ :usuario | usuario es: unNombreDeUsuario ]
 	ifFound:[^true]
@@ -88,7 +88,18 @@ Sistema >> initialize [
 	"llenar coleccion provincias"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #insumo }
+Sistema >> insumos [
+^insumos
+
+]
+
+{ #category : #insumo }
+Sistema >> modificarInsumo:unInsumo withNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
+	unInsumo modificarWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio
+]
+
+{ #category : #usuario }
 Sistema >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña conFechaNac: unaFecha [
 	(self existeUsuario: unNombreDeUsuario)
 		ifFalse:  [ (self esValidaContraseña: unaContraseña)
@@ -97,7 +108,7 @@ Sistema >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña con
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #usuario }
 Sistema >> usuarios [
 ^usuarios
 ]
