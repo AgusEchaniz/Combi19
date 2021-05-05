@@ -11,6 +11,16 @@ Class {
 	#category : #'IngSoftII-model'
 }
 
+{ #category : #'instance creation' }
+Ruta class >> newWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	^ self new
+		initializeWithLugarOrigen: unLugarOrigen
+		andLugarDestino: unLugarDestino
+		andCombi: unaCombi
+		andHorario: unHorario
+		andDistancia: unaDistancia
+]
+
 { #category : #accessing }
 Ruta >> combi [
 	^ combi
@@ -26,6 +36,15 @@ Ruta >> horario [
 	^ horario
 ]
 
+{ #category : #initialization }
+Ruta >> initializeWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	lugarOrigen := unLugarOrigen.
+	lugarDestino := unLugarDestino.
+	combi := unaCombi.
+	horario := unHorario.
+	distancia := unaDistancia
+]
+
 { #category : #accessing }
 Ruta >> lugarDestino [
 	^ lugarDestino
@@ -34,4 +53,18 @@ Ruta >> lugarDestino [
 { #category : #accessing }
 Ruta >> lugarOrigen [
 	^ lugarOrigen
+]
+
+{ #category : #initialization }
+Ruta >> modificarRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	lugarOrigen := unLugarOrigen.
+	lugarDestino := unLugarDestino.
+	combi := unaCombi.
+	horario := unHorario.
+	distancia := unaDistancia
+]
+
+{ #category : #accessing }
+Ruta >> tieneHorario: unHorario [
+	^(horario = unHorario)
 ]

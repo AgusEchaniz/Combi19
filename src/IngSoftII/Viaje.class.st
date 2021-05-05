@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+Viaje >> incluyeRuta: unaRuta [
+	^(ruta = unaRuta)
+]
+
+{ #category : #'as yet unclassified' }
 Viaje >> tieneRuta: unaRuta enFecha: unaFecha [
 ^ruta=unaRuta and fecha=unaFecha
 ]

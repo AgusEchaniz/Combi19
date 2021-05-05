@@ -74,6 +74,18 @@ ifFound:[^false]
 ifNone:[^true]
 ]
 
+{ #category : #accessing }
+Sistema >> combis [
+	^combis
+]
+
+{ #category : #accessing }
+Sistema >> combisDisponiblesEnHorario: unHorario [
+	|combisNoDisponibles|
+	combisNoDisponibles := (rutas select: [ :ruta | ruta tieneHorario: unHorario ]) collect: [:ruta | ruta combi].
+	^combis removeAll: combisNoDisponibles
+]
+
 { #category : #'as yet unclassified' }
 Sistema >> crearAdmin [
 	usuarios
@@ -82,6 +94,18 @@ Sistema >> crearAdmin [
 		andContraseña: 'admin'
 		andNombre: 'Matias'
 		andApellido: 'Ocares')
+]
+
+{ #category : #usuario }
+Sistema >> crearRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	| ruta |
+	ruta := Ruta
+		newWithLugarOrigen: unLugarOrigen
+		andLugarDestino: unLugarDestino
+		andCombi: unaCombi
+		andHorario: unHorario
+		andDistancia: unaDistancia.
+		^ruta
 ]
 
 { #category : #usuario }
@@ -107,6 +131,12 @@ Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContras
 { #category : #insumo }
 Sistema >> eliminarInsumo:unInsumo [
 insumos remove:unInsumo
+]
+
+{ #category : #usuario }
+Sistema >> eliminarRuta: unaRuta [
+	(viajes select: [ :viaje | viaje incluyeRuta: unaRuta ])
+		ifEmpty: [ rutas remove: unaRuta. ^true ] ifNotEmpty: [^false]
 ]
 
 { #category : #usuario }
