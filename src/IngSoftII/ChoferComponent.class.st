@@ -22,10 +22,12 @@ ChoferComponent class >> newWithObjetivo: unObjetivo andChofer: unChofer [
 { #category : #rendering }
 ChoferComponent >> agregarChofer [
 	nombreUsuario ifEmpty: [ ^ self ].
-	(self model
-		puedeSerChofer: nombreUsuario
-		conContraseña: contraseña)
-		ifFalse: [ ^ self ].
+	(self model puedeSerChofer: nombreUsuario conContraseña: contraseña)
+		ifFalse: [ (self model existeUsuario: nombreUsuario)
+				ifTrue: [ mensaje := 'Ya existe un chofer con ese email ingresado.' ]
+				ifFalse: [ (self model esValidaContraseña: contraseña ) ifFalse: [ mensaje:= 'La contraseña ingresada debe tener minimo 6 caracteres.' ] ].
+				
+			^ self ].
 	self model
 		crearUsuarioChoferWithNombreDeUsuario: nombreUsuario
 		andContraseña: contraseña

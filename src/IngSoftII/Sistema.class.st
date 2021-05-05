@@ -238,7 +238,7 @@ Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPre
 	^ nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #chofer }
 Sistema >> puedeSerChofer: unNombreDeUsuario conContraseña: unaContraseña [ 
 	(self existeUsuario: unNombreDeUsuario)
 		ifFalse: [ (self esValidaContraseña: unaContraseña)
