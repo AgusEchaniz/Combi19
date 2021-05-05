@@ -27,26 +27,3 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 				callback: [ self call: VerChoferComponent new ];
 				with: [ aCanvas button: 'Ver choferes' ] ].
 ]
-
-{ #category : #rendering }
-HomeComponentAdmin >> renderInsumosOn: aCanvas [
-	| insumos |
-	insumos := self model insumos.
-	^ aCanvas form:[aCanvas
-		unorderedList: [ insumos
-				do: [ :each | 
-					aCanvas
-						listItem: [ aCanvas text: each nombre.	"aCanvas anchor
-								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
-								with: each nombre."
-							aCanvas
-								paragraph: [ aCanvas anchor
-										callback: [ self eliminarInsumo: each ];
-										with: [ aCanvas button: 'Eliminar' ].
-									aCanvas anchor
-										callback: [ self modificarInsumo: each ];
-										with: [ aCanvas button: 'Modificar' ] ].
-							aCanvas break.
-							aCanvas break ] ] ].
-				aCanvas submitButton callback:[self answer]; with:'Volver']
-]
