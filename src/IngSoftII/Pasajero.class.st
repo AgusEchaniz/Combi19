@@ -11,31 +11,72 @@ Class {
 }
 
 { #category : #'instance creation' }
-Pasajero class >> newWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni [
+Pasajero class >> newWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia:unaMembresia [
 	^ self new
 		initializeWithNombreDeUsuario: unNombreDeUsuario
 		andContraseña: unaContraseña
 		andFechaNacimiento: unaFecha
 		andNombre: unNombre
 		andApellido: unApellido
-		andDni: unDni
+		andDni: unDni andMembresia:unaMembresia
 ]
 
 { #category : #'as yet unclassified' }
 Pasajero >> cargarTarjetaWithNumero: unNumero andCodigoSeguridad: unCodigo andFechaVencimiento: unaFecha andNombre: unNombre [
-|tarjetaCreada|
- (tarjetaCreada :=Tarjeta newWithNumero: unNumero andCodigoSeguridad: unCodigo andFechaVencimiento: unaFecha andNombre: unNombre)ifNotNil: [tarjeta:=tarjetaCreada]
+	(self
+		puedeSerTarjetaWithNumero: unNumero
+		andFechaVencimiento: unaFecha)
+		ifTrue: [ tarjeta:= Tarjeta
+				newWithNumero: unNumero
+				andCodigoSeguridad: unCodigo
+				andFechaVencimiento: unaFecha
+				andNombre: unNombre. ^tarjeta].
+	^ nil
+]
+
+{ #category : #accessing }
+Pasajero >> dni [
+	^ dni
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> esNumeroValido: unNumero [
+	^ unNumero asInteger asString size = 16
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> estaVigente: unaFecha [
+	^ unaFecha asDate isAfter: Date today
+]
+
+{ #category : #accessing }
+Pasajero >> fechaNac [
+	^ fechaNac
 ]
 
 { #category : #initialization }
-Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni [
-	 self initialize
-				initializeWithNombreDeUsuario: unNombreDeUsuario
-				andContraseña: unaContraseña
-				andNombre: unNombre
-				andApellido: unApellido.
-			fechaNac := unaFecha.
-			dni := unDni 
+Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia:unaMembresia [
+	self initialize
+		initializeWithNombreDeUsuario: unNombreDeUsuario
+		andContraseña: unaContraseña
+		andNombre: unNombre
+		andApellido: unApellido.
+	fechaNac := unaFecha.
+	dni := unDni.
+	membresia:=unaMembresia 
+]
+
+{ #category : #accessing }
+Pasajero >> membresia [
+	^ membresia
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> puedeSerTarjetaWithNumero: unNumero andFechaVencimiento: unaFecha [
+	(self esNumeroValido: unNumero)
+		ifTrue: [ (self estaVigente: unaFecha)
+				ifTrue: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #'as yet unclassified' }
@@ -46,4 +87,14 @@ Pasajero >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña co
 				esValidaContraseña: unaContraseña
 				ifTrue: [ self esMayorDeEdad: unaFecha ifTrue: [ ^ true ] ] ].
 	^ false
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> soy [ 
+^'pasajero'
+]
+
+{ #category : #accessing }
+Pasajero >> tarjeta [
+	^ tarjeta
 ]

@@ -8,3 +8,8 @@ Class {
 	],
 	#category : #'IngSoftII-model'
 }
+
+{ #category : #'as yet unclassified' }
+Viaje >> tieneRuta: unaRuta enFecha: unaFecha [
+^ruta=unaRuta and fecha=unaFecha
+]

@@ -1,0 +1,49 @@
+Class {
+	#name : #HomeComponentAdmin,
+	#superclass : #HomeComponent,
+	#category : #'IngSoftII-ui'
+}
+
+{ #category : #rendering }
+HomeComponentAdmin >> renderContentOn: aCanvas [
+	super renderContentOn: aCanvas.
+	aCanvas
+		paragraph: [ aCanvas anchor
+				callback: [ self call: InsumoComponent new ];
+				with: [ aCanvas button: 'Agregar insumo' ].
+			aCanvas anchor
+				callback: [ self call: ChoferComponent new ];
+				with: [ aCanvas button: 'Agregar chofer' ].
+			aCanvas anchor
+				callback: [ self call: ViajeComponent new ];
+				with: [ aCanvas button: 'Agregar viaje' ].
+			aCanvas anchor
+				callback: [ self call: PasajeroComponent new ];
+				with: [ aCanvas button: 'Ver usuarios' ].
+			aCanvas anchor
+				callback: [ self call: VerInsumoComponent new ];
+				with: [ aCanvas button: 'Ver insumos' ] ]
+]
+
+{ #category : #rendering }
+HomeComponentAdmin >> renderInsumosOn: aCanvas [
+	| insumos |
+	insumos := self model insumos.
+	^ aCanvas form:[aCanvas
+		unorderedList: [ insumos
+				do: [ :each | 
+					aCanvas
+						listItem: [ aCanvas text: each nombre.	"aCanvas anchor
+								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
+								with: each nombre."
+							aCanvas
+								paragraph: [ aCanvas anchor
+										callback: [ self eliminarInsumo: each ];
+										with: [ aCanvas button: 'Eliminar' ].
+									aCanvas anchor
+										callback: [ self modificarInsumo: each ];
+										with: [ aCanvas button: 'Modificar' ] ].
+							aCanvas break.
+							aCanvas break ] ] ].
+				aCanvas submitButton callback:[self answer]; with:'Volver']
+]

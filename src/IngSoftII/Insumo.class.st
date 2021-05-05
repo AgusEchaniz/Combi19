@@ -38,3 +38,8 @@ Insumo >> modificarWithNombre: unNombre
 	tipo:=unTipo .
 	precio:=unPrecio 
 ]
+
+{ #category : #accessing }
+Insumo >> nombre [
+^nombre
+]

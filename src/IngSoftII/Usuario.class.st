@@ -16,8 +16,8 @@ Usuario >> contraseña [
 ]
 
 { #category : #'as yet unclassified' }
-Usuario >> es: unNombreDeUsuario [
-^nombreUsuario includesSubstring: unNombreDeUsuario  caseSensitive: false
+Usuario >> es:unTipo [
+^self soy=unTipo
 ]
 
 { #category : #initialization }
@@ -33,6 +33,20 @@ Usuario >> initializeWithNombreDeUsuario: unNombreDeUsuario
 ]
 
 { #category : #accessing }
+Usuario >> nombre [ ^nombre
+]
+
+{ #category : #accessing }
 Usuario >> nombreUsuario [
 ^nombreUsuario
+]
+
+{ #category : #'as yet unclassified' }
+Usuario >> seLlama: unNombreDeUsuario [
+	^ unNombreDeUsuario asUppercase = nombreUsuario asUppercase	
+]
+
+{ #category : #'as yet unclassified' }
+Usuario >> soy [
+self subclassResponsibility 
 ]

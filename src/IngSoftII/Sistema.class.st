@@ -60,30 +60,48 @@ Sistema class >> soleInstance [
 
 { #category : #insumo }
 Sistema >> agregarInsumoWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
+|insumo|
 	(self existeInsumo: unNombre)
-		ifFalse:
-			[ insumos add:(Insumo newWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio )]
+		ifFalse: [ insumos
+				add: (insumo:=Insumo newWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio) .^insumo].
+			^nil
+]
+
+{ #category : #testing }
+Sistema >> canBeRuta:unaRuta enFecha:unaFecha [
+viajes detect:[:viaje| viaje tieneRuta:unaRuta enFecha:unaFecha]
+ifFound:[^false]
+ifNone:[^true]
+]
+
+{ #category : #'as yet unclassified' }
+Sistema >> crearAdmin [
+	usuarios
+		add: (Administrador
+		newWithNombreUsuario: 'admin@admin.com'
+		andContraseña: 'admin'
+		andNombre: 'Matias'
+		andApellido: 'Ocares')
 ]
 
 { #category : #usuario }
-Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni [
-	|usuario|
+Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia:unaMembresia [
+	| usuario |
 	(self
 		puedeSerUsuario: unNombreDeUsuario
 		conContraseña: unaContraseña
 		conFechaNac: unaFecha)
 		ifTrue: [ usuarios
 				add:
-					(usuario:=Pasajero
+					(usuario := Pasajero
 						newWithNombreDeUsuario: unNombreDeUsuario
 						andContraseña: unaContraseña
 						andFechaNacimiento: unaFecha
 						andNombre: unNombre
 						andApellido: unApellido
-						andDni: unDni). ^usuario ].
-^nil
-					
-				
+						andDni: unDni andMembresia:unaMembresia).
+			^ usuario ].
+	^ nil
 ]
 
 { #category : #insumo }
@@ -117,9 +135,10 @@ ifNone:[^false]
 
 { #category : #usuario }
 Sistema >> existeUsuario: unNombreDeUsuario [
-	 usuarios detect: [ :usuario | usuario es: unNombreDeUsuario ]
-	ifFound:[^true]
-	ifNone:[^false]
+	usuarios
+		detect: [ :usuario | usuario seLlama:  unNombreDeUsuario ]
+		ifFound: [ ^ true ]
+		ifNone: [ ^ false ]
 ]
 
 { #category : #initialization }
@@ -140,17 +159,39 @@ Sistema >> insumos [
 ]
 
 { #category : #insumo }
-Sistema >> modificarInsumo:unInsumo withNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
-	unInsumo modificarWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio
+Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
+	| insumo |
+	(self
+		existeInsumo: unNombre)
+		ifFalse: [ insumo := unInsumo
+				modificarWithNombre: unNombre
+				andTipo: unTipo
+				andPrecio: unPrecio.
+			^ insumo ].
+	^ nil
+]
+
+{ #category : #'as yet unclassified' }
+Sistema >> puedeSerChofer: unNombreDeUsuario conContraseña: unaContraseña [ 
+	(self existeUsuario: unNombreDeUsuario)
+		ifFalse: [ (self esValidaContraseña: unaContraseña)
+				ifTrue: [ ^ true ] ] .
+	^ false
 ]
 
 { #category : #usuario }
 Sistema >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña conFechaNac: unaFecha [
+	
 	(self existeUsuario: unNombreDeUsuario)
-		ifFalse:  [ (self esValidaContraseña: unaContraseña)
+		ifFalse: [ (self esValidaContraseña: unaContraseña)
 				ifTrue: [ (self esMayorDeEdad: unaFecha)
 						ifTrue: [ ^ true ] ] ].
 	^ false
+]
+
+{ #category : #accessing }
+Sistema >> rutas [
+^rutas
 ]
 
 { #category : #usuario }

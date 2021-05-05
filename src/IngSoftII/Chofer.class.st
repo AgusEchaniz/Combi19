@@ -6,3 +6,8 @@ Class {
 	],
 	#category : #'IngSoftII-model'
 }
+
+{ #category : #'as yet unclassified' }
+Chofer >> soy [
+^'chofer'
+]

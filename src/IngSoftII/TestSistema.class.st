@@ -23,7 +23,8 @@ TestSistema >> testCrearUsuarioPasajero [
 		andFechaNacimiento: (Date year: 2000 month: 5 day: 1)
 		andNombre: 'Hugo'
 		andApellido: 'Perez'
-		andDni: '34567754'.
+		andDni: '34567754'
+		andMembresia:MembresiaBasica  new.
 	self assert: (sistema usuarios includes: usuario).
 	usuario1 := sistema
 		crearUsuarioPasajeroWithNombreDeUsuario: 'hugo@gmail.com'
@@ -31,7 +32,8 @@ TestSistema >> testCrearUsuarioPasajero [
 		andFechaNacimiento: (Date year: 2000 month: 5 day: 1)
 		andNombre: 'Hugo'
 		andApellido: 'Perez'
-		andDni: '34567754'.
+		andDni: '34567754'
+		andMembresia:MembresiaBasica  new.
 	self deny: (sistema usuarios includes: usuario1).
 	usuario2 := sistema
 		crearUsuarioPasajeroWithNombreDeUsuario: 'mario@gmail.com'
@@ -39,7 +41,8 @@ TestSistema >> testCrearUsuarioPasajero [
 		andFechaNacimiento: (Date year: 2000 month: 5 day: 1)
 		andNombre: 'mario'
 		andApellido: 'Perez'
-		andDni: '34567754'.
+		andDni: '34567754'
+		andMembresia:MembresiaBasica  new.
 	self deny: (sistema usuarios includes: usuario2).
 	usuario1 := sistema
 		crearUsuarioPasajeroWithNombreDeUsuario: 'hugo@gmail.com'
@@ -47,7 +50,7 @@ TestSistema >> testCrearUsuarioPasajero [
 		andFechaNacimiento: (Date year: 2010 month: 5 day: 1)
 		andNombre: 'Hugo'
 		andApellido: 'Perez'
-		andDni: '34567754'.
-	self deny: (sistema usuarios includes: usuario1).
-	
+		andDni: '34567754'
+		andMembresia:MembresiaBasica  new.
+	self deny: (sistema usuarios includes: usuario1)
 ]

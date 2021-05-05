@@ -22,7 +22,7 @@ Tarjeta >> esNumeroValido: unNumero [
 
 { #category : #'as yet unclassified' }
 Tarjeta >> estaVigente: unaFecha [
-^unaFecha isAfter: Date today
+	^ unaFecha asDate isAfter: Date today
 ]
 
 { #category : #initialization }
@@ -39,6 +39,6 @@ Tarjeta >> initializeWithNumero: unNumero andCodigoSeguridad: unCodigo andFechaV
 { #category : #'as yet unclassified' }
 Tarjeta >> puedeSerTarjetaWithNumero: unNumero andFechaVencimiento: unaFecha [
 	(self esNumeroValido: unNumero)
-		ifTrue: [ self estaVigente:unaFecha ifTrue:[^true]].
-		^false
+		ifTrue: [ (self estaVigente: unaFecha) ifTrue: [ ^ true ] ].
+	^ false
 ]
