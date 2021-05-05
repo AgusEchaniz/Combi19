@@ -39,11 +39,14 @@ InsumoComponent >> initialize [
 ]
 
 { #category : #initialization }
-InsumoComponent >> initializeWithObjetivo: unObjetivo andInsumo:unInsumo [
+InsumoComponent >> initializeWithObjetivo: unObjetivo andInsumo: unInsumo [
 	super initialize.
 	mensaje := ' '.
 	objetivo := unObjetivo.
-	insumo:=unInsumo 
+	insumo := unInsumo
+	"nombre := unInsumo nombre.
+	tipo := unInsumo tipo.
+	precio := unInsumo precio" "obliga a cambiar todos los datos/registros"
 ]
 
 { #category : #'as yet unclassified' }

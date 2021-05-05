@@ -108,6 +108,23 @@ Sistema >> crearRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDesti
 		^ruta
 ]
 
+{ #category : #chofer }
+Sistema >> crearUsuarioChoferWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andNombre: unNombre andApellido: unApellido andTelefono:unTelefono [
+	| chofer |
+	(self
+		puedeSerChofer: unNombreDeUsuario conContraseña: unaContraseña )
+		ifTrue: [ usuarios 
+				add:
+					(chofer := Chofer 
+						newWithNombreDeUsuario: unNombreDeUsuario
+						andContraseña: unaContraseña
+						andNombre: unNombre
+						andApellido: unApellido
+						andTelefono:unTelefono).
+			^ chofer ].
+	^ nil
+]
+
 { #category : #usuario }
 Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia:unaMembresia [
 	| usuario |
@@ -126,6 +143,12 @@ Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContras
 						andDni: unDni andMembresia:unaMembresia).
 			^ usuario ].
 	^ nil
+]
+
+{ #category : #chofer }
+Sistema >> eliminarChofer: unChofer [
+	"chofer no debe estar asignado a ninguna combi"
+	usuarios remove: unChofer
 ]
 
 { #category : #insumo }
@@ -186,6 +209,20 @@ Sistema >> initialize [
 Sistema >> insumos [
 ^insumos
 
+]
+
+{ #category : #chofer }
+Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono [
+	| chofer  |
+	(self existeUsuario: unNombreUsuario)
+		ifFalse: [ chofer := unChofer
+				modificarWithNombreUsuario: unNombreUsuario
+				andNombre:unNombre 
+				andApellido: unApellido 
+				andTelefono: unTelefono.
+			^ chofer ].
+	^ nil
+	
 ]
 
 { #category : #insumo }

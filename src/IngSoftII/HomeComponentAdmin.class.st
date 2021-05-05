@@ -22,7 +22,10 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 				with: [ aCanvas button: 'Ver usuarios' ].
 			aCanvas anchor
 				callback: [ self call: VerInsumoComponent new ];
-				with: [ aCanvas button: 'Ver insumos' ] ]
+				with: [ aCanvas button: 'Ver insumos' ].
+			aCanvas anchor
+				callback: [ self call: VerChoferComponent new ];
+				with: [ aCanvas button: 'Ver choferes' ] ].
 ]
 
 { #category : #rendering }

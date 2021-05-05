@@ -6,10 +6,18 @@ Class {
 		'contraseña',
 		'nombre',
 		'apellido',
-		'telefono'
+		'telefono',
+		'objetivo',
+		'chofer',
+		'mensaje'
 	],
 	#category : #'IngSoftII-ui'
 }
+
+{ #category : #'instance creation' }
+ChoferComponent class >> newWithObjetivo: unObjetivo andChofer: unChofer [
+	^ self new initializeWithObjetivo:unObjetivo andChofer: unChofer
+]
 
 { #category : #rendering }
 ChoferComponent >> agregarChofer [
@@ -19,7 +27,7 @@ ChoferComponent >> agregarChofer [
 		conContraseña: contraseña)
 		ifFalse: [ ^ self ].
 	self model
-		agregarChoferConNombreDeUsuario: nombreUsuario
+		crearUsuarioChoferWithNombreDeUsuario: nombreUsuario
 		andContraseña: contraseña
 		andNombre: nombre
 		andApellido: apellido
@@ -47,9 +55,45 @@ ChoferComponent >> contraseña: anObject [
 	contraseña := anObject
 ]
 
+{ #category : #initialization }
+ChoferComponent >> initialize [
+	super initialize.
+	objetivo := 'agregar'.
+	mensaje:= ' '
+]
+
+{ #category : #initialization }
+ChoferComponent >> initializeWithObjetivo: unObjetivo andChofer: unChofer [
+	super initialize.
+	mensaje := ' '.
+	objetivo := unObjetivo.
+	chofer := unChofer
+	"nombreUsuario := unChofer nombreUsuario.
+	nombre := unChofer nombre.
+	apellido := unChofer apellido.
+	telefono := unChofer telefono.
+	contraseña := unChofer contraseña" "obliga a cambiar todos los datos/registros"
+]
+
 { #category : #accessing }
 ChoferComponent >> model [
 ^Sistema soleInstance 
+]
+
+{ #category : #rendering }
+ChoferComponent >> modificarChofer [
+	nombre ifEmpty: [ ^ self ].
+	apellido ifEmpty: [ ^ self ].
+	telefono ifEmpty: [ ^ self ].
+	(Sistema soleInstance
+		modificarChofer: chofer
+		withNombreUsuario: nombreUsuario
+		andNombre: nombre
+		andApellido: apellido
+		andTelefono: telefono)
+		ifNil: [ mensaje := 'Ya existe un chofer con ese nombre registrado'.
+			^ self ].
+	self answer
 ]
 
 { #category : #accessing }
@@ -83,9 +127,24 @@ ChoferComponent >> renderButtonsOn: aCanvas [
 ]
 
 { #category : #rendering }
+ChoferComponent >> renderButtonsOn: aCanvas para: unObjetivo [
+	unObjetivo = 'agregar'
+		ifTrue: [ aCanvas submitButton
+				callback: [ self agregarChofer];
+				with: 'Agregar' ]
+		ifFalse: [ aCanvas submitButton
+				callback: [ self modificarChofer];
+				with: 'Modificar' ].
+	aCanvas submitButton
+		callback: [ self answer ];
+		with: 'Cancelar'
+]
+
+{ #category : #rendering }
 ChoferComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	aCanvas horizontalRule.
+	aCanvas heading level: 4;with: mensaje.
 	aCanvas
 		form: [ aCanvas paragraph: 'Ingrese el nombre de usuario del chofer'.
 			aCanvas textArea on: #nombreUsuario of: self.
@@ -99,7 +158,7 @@ ChoferComponent >> renderContentOn: aCanvas [
 			aCanvas textArea on: #telefono of: self.
 			aCanvas horizontalRule.
 			aCanvas break.
-			self renderButtonsOn: aCanvas ]
+			self renderButtonsOn: aCanvas para: objetivo ]
 ]
 
 { #category : #accessing }

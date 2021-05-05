@@ -11,6 +11,11 @@ Class {
 }
 
 { #category : #accessing }
+Usuario >> apellido [ 
+	^apellido
+]
+
+{ #category : #accessing }
 Usuario >> contraseña [
 	^ contraseña
 ]
