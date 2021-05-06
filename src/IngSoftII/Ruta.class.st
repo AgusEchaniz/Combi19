@@ -65,6 +65,22 @@ Ruta >> modificarRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDest
 ]
 
 { #category : #accessing }
+Ruta >> nombre [
+	^ (lugarOrigen , ' - ' , lugarDestino) asString
+]
+
+{ #category : #'as yet unclassified' }
+Ruta >> tieneCombi: unaCombi [
+^combi=unaCombi 
+]
+
+{ #category : #accessing }
 Ruta >> tieneHorario: unHorario [
 	^(horario = unHorario)
+]
+
+{ #category : #'as yet unclassified' }
+Ruta >> tieneOrigen: unLugarOrigen andUnDestino: unLugarDestino andHorario: unHorario [
+	^ ((unLugarOrigen = lugarOrigen) & (unLugarDestino = lugarDestino)
+		& (unHorario = horario))
 ]

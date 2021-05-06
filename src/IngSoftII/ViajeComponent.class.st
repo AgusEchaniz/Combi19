@@ -4,17 +4,26 @@ Class {
 	#instVars : [
 		'ruta',
 		'fecha',
-		'cantidadAsientos'
+		'cantidadAsientos',
+		'objetivo',
+		'viaje'
 	],
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'instance creation' }
+ViajeComponent class >> newWithObjetivo:unObjetivo andViaje: unViaje [
+^self new initializeWithObjetivo: unObjetivo  andViaje: unViaje 
+]
+
 { #category : #rendering }
 ViajeComponent >> agregarViaje [
 	fecha ifNil: [ ^ self ].
-	fecha = Date today ifTrue:[^self].
+	fecha = Date today
+		ifTrue: [ ^ self ].
 	cantidadAsientos ifEmpty: [ ^ self ].
-	ruta ifEmpty: [ ^ self ]
+	ruta ifEmpty: [ ^ self ].
+	"FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
 ]
 
 { #category : #accessing }
@@ -43,9 +52,39 @@ super initialize.
 fecha:= Date today
 ]
 
+{ #category : #initialization }
+ViajeComponent >> initializeWithObjetivo: unObjetivo andViaje: unViaje [
+super initialize.
+	objetivo := unObjetivo.
+	viaje := unViaje
+]
+
 { #category : #rendering }
 ViajeComponent >> model [
 	^ Sistema soleInstance 
+]
+
+{ #category : #'as yet unclassified' }
+ViajeComponent >> modificarViaje [
+	fecha ifNil: [ ^ self ].
+	fecha = Date today
+		ifTrue: [ ^ self ].
+	cantidadAsientos ifEmpty: [ ^ self ].
+	ruta ifEmpty: [ ^ self ]
+	"FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
+	ruta nombre = viaje obtenerNombreRuta
+	"	ifFalse: [ (Sistema soleInstance
+				modificarInsumo: insumo
+				withNombre: nombre
+				andTipo: tipo
+				andPrecio: precio)
+				ifNil: [ mensaje := 'Ya existe un insumo con ese nombre registrado'.
+					^ self ] ]
+		ifTrue: [ Sistema soleInstance
+				modificarInsumo: insumo
+				withTipo: tipo
+				andPrecio: precio ]." "Cambiar por método modificar viaje"
+	self answer
 ]
 
 { #category : #rendering }
@@ -67,9 +106,8 @@ ViajeComponent >> renderCantAsientos: aCanvas [
 
 { #category : #rendering }
 ViajeComponent >> renderContentOn: aCanvas [
-	
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	aCanvas horizontalRule.
+
 	self renderFecha: aCanvas.
 	aCanvas horizontalRule.
 	self renderRutasOn: aCanvas.
@@ -85,15 +123,15 @@ ViajeComponent >> renderFecha: aCanvas [
 ]
 
 { #category : #rendering }
-ViajeComponent >> renderRutas: rutas on: aCanvas [
+ViajeComponent >> renderRutasDisponibles: rutas on: aCanvas [
 	^ aCanvas
 		unorderedList: [ rutas
 				do: [ :each | 
 					(self model canBeRuta: each enFecha: fecha)
 						ifTrue: [ aCanvas
-								listItem: [ aCanvas anchor
+								listItem: [ aCanvas text: each nombre.	"aCanvas anchor
 										callback: [ self call: (RutaComponent newWithRuta: each) ];
-										with: each nombre.
+										with: each nombre."
 									aCanvas anchor
 										callback: [ self ruta: each ];
 										with: [ aCanvas button: 'Agregar ruta' ] ] ] ] ]
@@ -106,8 +144,7 @@ ViajeComponent >> renderRutasOn: aCanvas [
 	rutas := Sistema soleInstance rutas.
 	rutas
 		ifEmpty: [ aCanvas paragraph: 'Lo sentimos.. No hay rutas disponibles' ]
-		ifNotEmpty: [ self renderRutas: rutas on: aCanvas ].
-
+		ifNotEmpty: [ self renderRutasDisponibles: rutas on: aCanvas ]
 ]
 
 { #category : #accessing }

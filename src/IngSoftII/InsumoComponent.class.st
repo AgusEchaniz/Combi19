@@ -43,10 +43,10 @@ InsumoComponent >> initializeWithObjetivo: unObjetivo andInsumo: unInsumo [
 	super initialize.
 	mensaje := ' '.
 	objetivo := unObjetivo.
-	insumo := unInsumo
-	"nombre := unInsumo nombre.
+	insumo := unInsumo.
+	nombre := unInsumo nombre.
 	tipo := unInsumo tipo.
-	precio := unInsumo precio" "obliga a cambiar todos los datos/registros"
+	precio := unInsumo precio	"obliga a cambiar todos los datos/registros"
 ]
 
 { #category : #'as yet unclassified' }
@@ -54,13 +54,14 @@ InsumoComponent >> modificarInsumo [
 	nombre ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].
 	precio ifEmpty: [ ^ self ].
+	nombre=insumo nombre ifFalse:[
 	(Sistema soleInstance
 		modificarInsumo: insumo
 		withNombre: nombre
 		andTipo: tipo
 		andPrecio: precio)
 		ifNil: [ mensaje := 'Ya existe un insumo con ese nombre registrado'.
-			^ self ].
+			^ self ]]ifTrue:[Sistema soleInstance modificarInsumo: insumo withTipo: tipo andPrecio:precio ].
 	self answer
 ]
 

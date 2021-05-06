@@ -2,9 +2,6 @@ Class {
 	#name : #VerInsumoComponent,
 	#superclass : #WAComponent,
 	#instVars : [
-		'nombre',
-		'tipo',
-		'precio',
 		'mensaje'
 	],
 	#category : #'IngSoftII-ui'
@@ -13,11 +10,6 @@ Class {
 { #category : #insumo }
 VerInsumoComponent >> eliminarInsumo: unInsumo [
 	Sistema soleInstance eliminarInsumo: unInsumo 
-]
-
-{ #category : #'as yet unclassified' }
-VerInsumoComponent >> modificarInsumo: unInsumo [
-	
 ]
 
 { #category : #rendering }

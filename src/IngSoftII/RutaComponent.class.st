@@ -2,13 +2,20 @@ Class {
 	#name : #RutaComponent,
 	#superclass : #WAComponent,
 	#instVars : [
-		'ruta'
+		'ruta',
+		'objetivo'
 	],
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'instance creation' }
+RutaComponent class >> newWithObjetivo:unObjetivo andRuta: unaRuta [
+^self new initializeWithObjetivo:unObjetivo andRuta: unaRuta
+]
+
 { #category : #initialization }
-RutaComponent >> initializeWithRuta: unaRuta [
+RutaComponent >> initializeWithObjetivo: unObjetivo andRuta: unaRuta [
+objetivo:=unObjetivo .
 ruta:=unaRuta
 ]
 

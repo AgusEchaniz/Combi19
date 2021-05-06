@@ -15,7 +15,7 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 				callback: [ self call: ChoferComponent new ];
 				with: [ aCanvas button: 'Agregar chofer' ].
 			aCanvas anchor
-				callback: [ self call: ViajeComponent new ];
+				callback: [ self call: VerViajeComponent new ];
 				with: [ aCanvas button: 'Agregar viaje' ].
 			aCanvas anchor
 				callback: [ self call: PasajeroComponent new ];
@@ -25,5 +25,5 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 				with: [ aCanvas button: 'Ver insumos' ].
 			aCanvas anchor
 				callback: [ self call: VerChoferComponent new ];
-				with: [ aCanvas button: 'Ver choferes' ] ].
+				with: [ aCanvas button: 'Ver choferes' ] ]
 ]
