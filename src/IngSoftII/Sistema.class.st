@@ -101,13 +101,15 @@ Sistema >> crearAdmin [
 { #category : #usuario }
 Sistema >> crearRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	| ruta |
-	ruta := Ruta
-		newWithLugarOrigen: unLugarOrigen
-		andLugarDestino: unLugarDestino
-		andCombi: unaCombi
-		andHorario: unHorario
-		andDistancia: unaDistancia.
-		^ruta
+	(self puedeSerCombi: unaCombi enHorario: unHorario)
+		ifTrue: [rutas add: (ruta := Ruta
+				newWithLugarOrigen: unLugarOrigen
+				andLugarDestino: unLugarDestino
+				andCombi: unaCombi
+				andHorario: unHorario
+				andDistancia: unaDistancia).
+			^ ruta ].
+	^ nil
 ]
 
 { #category : #chofer }
@@ -240,12 +242,31 @@ Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPre
 	^ nil
 ]
 
+{ #category : #usuario }
+Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	| ruta |
+	(self puedeSerCombi: unaCombi enHorario: unHorario)
+		ifTrue: [ruta := unaRuta
+						modificarRutaWithLugarOrigen: unLugarOrigen
+						andLugarDestino: unLugarDestino
+						andCombi: unaCombi
+						andHorario: unHorario
+						andDistancia: unaDistancia.
+			^ ruta ].
+	^ nil
+]
+
 { #category : #chofer }
 Sistema >> puedeSerChofer: unNombreDeUsuario conContraseña: unaContraseña [ 
 	(self existeUsuario: unNombreDeUsuario)
 		ifFalse: [ (self esValidaContraseña: unaContraseña)
 				ifTrue: [ ^ true ] ] .
 	^ false
+]
+
+{ #category : #chofer }
+Sistema >> puedeSerCombi: unaCombi enHorario: unHorario [
+	^(self combisDisponiblesEnHorario: unHorario) includes: unaCombi
 ]
 
 { #category : #usuario }

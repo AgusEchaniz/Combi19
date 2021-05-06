@@ -22,9 +22,9 @@ VerInsumoComponent >> modificarInsumo: unInsumo [
 
 { #category : #rendering }
 VerInsumoComponent >> renderContentOn: aCanvas [
+
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	self renderInsumosOn: aCanvas
-	
 ]
 
 { #category : #rendering }
