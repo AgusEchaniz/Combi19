@@ -81,9 +81,11 @@ Sistema >> combis [
 
 { #category : #accessing }
 Sistema >> combisDisponiblesEnHorario: unHorario [
-	|combisNoDisponibles|
-	combisNoDisponibles := (rutas select: [ :ruta | ruta tieneHorario: unHorario ]) collect: [:ruta | ruta combi].
-	^combis removeAll: combisNoDisponibles
+	| combisNoDisponibles |
+	combisNoDisponibles := (rutas
+		select: [ :ruta | ruta tieneHorario: unHorario ])
+		collect: [ :ruta | ruta combi ].
+	^ combis removeAll: combisNoDisponibles. 
 ]
 
 { #category : #'as yet unclassified' }

@@ -40,6 +40,7 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 
 { #category : #rendering }
 VerChoferComponent >> renderContentOn: aCanvas [
-aCanvas paragraph: (BasicComponent newWithParent: self).
+	
+	aCanvas paragraph: (BasicComponent newWithParent: self).
 	self renderChoferesOn: aCanvas
 ]
