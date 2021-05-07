@@ -90,7 +90,7 @@ RegisterComponent >> renderInputElementsOn: aCanvas [
 	aCanvas heading
 		level: 4;
 		with: mensaje.
-"	aCanvas horizontalRule."
+	"	aCanvas horizontalRule."
 	aCanvas paragraph: 'Nombre'.
 	aCanvas paragraph: [ aCanvas textInput on: #name of: self ].
 	aCanvas paragraph: 'Apellido'.
@@ -106,7 +106,9 @@ RegisterComponent >> renderInputElementsOn: aCanvas [
 	aCanvas space.
 	aCanvas submitButton
 		callback: [ self membresia: 'gold' ];
-		with: 'Gold. Paga sólo $ al mes'.
+		with: 'Gold. Paga sólo $250 al mes'.
+	
+	
 	aCanvas break.
 	aCanvas break.
 	super renderInputElementsOn: aCanvas
@@ -116,10 +118,10 @@ RegisterComponent >> renderInputElementsOn: aCanvas [
 RegisterComponent >> renderSignUpButtonOn: aCanvas [
 	aCanvas submitButton
 		callback: [ self registerAndLogin ];
-		with: 'Register'.
+		with: 'Registrarse'.
 	aCanvas submitButton
 		callback: [ self answer ];
-		with: 'Cancel'
+		with: 'Cancelar'
 ]
 
 { #category : #accessing }

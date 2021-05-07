@@ -15,20 +15,23 @@ Class {
 
 { #category : #'instance creation' }
 CombiComponent class >> newWithObjetivo: unObjetivo andCombi: unaCombi [
-	^ self new initializeWithObjetivo: unObjetivo andChofer: unaCombi
+	^ self new initializeWithObjetivo: unObjetivo andCombi: unaCombi
 ]
 
 { #category : #rendering }
 CombiComponent >> agregarCombi [
 	patente ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].
-	cantidadAsientos  ifEmpty: [ ^ self ].
+	cantidadAsientos ifEmpty: [ ^ self ].
+	chofer ifNil:[^self].
 	(Sistema soleInstance
-		agregarCombiWithPatente: patente andTipo:tipo  andCantAsientos:cantidadAsientos  )
+		agregarCombiWithPatente: patente
+		andTipo: tipo
+		andCantAsientos: cantidadAsientos
+		andChofer: chofer)
 		ifNil: [ mensaje := 'Ya existe un insumo con ese nombre registrado'.
 			^ self ].
 	self answer
-	
 ]
 
 { #category : #accessing }
@@ -61,11 +64,11 @@ CombiComponent >> initializeWithObjetivo: unObjetivo andCombi: unaCombi [
 	super initialize.
 	mensaje := ' '.
 	objetivo := unObjetivo.
-	combi := unaCombi
-	"patente:=unaCombi patente
-	chofer:=unaCombi chofer
-	tipo:= unaCombi tipo
-	cantidadAsientos:= unaCombi cantidadAsientos"
+	combi := unaCombi.
+	patente := unaCombi patente.
+		chofer:=unaCombi chofer.
+	tipo := unaCombi tipo.
+	cantidadAsientos := unaCombi cantidadAsientos
 ]
 
 { #category : #accessing }
@@ -128,6 +131,25 @@ CombiComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 ]
 
 { #category : #rendering }
+CombiComponent >> renderChoferesOn: aCanvas [
+| usuarios |
+	usuarios := Sistema soleInstance choferesDisponibles.
+	^  aCanvas
+				unorderedList: [ usuarios
+						do: [ :each | 
+							aCanvas
+								listItem: [ aCanvas
+										paragraph: [ aCanvas text: each nombreUsuario.
+											aCanvas space.	"aCanvas anchor
+								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
+								with: each nombre."
+											aCanvas submitButton
+												callback: [ self chofer: each ];
+												with: 'Selecionar'.
+											aCanvas break ] ] ] ]
+]
+
+{ #category : #rendering }
 CombiComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	aCanvas horizontalRule.
@@ -141,6 +163,7 @@ CombiComponent >> renderContentOn: aCanvas [
 			aCanvas textArea on: #tipo of: self.
 			aCanvas paragraph: 'Ingrese la cantidad de asientos'.
 			aCanvas textArea on: #cantidadAsientos of: self.
+			self renderChoferesOn: aCanvas. 
 			aCanvas horizontalRule.
 			aCanvas break.
 			self renderButtonsOn: aCanvas para: objetivo ]

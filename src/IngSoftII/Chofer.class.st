@@ -2,7 +2,8 @@ Class {
 	#name : #Chofer,
 	#superclass : #Usuario,
 	#instVars : [
-		'telefono'
+		'telefono',
+		'asignado'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -17,14 +18,30 @@ Chofer class >> newWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaCon
 		andTelefono:unTelefono
 ]
 
+{ #category : #'as yet unclassified' }
+Chofer >> asignar [
+asignado:=true
+]
+
+{ #category : #'as yet unclassified' }
+Chofer >> desasignar [
+	asignado := false
+]
+
+{ #category : #'as yet unclassified' }
+Chofer >> estaAsignado [
+^asignado
+]
+
 { #category : #initialization }
-Chofer >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andNombre: unNombre andApellido: unApellido andTelefono:unTelefono [
+Chofer >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andNombre: unNombre andApellido: unApellido andTelefono: unTelefono [
 	self initialize
 		initializeWithNombreDeUsuario: unNombreDeUsuario
 		andContraseña: unaContraseña
 		andNombre: unNombre
 		andApellido: unApellido.
-	telefono :=unTelefono 
+	telefono := unTelefono.
+	asignado:=false.
 ]
 
 { #category : #modificar }

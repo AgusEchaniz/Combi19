@@ -64,10 +64,15 @@ Sistema >> CrearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: u
 ]
 
 { #category : #combi }
-Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos [
+Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos andChofer:unChofer [
 	| combi |
 	(self existeCombi: unaPatente)
-		ifFalse: [ combis add: (combi := Combi newWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos).
+		ifFalse: [ combis
+				add:
+					(combi := Combi
+						newWithPatente: unaPatente
+						andTipo: unTipo
+						andCantAsientos: unaCantAsientos andChofer:unChofer).unChofer asignar.
 			^ combi ].
 	^ nil
 
@@ -101,6 +106,11 @@ Sistema >> canBeRuta:unaRuta enFecha:unaFecha [
 viajes detect:[:viaje| viaje tieneRuta:unaRuta enFecha:unaFecha]
 ifFound:[^false]
 ifNone:[^true]
+]
+
+{ #category : #combi }
+Sistema >> choferesDisponibles [
+	^(usuarios select: [ :usuario | usuario es: 'chofer' ]) reject: [ :chofer | chofer estaAsignado ]
 ]
 
 { #category : #accessing }
@@ -330,21 +340,23 @@ Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombr
 
 { #category : #combi }
 Sistema >> modificarCombi: unaCombi withPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad [
-	| combi  |
-	(self existeCombi: unaPatente )
-		ifFalse: [ combi  := unaCombi 
+	| combi |
+	(self existeCombi: unaPatente)
+		ifFalse: [ unaCombi desasignarChofer.
+			combi := unaCombi
 				modificarWithPatente: unaPatente
 				andTipo: unTipo
 				andCantAsientos: unaCantidad.
+			unaCombi asignarChofer.
 			^ combi ].
 	^ nil
 ]
 
 { #category : #combi }
 Sistema >> modificarCombi: unaCombi withTipo: unTipo andCantAsientos: unaCantidad [
-unaCombi
-				modificarWithTipo: unTipo
-				andCantAsientos: unaCantidad.
+unaCombi desasignarChofer .
+	unaCombi modificarWithTipo: unTipo andCantAsientos: unaCantidad.
+	unaCombi asignarChofer 
 ]
 
 { #category : #insumo }

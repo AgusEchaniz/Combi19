@@ -62,14 +62,17 @@ AccessGrantingComponent >> renderContentOn: aCanvas [
 AccessGrantingComponent >> renderInputElementsOn: aCanvas [
 	aCanvas label: 'Email'.
 	aCanvas paragraph: [ aCanvas textInput on: #email of: self ].
-	aCanvas label: 'Password'.
+	aCanvas label: 'Contraseña'.
 	aCanvas paragraph: [ aCanvas passwordInput on: #password of: self ]
 ]
 
 { #category : #accessing }
 AccessGrantingComponent >> renderTitleOn: aCanvas [
-	aCanvas heading
-		level: 1;
-		with: 'Combi-19'.
+	aCanvas
+		paragraph: [ aCanvas image
+				url: 'https://i.imgur.com/QbQap9R.png';
+				height: 100;
+				width: 100 ].
+
 	aCanvas horizontalRule
 ]

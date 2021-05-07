@@ -24,13 +24,17 @@ BasicComponent >> parent [
 
 { #category : #rendering }
 BasicComponent >> renderContentOn: aCanvas [
-	aCanvas heading: 'Combi-19'.
-	aCanvas heading
-		level: 4;
-		with: self session user nombre.
 	aCanvas
-		paragraph: [ aCanvas anchor
+		paragraph: [ aCanvas image
+				url: 'https://i.imgur.com/QbQap9R.png';
+				height: 100;
+				width: 100 ].
+	aCanvas
+		paragraph: [ aCanvas emphasis: 'Bienvenido ' , self session user nombre.
+			aCanvas space.
+			aCanvas anchor
+				
 				callback: [ self parent call: LoginComponent new ];
 				with: [ aCanvas button: 'Cerrar sesión' ] ].
-			aCanvas horizontalRule 
+	aCanvas horizontalRule
 ]
