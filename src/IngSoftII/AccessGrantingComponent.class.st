@@ -68,8 +68,11 @@ AccessGrantingComponent >> renderInputElementsOn: aCanvas [
 
 { #category : #accessing }
 AccessGrantingComponent >> renderTitleOn: aCanvas [
-	aCanvas heading
-		level: 1;
-		with: 'Combi-19'.
+	aCanvas
+		paragraph: [ aCanvas image
+				url: 'https://i.imgur.com/QbQap9R.png';
+				height: 100;
+				width: 100 ].
+
 	aCanvas horizontalRule
 ]
