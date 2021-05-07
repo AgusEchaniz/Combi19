@@ -62,7 +62,7 @@ AccessGrantingComponent >> renderContentOn: aCanvas [
 AccessGrantingComponent >> renderInputElementsOn: aCanvas [
 	aCanvas label: 'Email'.
 	aCanvas paragraph: [ aCanvas textInput on: #email of: self ].
-	aCanvas label: 'Password'.
+	aCanvas label: 'Contraseña'.
 	aCanvas paragraph: [ aCanvas passwordInput on: #password of: self ]
 ]
 

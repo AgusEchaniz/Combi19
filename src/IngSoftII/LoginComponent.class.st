@@ -70,21 +70,20 @@ LoginComponent >> registerNewUser [
 LoginComponent >> renderButtonsOn: aCanvas [
 	self renderSignInButtonOn: aCanvas.
 	aCanvas horizontalRule.
-	aCanvas paragraph: 'Don''t have an account?'.
-	self renderSignUpButtonOn: aCanvas.
-
+	aCanvas paragraph: 'No tenes una cuenta?'.
+	self renderSignUpButtonOn: aCanvas
 ]
 
 { #category : #'private protocol' }
 LoginComponent >> renderSignInButtonOn: aCanvas [
 	aCanvas submitButton
 		callback: [ self login ];
-		with: 'Sign In'
+		with: 'Iniciar sesión'
 ]
 
 { #category : #'private protocol' }
 LoginComponent >> renderSignUpButtonOn: aCanvas [
 	aCanvas submitButton
 		callback: [ self registerNewUser ];
-		with: 'Sign Up, it''s free'
+		with: 'Registrate, es gratis'
 ]

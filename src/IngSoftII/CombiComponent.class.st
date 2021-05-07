@@ -15,7 +15,7 @@ Class {
 
 { #category : #'instance creation' }
 CombiComponent class >> newWithObjetivo: unObjetivo andCombi: unaCombi [
-	^ self new initializeWithObjetivo: unObjetivo andChofer: unaCombi
+	^ self new initializeWithObjetivo: unObjetivo andCombi: unaCombi
 ]
 
 { #category : #rendering }
@@ -61,11 +61,11 @@ CombiComponent >> initializeWithObjetivo: unObjetivo andCombi: unaCombi [
 	super initialize.
 	mensaje := ' '.
 	objetivo := unObjetivo.
-	combi := unaCombi
-	"patente:=unaCombi patente
-	chofer:=unaCombi chofer
-	tipo:= unaCombi tipo
-	cantidadAsientos:= unaCombi cantidadAsientos"
+	combi := unaCombi.
+	patente:=unaCombi patente.
+"	chofer:=unaCombi chofer"
+	tipo:= unaCombi tipo.
+	cantidadAsientos:= unaCombi cantidadAsientos.
 ]
 
 { #category : #accessing }
