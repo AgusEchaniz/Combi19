@@ -59,7 +59,7 @@ Sistema class >> soleInstance [
 ]
 
 { #category : #combi }
-Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos andChofer:unChofer [
+Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos andChofer: unChofer [
 	| combi |
 	(self existeCombi: unaPatente)
 		ifFalse: [ combis
@@ -67,7 +67,9 @@ Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: 
 					(combi := Combi
 						newWithPatente: unaPatente
 						andTipo: unTipo
-						andCantAsientos: unaCantAsientos andChofer:unChofer).unChofer asignar.
+						andCantAsientos: unaCantAsientos
+						andChofer: unChofer).
+			
 			^ combi ].
 	^ nil
 
@@ -320,24 +322,21 @@ Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombr
 ]
 
 { #category : #combi }
-Sistema >> modificarCombi: unaCombi withPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad [
+Sistema >> modificarCombi: unaCombi withPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad andChofer:unChofer [
 	| combi |
 	(self existeCombi: unaPatente)
-		ifFalse: [ unaCombi desasignarChofer.
-			combi := unaCombi
+		ifFalse: [ combi := unaCombi
 				modificarWithPatente: unaPatente
 				andTipo: unTipo
-				andCantAsientos: unaCantidad.
-			unaCombi asignarChofer.
+				andCantAsientos: unaCantidad
+				andChofer:unChofer.
 			^ combi ].
 	^ nil
 ]
 
 { #category : #combi }
-Sistema >> modificarCombi: unaCombi withTipo: unTipo andCantAsientos: unaCantidad [
-unaCombi desasignarChofer .
-	unaCombi modificarWithTipo: unTipo andCantAsientos: unaCantidad.
-	unaCombi asignarChofer 
+Sistema >> modificarCombi: unaCombi withTipo: unTipo andCantAsientos: unaCantidad andChofer:unChofer [
+	unaCombi modificarWithTipo: unTipo andCantAsientos: unaCantidad andChofer:unChofer
 ]
 
 { #category : #insumo }

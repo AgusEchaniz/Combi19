@@ -81,18 +81,21 @@ CombiComponent >> modificarCombi [
 	patente ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].
 	cantidadAsientos ifEmpty: [ ^ self ].
+	chofer ifNil: [ ^ self ].
 	patente = combi patente
 		ifFalse: [ (Sistema soleInstance
 				modificarCombi: combi
 				withPatente: patente
 				andTipo: tipo
-				andCantAsientos: cantidadAsientos)
+				andCantAsientos: cantidadAsientos
+				andChofer: chofer)
 				ifNil: [ mensaje := 'Ya existe una combi con esa patente'.
 					^ self ] ]
 		ifTrue: [ Sistema soleInstance
 				modificarCombi: combi
 				withTipo: tipo
-				andCantAsientos: cantidadAsientos ].
+				andCantAsientos: cantidadAsientos
+				andChofer:chofer ].
 	self answer
 ]
 
@@ -122,7 +125,8 @@ CombiComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 		ifTrue: [ aCanvas submitButton
 				callback: [ self agregarCombi ];
 				with: 'Agregar' ]
-		ifFalse: [ aCanvas submitButton
+		ifFalse: [
+			aCanvas submitButton
 				callback: [ self modificarCombi ];
 				with: 'Modificar' ].
 	aCanvas submitButton
@@ -132,21 +136,22 @@ CombiComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 
 { #category : #rendering }
 CombiComponent >> renderChoferesOn: aCanvas [
-| usuarios |
+	| usuarios |
 	usuarios := Sistema soleInstance choferesDisponibles.
-	^  aCanvas
-				unorderedList: [ usuarios
-						do: [ :each | 
-							aCanvas
-								listItem: [ aCanvas
-										paragraph: [ aCanvas text: each nombreUsuario.
-											aCanvas space.	"aCanvas anchor
+	^ aCanvas
+		unorderedList: [ usuarios
+				do: [ :each | 
+					aCanvas
+						listItem: [ aCanvas
+								paragraph: [ aCanvas text: each nombre.
+									aCanvas space.	"aCanvas anchor
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
-											aCanvas submitButton
-												callback: [ self chofer: each ];
-												with: 'Selecionar'.
-											aCanvas break ] ] ] ]
+									
+									aCanvas submitButton
+										callback: [ self chofer: each ];
+										with: 'Selecionar'.
+									aCanvas break ] ] ] ]
 ]
 
 { #category : #rendering }
@@ -163,7 +168,9 @@ CombiComponent >> renderContentOn: aCanvas [
 			aCanvas textArea on: #tipo of: self.
 			aCanvas paragraph: 'Ingrese la cantidad de asientos'.
 			aCanvas textArea on: #cantidadAsientos of: self.
-			self renderChoferesOn: aCanvas. 
+objetivo = 'modificar'
+										ifTrue: [ aCanvas paragraph: 'Chofer actual: ' , chofer nombre ].
+			self renderChoferesOn: aCanvas.
 			aCanvas horizontalRule.
 			aCanvas break.
 			self renderButtonsOn: aCanvas para: objetivo ]

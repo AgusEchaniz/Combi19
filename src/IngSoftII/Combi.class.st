@@ -40,24 +40,31 @@ Combi >> desasignarChofer [
 ]
 
 { #category : #initialization }
-Combi >> initializeWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad andChofer:unChofer [
+Combi >> initializeWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad andChofer: unChofer [
 	patente := unaPatente.
 	tipo := unTipo.
 	cantidadAsientos := unaCantidad.
-	chofer:= unChofer
+	chofer := unChofer.
+	chofer asignar
 ]
 
 { #category : #'as yet unclassified' }
 Combi >> modificarWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad andChofer: unChofer [
-	self modificarWithTipo: unTipo  andCantAsientos: unaCantidad .
+	self
+		modificarWithTipo: unTipo
+		andCantAsientos: unaCantidad
+		andChofer: unChofer.
 	patente := unaPatente.
-	chofer := unChofer
+
 ]
 
 { #category : #'as yet unclassified' }
-Combi >> modificarWithTipo: unTipo andCantAsientos: unaCantidad [
+Combi >> modificarWithTipo: unTipo andCantAsientos: unaCantidad andChofer: unChofer [
+	chofer desasignar.
 	tipo := unTipo.
-	cantidadAsientos := unaCantidad
+	cantidadAsientos := unaCantidad.
+	chofer:=unChofer.
+	unChofer asignar
 ]
 
 { #category : #accessing }
