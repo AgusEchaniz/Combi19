@@ -17,7 +17,7 @@ InsumoComponent class >> newWithObjetivo: unObjetivo andInsumo:unInsumo [
 	^ self new initializeWithObjetivo: unObjetivo andInsumo:unInsumo 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 InsumoComponent >> agregarInsumo [
 	nombre ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].

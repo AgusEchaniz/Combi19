@@ -10,6 +10,12 @@ Class {
 	#category : #'IngSoftII-model'
 }
 
+{ #category : #'instance creation' }
+Combi class >> newWithPatente:unaPatente andTipo:unTipo andCantAsientos: unaCantidad [
+^ self new
+		initializeWithPatente:unaPatente andTipo:unTipo andCantAsientos: unaCantidad
+]
+
 { #category : #accessing }
 Combi >> cantidadAsientos [
 	^ cantidadAsientos
@@ -18,6 +24,27 @@ Combi >> cantidadAsientos [
 { #category : #accessing }
 Combi >> chofer [
 	^ chofer
+]
+
+{ #category : #initialization }
+Combi >> initializeWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad [
+patente:=unaPatente.
+tipo:=unTipo.
+cantidadAsientos :=unaCantidad 
+	
+]
+
+{ #category : #'as yet unclassified' }
+Combi >> modificarWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad [
+	patente := unaPatente.
+	tipo := unTipo.
+	cantidadAsientos  := unaCantidad
+]
+
+{ #category : #'as yet unclassified' }
+Combi >> modificarWithTipo: unTipo andCantAsientos: unaCantidad [
+	tipo := unTipo.
+	cantidadAsientos := unaCantidad
 ]
 
 { #category : #accessing }
