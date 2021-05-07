@@ -17,7 +17,7 @@ InsumoComponent class >> newWithObjetivo: unObjetivo andInsumo:unInsumo [
 	^ self new initializeWithObjetivo: unObjetivo andInsumo:unInsumo 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 InsumoComponent >> agregarInsumo [
 	nombre ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].
@@ -49,7 +49,7 @@ InsumoComponent >> initializeWithObjetivo: unObjetivo andInsumo: unInsumo [
 	precio := unInsumo precio" "obliga a cambiar todos los datos/registros"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 InsumoComponent >> modificarInsumo [
 	nombre ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].

@@ -15,7 +15,7 @@ VerInsumoComponent >> eliminarInsumo: unInsumo [
 	Sistema soleInstance eliminarInsumo: unInsumo 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #insumo }
 VerInsumoComponent >> modificarInsumo: unInsumo [
 	
 ]

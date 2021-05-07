@@ -58,6 +58,17 @@ Sistema class >> soleInstance [
 	^ soleInstance ifNil: [ soleInstance := self new ]
 ]
 
+{ #category : #combi }
+Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos [
+	| combi |
+	(self existeCombi: unaPatente)
+		ifFalse: [ combis add: (combi := Combi newWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos).
+			^ combi ].
+	^ nil
+
+	"patente tipo chofer cantidadAsientos"
+]
+
 { #category : #insumo }
 Sistema >> agregarInsumoWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
 |insumo|
@@ -65,6 +76,19 @@ Sistema >> agregarInsumoWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio
 		ifFalse: [ insumos
 				add: (insumo:=Insumo newWithNombre: unNombre andTipo: unTipo andPrecio: unPrecio) .^insumo].
 			^nil
+]
+
+{ #category : #lugar }
+Sistema >> agregarLugarWithLocalidad: unaLocalidad  andProvincia: unaProvincia [ 
+	| lugar  |
+	(self existeLocalidad:unaLocalidad  paraProv:unaProvincia )
+		ifFalse: [ lugares
+				add:
+					(lugar := Lugar 
+						newWithLocalidad: unaLocalidad
+						andProvincia: unaProvincia).
+			^ lugar ].
+	^ nil
 ]
 
 { #category : #testing }
@@ -86,7 +110,7 @@ Sistema >> combisDisponiblesEnHorario: unHorario [
 	^combis removeAll: combisNoDisponibles
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utility }
 Sistema >> crearAdmin [
 	usuarios
 		add: (Administrador
@@ -151,9 +175,20 @@ Sistema >> eliminarChofer: unChofer [
 	usuarios remove: unChofer
 ]
 
+{ #category : #combi }
+Sistema >> eliminarCombi: unaCombi [
+"combi no debe estar asignada a una ruta(ni tener un chofer asignado?)"
+	combis remove: unaCombi
+]
+
 { #category : #insumo }
 Sistema >> eliminarInsumo:unInsumo [
 insumos remove:unInsumo
+]
+
+{ #category : #lugar }
+Sistema >> eliminarLugar: unLugar [
+	lugares remove: unLugar
 ]
 
 { #category : #usuario }
@@ -178,12 +213,31 @@ Sistema >> esValidaContraseña: unaContraseña [
 ^unaContraseña size >=6
 ]
 
+{ #category : #combi }
+Sistema >> existeCombi: unaPatente [
+	combis
+		detect: [ :combi | combi patente = unaPatente]
+		ifFound: [ ^ true ]
+		ifNone: [ ^ false ]
+]
+
 { #category : #insumo }
 Sistema >> existeInsumo: unNombre [
 
 insumos detect:[:insumo |insumo es:unNombre ]
 ifFound:[^true]
 ifNone:[^false]
+]
+
+{ #category : #lugar }
+Sistema >> existeLocalidad: unaLocalidad paraProv: unaProvincia [
+|aux |.
+aux:= lugares collect: [ :each | each provincia = unaProvincia  ].
+aux	
+		detect:
+			[ :lugar | lugar localidad = unaLocalidad ]
+		ifFound: [ ^ true ]
+		ifNone: [ ^ false ]
 ]
 
 { #category : #usuario }
@@ -211,6 +265,10 @@ Sistema >> insumos [
 
 ]
 
+{ #category : #accessing }
+Sistema >> lugares [ ^lugares
+]
+
 { #category : #chofer }
 Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono [
 	| chofer  |
@@ -225,6 +283,18 @@ Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombr
 	
 ]
 
+{ #category : #combi }
+Sistema >> modificarCombi: unaCombi withPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantidad [
+	| combi  |
+	(self existeCombi: unaPatente )
+		ifFalse: [ combi  := unaCombi 
+				modificarWithPatente: unaPatente
+				andTipo: unTipo
+				andCantAsientos: unaCantidad.
+			^ combi ].
+	^ nil
+]
+
 { #category : #insumo }
 Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
 	| insumo |
@@ -236,6 +306,19 @@ Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPre
 				andPrecio: unPrecio.
 			^ insumo ].
 	^ nil
+]
+
+{ #category : #lugar }
+Sistema >> modificarLugar: unLugar withLocalidad: unaLocalidad andProvincia:unaProvincia [
+	| lugar |
+	(self existeLocalidad: unaLocalidad  paraProv:  unaProvincia )
+		ifFalse: [ lugar := unLugar
+				modificarWithLocalidad: unaLocalidad
+				andProvincia:unaProvincia.
+			^ lugar ].
+	^ nil
+	
+
 ]
 
 { #category : #chofer }
