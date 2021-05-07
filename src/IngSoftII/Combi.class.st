@@ -41,6 +41,12 @@ Combi >> modificarWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCa
 	cantidadAsientos  := unaCantidad
 ]
 
+{ #category : #'as yet unclassified' }
+Combi >> modificarWithTipo: unTipo andCantAsientos: unaCantidad [
+	tipo := unTipo.
+	cantidadAsientos := unaCantidad
+]
+
 { #category : #accessing }
 Combi >> patente [
 	^ patente

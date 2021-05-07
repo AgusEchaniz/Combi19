@@ -75,7 +75,22 @@ CombiComponent >> model [
 
 { #category : #rendering }
 CombiComponent >> modificarCombi [
-	
+	patente ifEmpty: [ ^ self ].
+	tipo ifEmpty: [ ^ self ].
+	cantidadAsientos ifEmpty: [ ^ self ].
+	patente = combi patente
+		ifFalse: [ (Sistema soleInstance
+				modificarCombi: combi
+				withPatente: patente
+				andTipo: tipo
+				andCantAsientos: cantidadAsientos)
+				ifNil: [ mensaje := 'Ya existe una combi con esa patente'.
+					^ self ] ]
+		ifTrue: [ Sistema soleInstance
+				modificarCombi: combi
+				withTipo: tipo
+				andCantAsientos: cantidadAsientos ].
+	self answer
 ]
 
 { #category : #accessing }

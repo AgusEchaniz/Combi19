@@ -18,10 +18,11 @@ LugarComponent class >> newWithObjetivo: unObjetivo andLugar: unLugar [
 
 { #category : #rendering }
 LugarComponent >> agregarLugar [
-		localidad ifEmpty: [ ^ self ].
-	provincia ifEmpty: [ ^ self ].
+	localidad ifEmpty: [ ^ self ].
+	provincia ifNil: [ ^ self ].
 	(Sistema soleInstance
-		agregarLugarWithLocalidad: localidad  andProvincia:provincia )
+		agregarLugarWithLocalidad: localidad
+		andProvincia: provincia)
 		ifNil: [ mensaje := 'Ya existe localidad con ese nombre registrado'.
 			^ self ].
 	self answer
@@ -55,12 +56,17 @@ localidad:=unaLocalidad
 LugarComponent >> modificarLugar [
 	localidad ifEmpty: [ ^ self ].
 	provincia ifEmpty: [ ^ self ].
-	(Sistema soleInstance
-		modificarLugar: lugar
-		withLocalidad: localidad
-		andProvincia: provincia)
-		ifNil: [ mensaje := 'Ya existe un lugar con ese nombre registrado'.
-			^ self ].
+	localidad = lugar localidad
+		ifFalse: [ (Sistema soleInstance
+				modificarLugar: lugar
+				withLocalidad: localidad
+				andProvincia: provincia)
+				ifNil:
+					[ mensaje := 'Ya existe un lugar con esa localidad registrada para esa provincia'.
+					^ self ] ]
+		ifTrue: [ Sistema soleInstance
+				modificarLugar: lugar
+				withProvincia: provincia ].
 	self answer
 ]
 
@@ -106,9 +112,14 @@ LugarComponent >> renderContentOn: aCanvas [
 		with: mensaje.
 	aCanvas
 		form: [ aCanvas paragraph: 'Ingrese localidad del lugar'.
-			aCanvas textArea on: #localidad  of: self.
-			aCanvas paragraph: 'Ingrese provincia del lugar'.
-			aCanvas textArea on: #provincia  of: self.
+			aCanvas textArea on: #localidad of: self.
+			"aCanvas paragraph: 'Ingrese provincia del lugar'.
+			aCanvas textArea on: #provincia of: self."
+			aCanvas break.
+			(aCanvas select
+				list: Sistema soleInstance provincias)
+				on: #provincia
+				of: self.
 			aCanvas horizontalRule.
 			aCanvas break.
 			self renderButtonsOn: aCanvas para: objetivo ]

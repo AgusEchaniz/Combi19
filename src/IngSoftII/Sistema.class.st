@@ -248,13 +248,9 @@ ifNone:[^false]
 
 { #category : #lugar }
 Sistema >> existeLocalidad: unaLocalidad paraProv: unaProvincia [
-|aux |.
-aux:= lugares collect: [ :each | each provincia = unaProvincia  ].
-aux	
-		detect:
-			[ :lugar | lugar localidad = unaLocalidad ]
-		ifFound: [ ^ true ]
-		ifNone: [ ^ false ]
+	^(lugares select: [ :lugar | lugar localidadEs:unaLocalidad ])
+	anySatisfy: [ :lugar | lugar provinciaEs:unaProvincia  ]
+	
 ]
 
 { #category : #usuario }
@@ -325,6 +321,13 @@ Sistema >> modificarCombi: unaCombi withPatente: unaPatente andTipo: unTipo andC
 	^ nil
 ]
 
+{ #category : #combi }
+Sistema >> modificarCombi: unaCombi withTipo: unTipo andCantAsientos: unaCantidad [
+unaCombi
+				modificarWithTipo: unTipo
+				andCantAsientos: unaCantidad.
+]
+
 { #category : #insumo }
 Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
 	| insumo |
@@ -356,6 +359,13 @@ Sistema >> modificarLugar: unLugar withLocalidad: unaLocalidad andProvincia:unaP
 
 ]
 
+{ #category : #lugar }
+Sistema >> modificarLugar: unLugar withProvincia: unaProvincia [
+ unLugar modificarWithProvincia: unaProvincia.
+
+
+]
+
 { #category : #ruta }
 Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	| ruta |
@@ -384,6 +394,11 @@ Sistema >> noPuedeSerRutaConOrigen: unLugarOrigen
 ^(	rutas select:[:ruta | ruta tieneOrigen: unLugarOrigen
 		andUnDestino: unLugarDestino
 		andHorario: unHorario])anySatisfy:[:ruta| ruta tieneCombi:unaCombi]
+]
+
+{ #category : #lugar }
+Sistema >> provincias [
+	^provincias
 ]
 
 { #category : #chofer }

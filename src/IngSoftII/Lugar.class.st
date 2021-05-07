@@ -30,10 +30,20 @@ localidad:=unaLocalidad
 ]
 
 { #category : #'as yet unclassified' }
+Lugar >> localidadEs:unaLocalidad [
+	^localidad = unaLocalidad 
+]
+
+{ #category : #'as yet unclassified' }
 Lugar >> modificarWithLocalidad: unaLocalidad andProvincia: unaProvincia [
 	localidad := unaLocalidad .
 	provincia:= unaProvincia .
 
+]
+
+{ #category : #'as yet unclassified' }
+Lugar >> modificarWithProvincia: unaProvincia [
+	provincia := unaProvincia
 ]
 
 { #category : #accessing }
@@ -44,4 +54,9 @@ Lugar >> provincia [
 { #category : #accessing }
 Lugar >> provincia:unaProvincia [
 provincia:=unaProvincia
+]
+
+{ #category : #'as yet unclassified' }
+Lugar >> provinciaEs: unaProvincia [
+	^ provincia  = unaProvincia 
 ]
