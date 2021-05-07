@@ -27,13 +27,23 @@ Chofer >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaCo
 	telefono :=unTelefono 
 ]
 
-{ #category : #accessing }
-Chofer >> modificarWithNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono [
-	nombreUsuario:=unNombreUsuario .
-	nombre := unNombre .
-	apellido :=unApellido .
-	telefono :=unTelefono .
+{ #category : #modificar }
+Chofer >> modificarWithNombre: unNombre
+		andApellido: unApellido
+		andTelefono: unTelefono [
 	
+	nombre := unNombre.
+	apellido := unApellido.
+	telefono := unTelefono
+]
+
+{ #category : #modificar }
+Chofer >> modificarWithNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono [
+	self modificarWithNombre: unNombre andApellido: unApellido  andTelefono: unTelefono .
+	nombreUsuario := unNombreUsuario.
+"	nombre := unNombre.
+	apellido := unApellido.
+	telefono := unTelefono"
 ]
 
 { #category : #'as yet unclassified' }

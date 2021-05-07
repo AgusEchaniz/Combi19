@@ -2,9 +2,6 @@ Class {
 	#name : #VerInsumoComponent,
 	#superclass : #WAComponent,
 	#instVars : [
-		'nombre',
-		'tipo',
-		'precio',
 		'mensaje'
 	],
 	#category : #'IngSoftII-ui'
@@ -15,14 +12,10 @@ VerInsumoComponent >> eliminarInsumo: unInsumo [
 	Sistema soleInstance eliminarInsumo: unInsumo 
 ]
 
-{ #category : #insumo }
-VerInsumoComponent >> modificarInsumo: unInsumo [
-	
-]
-
 { #category : #rendering }
 VerInsumoComponent >> renderContentOn: aCanvas [
-aCanvas paragraph: (BasicComponent newWithParent: self).
+
+	aCanvas paragraph: (BasicComponent newWithParent: self).
 	self renderInsumosOn: aCanvas
 ]
 

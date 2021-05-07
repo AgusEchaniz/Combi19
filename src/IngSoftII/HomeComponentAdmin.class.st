@@ -15,14 +15,8 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 				callback: [ self call: ChoferComponent new ];
 				with: [ aCanvas button: 'Agregar chofer' ].
 			aCanvas anchor
-				callback: [ self call: ViajeComponent new ];
+				callback: [ self call: VerViajeComponent new ];
 				with: [ aCanvas button: 'Agregar viaje' ].
-			aCanvas anchor
-				callback: [ self call: CombiComponent new ];
-				with: [ aCanvas button: 'Agregar combi' ].
-			aCanvas anchor
-				callback: [ self call: LugarComponent new ];
-				with: [ aCanvas button: 'Agregar Lugar' ].
 			aCanvas anchor
 				callback: [ self call: PasajeroComponent new ];
 				with: [ aCanvas button: 'Ver usuarios' ].
@@ -31,11 +25,5 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 				with: [ aCanvas button: 'Ver insumos' ].
 			aCanvas anchor
 				callback: [ self call: VerChoferComponent new ];
-				with: [ aCanvas button: 'Ver choferes' ].
-				aCanvas anchor
-				callback: [ self call: VerLugaresComponent new ];
-				with: [ aCanvas button: 'Ver lugares' ].
-			aCanvas anchor
-				callback: [ self call: VerCombisComponent new ];
-				with: [ aCanvas button: 'Ver combis' ] ]
+				with: [ aCanvas button: 'Ver choferes' ] ]
 ]

@@ -69,12 +69,12 @@ ChoferComponent >> initializeWithObjetivo: unObjetivo andChofer: unChofer [
 	super initialize.
 	mensaje := ' '.
 	objetivo := unObjetivo.
-	chofer := unChofer
-	"nombreUsuario := unChofer nombreUsuario.
+	chofer := unChofer.
+	nombreUsuario := unChofer nombreUsuario.
 	nombre := unChofer nombre.
 	apellido := unChofer apellido.
 	telefono := unChofer telefono.
-	contraseña := unChofer contraseña" "obliga a cambiar todos los datos/registros"
+	contraseña := unChofer contraseña	"obliga a cambiar todos los datos/registros"
 ]
 
 { #category : #accessing }
@@ -87,6 +87,7 @@ ChoferComponent >> modificarChofer [
 	nombre ifEmpty: [ ^ self ].
 	apellido ifEmpty: [ ^ self ].
 	telefono ifEmpty: [ ^ self ].
+	nombreUsuario =chofer nombreUsuario ifFalse:[
 	(Sistema soleInstance
 		modificarChofer: chofer
 		withNombreUsuario: nombreUsuario
@@ -94,7 +95,11 @@ ChoferComponent >> modificarChofer [
 		andApellido: apellido
 		andTelefono: telefono)
 		ifNil: [ mensaje := 'Ya existe un chofer con ese nombre registrado'.
-			^ self ].
+			^ self ]]
+	ifTrue:[Sistema soleInstance 		modificarChofer: chofer
+		withNombre: nombre
+		andApellido: apellido
+		andTelefono: telefono].
 	self answer
 ]
 

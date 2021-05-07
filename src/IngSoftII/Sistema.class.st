@@ -91,7 +91,7 @@ Sistema >> agregarLugarWithLocalidad: unaLocalidad  andProvincia: unaProvincia [
 	^ nil
 ]
 
-{ #category : #testing }
+{ #category : #ruta }
 Sistema >> canBeRuta:unaRuta enFecha:unaFecha [
 viajes detect:[:viaje| viaje tieneRuta:unaRuta enFecha:unaFecha]
 ifFound:[^false]
@@ -105,9 +105,11 @@ Sistema >> combis [
 
 { #category : #accessing }
 Sistema >> combisDisponiblesEnHorario: unHorario [
-	|combisNoDisponibles|
-	combisNoDisponibles := (rutas select: [ :ruta | ruta tieneHorario: unHorario ]) collect: [:ruta | ruta combi].
-	^combis removeAll: combisNoDisponibles
+	| combisNoDisponibles |
+	combisNoDisponibles := (rutas
+		select: [ :ruta | ruta tieneHorario: unHorario ])
+		collect: [ :ruta | ruta combi ].
+	^ combis removeAll: combisNoDisponibles. 
 ]
 
 { #category : #utility }
@@ -120,16 +122,23 @@ Sistema >> crearAdmin [
 		andApellido: 'Ocares')
 ]
 
-{ #category : #usuario }
+{ #category : #ruta }
+Sistema >> crearProvincias [
+provincias add:'Buenos Aires';add:'Entre Rios';add:'Corrientes';add:'Misiones'; add:'Formosa'; add:'La Pampa'; add:'Salta'; add:'Tucuman'; add:'Jujuy';add:'Chaco';add:'Santiago del Estero';add:'Catamarca'; add:'La Rioja'; add:'Cordoba'; add:'Santa fe'; add: 'San Juan'; add:'Mendoza'; add:'Rio Negro';add:'San Luis';add:'Neuquen';add:'Santa Cruz';add:'Chubut';add:'Tierra Del Fuego'.
+]
+
+{ #category : #ruta }
 Sistema >> crearRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	| ruta |
-	ruta := Ruta
-		newWithLugarOrigen: unLugarOrigen
-		andLugarDestino: unLugarDestino
-		andCombi: unaCombi
-		andHorario: unHorario
-		andDistancia: unaDistancia.
-		^ruta
+	(self puedeSerCombi: unaCombi enHorario: unHorario)
+		ifTrue: [rutas add: (ruta := Ruta
+				newWithLugarOrigen: unLugarOrigen
+				andLugarDestino: unLugarDestino
+				andCombi: unaCombi
+				andHorario: unHorario
+				andDistancia: unaDistancia).
+			^ ruta ].
+	^ nil
 ]
 
 { #category : #chofer }
@@ -191,16 +200,24 @@ Sistema >> eliminarLugar: unLugar [
 	lugares remove: unLugar
 ]
 
-{ #category : #usuario }
+{ #category : #ruta }
 Sistema >> eliminarRuta: unaRuta [
-	(viajes select: [ :viaje | viaje incluyeRuta: unaRuta ])
-		ifEmpty: [ rutas remove: unaRuta. ^true ] ifNotEmpty: [^false]
+|viajesIncluyenRuta|
+	(viajesIncluyenRuta:=viajes select: [ :viaje | viaje incluyeRuta: unaRuta ])
+		ifEmpty: [ rutas remove: unaRuta.
+			^ nil ]
+		ifNotEmpty: [ ^ viajesIncluyenRuta  ]
 ]
 
 { #category : #usuario }
 Sistema >> eliminarUsuario:unUsuario [
 	usuarios remove:unUsuario.
 (	viajes select:[:viaje| viaje incluyenPasajero:unUsuario]) do:[:viaje| viaje eliminarPasajero:unUsuario].
+]
+
+{ #category : #viaje }
+Sistema >> eliminarViaje: unViaje [
+(	self sePuedeEliminarViaje:unViaje) ifTrue:[viajes remove:unViaje]
 ]
 
 { #category : #usuario }
@@ -256,7 +273,9 @@ Sistema >> initialize [
 	lugares := OrderedCollection new.
 	insumos := OrderedCollection new.
 	combis := OrderedCollection new.
-	"llenar coleccion provincias"
+	provincias := OrderedCollection new.
+	self crearProvincias
+
 ]
 
 { #category : #insumo }
@@ -267,6 +286,17 @@ Sistema >> insumos [
 
 { #category : #accessing }
 Sistema >> lugares [ ^lugares
+]
+
+{ #category : #chofer }
+Sistema >> modificarChofer: unChofer withNombre: unNombre	andApellido: unApellido	andTelefono: unTelefono [
+	
+unChofer
+				modificarWithNombre: unNombre
+				andApellido: unApellido
+				andTelefono: unTelefono.
+
+
 ]
 
 { #category : #chofer }
@@ -308,6 +338,11 @@ Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPre
 	^ nil
 ]
 
+{ #category : #insumo }
+Sistema >> modificarInsumo: unInsumo withTipo: unTipo andPrecio: unPrecio [
+unInsumo modificarWithTipo: unTipo andPrecio: unPrecio
+]
+
 { #category : #lugar }
 Sistema >> modificarLugar: unLugar withLocalidad: unaLocalidad andProvincia:unaProvincia [
 	| lugar |
@@ -321,12 +356,47 @@ Sistema >> modificarLugar: unLugar withLocalidad: unaLocalidad andProvincia:unaP
 
 ]
 
+{ #category : #ruta }
+Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	| ruta |
+	(self
+		noPuedeSerRutaConOrigen: unLugarOrigen
+		andUnDestino: unLugarDestino
+		andHorario: unHorario
+		andCombi: unaCombi)
+		ifTrue: [ (self puedeSerCombi: unaCombi enHorario: unHorario)
+				ifTrue: [ ruta := unaRuta
+						modificarRutaWithLugarOrigen: unLugarOrigen
+						andLugarDestino: unLugarDestino
+						andCombi: unaCombi
+						andHorario: unHorario
+						andDistancia: unaDistancia.
+					^ ruta ] ].
+	^ nil
+]
+
+{ #category : #ruta }
+Sistema >> noPuedeSerRutaConOrigen: unLugarOrigen
+		andUnDestino: unLugarDestino
+		andHorario: unHorario
+		andCombi: unaCombi [
+		
+^(	rutas select:[:ruta | ruta tieneOrigen: unLugarOrigen
+		andUnDestino: unLugarDestino
+		andHorario: unHorario])anySatisfy:[:ruta| ruta tieneCombi:unaCombi]
+]
+
 { #category : #chofer }
 Sistema >> puedeSerChofer: unNombreDeUsuario conContraseña: unaContraseña [ 
 	(self existeUsuario: unNombreDeUsuario)
 		ifFalse: [ (self esValidaContraseña: unaContraseña)
 				ifTrue: [ ^ true ] ] .
 	^ false
+]
+
+{ #category : #chofer }
+Sistema >> puedeSerCombi: unaCombi enHorario: unHorario [
+	^(self combisDisponiblesEnHorario: unHorario) includes: unaCombi
 ]
 
 { #category : #usuario }
@@ -339,9 +409,14 @@ Sistema >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña con
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #ruta }
 Sistema >> rutas [
 ^rutas
+]
+
+{ #category : #viaje }
+Sistema >> sePuedeEliminarViaje: unViaje [
+^ (unViaje tieneFecha: Date today)not
 ]
 
 { #category : #usuario }
@@ -355,4 +430,9 @@ Sistema >> userWithEmail: anEmail protectedBy: aPassword [
 { #category : #usuario }
 Sistema >> usuarios [
 ^usuarios
+]
+
+{ #category : #viaje }
+Sistema >> viajes [
+^viajes
 ]

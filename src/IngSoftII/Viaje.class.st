@@ -15,6 +15,16 @@ Viaje >> incluyeRuta: unaRuta [
 ]
 
 { #category : #'as yet unclassified' }
+Viaje >> obtenerNombreRuta [
+^ruta nombre
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> tieneFecha:unaFecha [ 
+^fecha=unaFecha 
+]
+
+{ #category : #'as yet unclassified' }
 Viaje >> tieneRuta: unaRuta enFecha: unaFecha [
 ^ruta=unaRuta and fecha=unaFecha
 ]
