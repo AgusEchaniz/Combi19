@@ -58,6 +58,11 @@ Sistema class >> soleInstance [
 	^ soleInstance ifNil: [ soleInstance := self new ]
 ]
 
+{ #category : #accessing }
+Sistema >> CrearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+	
+]
+
 { #category : #combi }
 Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos andChofer: unChofer [
 	| combi |
@@ -190,6 +195,19 @@ Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContras
 	^ nil
 ]
 
+{ #category : #viaje }
+Sistema >> crearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+	| viaje |
+	(self puedeSerViajeConRuta: unaRuta andFecha: unaFecha)
+		ifTrue: [ viajes
+				add:
+					(viaje := Viaje
+						newWithRuta: unaRuta
+						andFecha: unaFecha
+						andCantidadAsientos: unaCantidadAsientos). ^viaje ].
+					^nil
+]
+
 { #category : #chofer }
 Sistema >> eliminarChofer: unChofer [
 	"chofer no debe estar asignado a ninguna combi"
@@ -229,7 +247,8 @@ Sistema >> eliminarUsuario:unUsuario [
 
 { #category : #viaje }
 Sistema >> eliminarViaje: unViaje [
-(	self sePuedeEliminarViaje:unViaje) ifTrue:[viajes remove:unViaje]
+	viajes remove: unViaje.
+	^unViaje cantidadVendidos.
 ]
 
 { #category : #usuario }
@@ -433,6 +452,12 @@ Sistema >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña con
 				ifTrue: [ (self esMayorDeEdad: unaFecha)
 						ifTrue: [ ^ true ] ] ].
 	^ false
+]
+
+{ #category : #viaje }
+Sistema >> puedeSerViajeConRuta: unaRuta andFecha: unaFecha [
+	viajes detect: [:viaje | viaje tieneRuta: unaRuta enFecha: unaFecha]  ifFound:[^false ] ifNone: [^true  ]
+	
 ]
 
 { #category : #ruta }
