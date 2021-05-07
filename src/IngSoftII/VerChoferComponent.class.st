@@ -25,10 +25,11 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
 											aCanvas submitButton
-												callback: [ self eliminarChofer: each ];
+												callback: [ self eliminarChofer: each  ];
 												with: 'Eliminar'.
 											aCanvas submitButton
-												callback: [ self call: (ChoferComponent newWithObjetivo:'modificar' andChofer: each) ];
+												callback: [ self
+														call: (ChoferComponent newWithObjetivo: 'modificar' andChofer: each) ];
 												"InsumoComponent newWithObjetivo:'modificar'andInsumo: each"
 													with: 'Modificar' ].
 									aCanvas break.
