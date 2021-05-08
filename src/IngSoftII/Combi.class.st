@@ -72,6 +72,11 @@ Combi >> patente [
 	^ patente
 ]
 
+{ #category : #'as yet unclassified' }
+Combi >> tieneChofer: unChofer [
+^chofer=unChofer
+]
+
 { #category : #accessing }
 Combi >> tipo [
 	^ tipo

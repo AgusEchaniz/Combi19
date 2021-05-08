@@ -1,12 +1,22 @@
 Class {
 	#name : #VerChoferComponent,
 	#superclass : #WAComponent,
+	#instVars : [
+		'mensaje'
+	],
 	#category : #'IngSoftII-ui'
 }
 
 { #category : #chofer }
 VerChoferComponent >> eliminarChofer: unChofer [
-	Sistema soleInstance eliminarChofer: unChofer
+	(Sistema soleInstance eliminarChofer: unChofer)
+		ifFalse: [ mensaje := 'No se pudo eliminar el chofer porque está asignado a una combi' ]
+]
+
+{ #category : #initialization }
+VerChoferComponent >> initialize [
+super initialize .
+mensaje:=' '.
 ]
 
 { #category : #rendering }
@@ -41,7 +51,10 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 
 { #category : #rendering }
 VerChoferComponent >> renderContentOn: aCanvas [
-
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas heading
+		level: 4;
+		with:
+		mensaje.
 	self renderChoferesOn: aCanvas
 ]

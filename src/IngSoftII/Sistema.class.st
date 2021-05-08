@@ -211,7 +211,10 @@ Sistema >> crearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: u
 { #category : #chofer }
 Sistema >> eliminarChofer: unChofer [
 	"chofer no debe estar asignado a ninguna combi"
-	usuarios remove: unChofer
+
+	(self sePuedeEliminarChofer: unChofer)
+		ifTrue: [ usuarios remove: unChofer. ^true ].
+		^false
 ]
 
 { #category : #combi }
@@ -463,6 +466,11 @@ Sistema >> puedeSerViajeConRuta: unaRuta andFecha: unaFecha [
 { #category : #ruta }
 Sistema >> rutas [
 ^rutas
+]
+
+{ #category : #'as yet unclassified' }
+Sistema >> sePuedeEliminarChofer: unChofer [
+^( combis anySatisfy: [ :combi| combi tieneChofer:unChofer ])not
 ]
 
 { #category : #viaje }
