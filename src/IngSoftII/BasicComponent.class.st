@@ -33,7 +33,6 @@ BasicComponent >> renderContentOn: aCanvas [
 		paragraph: [ aCanvas emphasis: 'Bienvenido ' , self session user nombre.
 			aCanvas space.
 			aCanvas anchor
-				
 				callback: [ self parent call: LoginComponent new ];
 				with: [ aCanvas button: 'Cerrar sesión' ] ].
 	aCanvas horizontalRule

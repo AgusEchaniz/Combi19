@@ -113,11 +113,9 @@ LugarComponent >> renderContentOn: aCanvas [
 	aCanvas
 		form: [ aCanvas paragraph: 'Ingrese localidad del lugar'.
 			aCanvas textArea on: #localidad of: self.
-			"aCanvas paragraph: 'Ingrese provincia del lugar'.
-			aCanvas textArea on: #provincia of: self."
 			aCanvas break.
-			(aCanvas select
-				list: Sistema soleInstance provincias)
+			aCanvas paragraph: 'Seleccione la provincia del lugar'.
+			(aCanvas select list: Sistema soleInstance provincias)
 				on: #provincia
 				of: self.
 			aCanvas horizontalRule.

@@ -47,6 +47,11 @@ Lugar >> modificarWithProvincia: unaProvincia [
 ]
 
 { #category : #accessing }
+Lugar >> nombre [
+	^self localidad,' ',self provincia
+]
+
+{ #category : #accessing }
 Lugar >> provincia [
 	^ provincia
 ]

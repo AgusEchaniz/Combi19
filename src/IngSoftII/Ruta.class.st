@@ -56,6 +56,13 @@ Ruta >> lugarOrigen [
 ]
 
 { #category : #initialization }
+Ruta >> modificarCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	combi := unaCombi.
+	horario := unHorario.
+	distancia := unaDistancia
+]
+
+{ #category : #initialization }
 Ruta >> modificarRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	lugarOrigen := unLugarOrigen.
 	lugarDestino := unLugarDestino.
@@ -66,7 +73,7 @@ Ruta >> modificarRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDest
 
 { #category : #accessing }
 Ruta >> nombre [
-	^ (lugarOrigen , ' - ' , lugarDestino) asString
+	^ (lugarOrigen nombre , ' - ' , lugarDestino nombre)
 ]
 
 { #category : #'as yet unclassified' }

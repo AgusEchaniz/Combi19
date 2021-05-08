@@ -34,10 +34,9 @@ VerRutaComponent >> renderContentOn: aCanvas [
 		level: 4;
 		with: mensaje.
 	eliminar
-		ifFalse: [ aCanvas submitButton
-				callback: [ self call: (VerViajesComponent newWithViajes: viajes) ] ].
-	self renderRutasOn: aCanvas
-	"						, viajes first obtenerNombreViaje ] ifFalse:['No se puede eliminar la ruta',unaRuta nombre,' porque esta asignada a los viajes', viajes do:[:viaje| viaje obtenerNombreViaje]]]"
+		ifFalse: [ (self confirm: 'La ruta que intenta borrar tiene uno o mas viajes asignados, desea ver estos viajes?')
+        ifTrue: [ self call: (VerViajesComponent newWithViajes: viajes) ] ].
+	self renderRutasOn: aCanvas.
 ]
 
 { #category : #rendering }

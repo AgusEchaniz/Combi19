@@ -126,7 +126,8 @@ Sistema >> combisDisponiblesEnHorario: unHorario [
 	combisNoDisponibles := (rutas
 		select: [ :ruta | ruta tieneHorario: unHorario ])
 		collect: [ :ruta | ruta combi ].
-	^ combis removeAll: combisNoDisponibles. 
+
+	 ^combis	reject: [:combi | combisNoDisponibles includes: combi]
 ]
 
 { #category : #utility }
@@ -314,7 +315,7 @@ Sistema >> insumos [
 
 ]
 
-{ #category : #accessing }
+{ #category : #lugar }
 Sistema >> lugares [ ^lugares
 ]
 
@@ -397,6 +398,12 @@ Sistema >> modificarLugar: unLugar withProvincia: unaProvincia [
  unLugar modificarWithProvincia: unaProvincia.
 
 
+]
+
+{ #category : #chofer }
+Sistema >> modificarRuta: unaRuta withCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
+	unaRuta modificarCombi: unaCombi andHorario: unHorario  andDistancia: unaDistancia
+	
 ]
 
 { #category : #ruta }
