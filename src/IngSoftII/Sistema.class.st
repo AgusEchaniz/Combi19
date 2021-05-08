@@ -431,7 +431,7 @@ Sistema >> noPuedeSerRutaConOrigen: unLugarOrigen
 
 { #category : #lugar }
 Sistema >> provincias [
-	^provincias
+	^ provincias asSortedCollection: [:provincia1 :provincia2 | provincia1 <= provincia2  ]
 ]
 
 { #category : #chofer }
