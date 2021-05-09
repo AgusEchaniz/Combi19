@@ -19,8 +19,10 @@ combis ifEmpty: [ mensaje :='No existen combis cargadas en el sistema.' ].
 ]
 
 { #category : #combi }
-VerCombisComponent >> eliminarCombi:unaCombi [
-	Sistema soleInstance eliminarCombi: unaCombi
+VerCombisComponent >> eliminarCombi: unaCombi [
+		(Sistema soleInstance eliminarCombi:unaCombi)
+		ifFalse:
+			[ mensaje := 'No se pudo eliminar la combi porque está asignada a un viaje' ]
 ]
 
 { #category : #rendering }

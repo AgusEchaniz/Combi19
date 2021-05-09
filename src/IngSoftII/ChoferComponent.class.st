@@ -87,19 +87,22 @@ ChoferComponent >> modificarChofer [
 	nombre ifEmpty: [ ^ self ].
 	apellido ifEmpty: [ ^ self ].
 	telefono ifEmpty: [ ^ self ].
-	nombreUsuario =chofer nombreUsuario ifFalse:[
-	(Sistema soleInstance
-		modificarChofer: chofer
-		withNombreUsuario: nombreUsuario
-		andNombre: nombre
-		andApellido: apellido
-		andTelefono: telefono)
-		ifNil: [ mensaje := 'Ya existe un chofer con ese nombre registrado'.
-			^ self ]]
-	ifTrue:[Sistema soleInstance 		modificarChofer: chofer
-		withNombre: nombre
-		andApellido: apellido
-		andTelefono: telefono].
+	nombreUsuario = chofer nombreUsuario
+		ifFalse: [ (Sistema soleInstance
+				modificarChofer: chofer
+				withNombreUsuario: nombreUsuario
+				andNombre: nombre
+				andApellido: apellido
+				andTelefono: telefono
+				andContraseña:contraseña )
+				ifNil: [ mensaje := 'Ya existe un chofer con ese nombre registrado'.
+					^ self ] ]
+		ifTrue: [ Sistema soleInstance
+				modificarChofer: chofer
+				withNombre: nombre
+				andApellido: apellido
+				andTelefono: telefono
+				 andContraseña:contraseña ].
 	self answer
 ]
 

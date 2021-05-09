@@ -27,7 +27,9 @@ RutaComponent >> agregarRuta [
 	lugarDestino ifNil: [ ^ self ].
 	hora ifNil: [ ^ self ].
 	minuto ifNil: [ ^ self ].
-	combi ifNil: [ ^ self ].
+	combi
+		ifNil: [ 
+			^ self ].
 	distancia ifEmpty: [ ^ self ].
 	lugarDestino = lugarOrigen
 		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales'.
