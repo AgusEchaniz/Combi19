@@ -159,7 +159,6 @@ CombiComponent >> renderChoferesOn: aCanvas [
 { #category : #rendering }
 CombiComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-
 	aCanvas heading
 		level: 4;
 		with: mensaje.
@@ -167,7 +166,8 @@ CombiComponent >> renderContentOn: aCanvas [
 		form: [ aCanvas paragraph: 'Ingrese la patente de la combi'.
 			aCanvas textArea on: #patente of: self.
 			aCanvas paragraph: 'Ingrese el tipo de combi'.
-			aCanvas textArea on: #tipo of: self.
+			"aCanvas textArea on: #tipo of: self."
+			(aCanvas select list: #('Cama' 'Semi-cama')) on: #tipo of: self.
 			aCanvas paragraph: 'Ingrese la cantidad de asientos'.
 			aCanvas textArea on: #cantidadAsientos of: self.
 			objetivo = 'modificar'
