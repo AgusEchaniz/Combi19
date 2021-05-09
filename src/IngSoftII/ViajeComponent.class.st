@@ -6,7 +6,8 @@ Class {
 		'fecha',
 		'cantidadAsientos',
 		'objetivo',
-		'viaje'
+		'viaje',
+		'mensaje'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -23,7 +24,13 @@ ViajeComponent >> agregarViaje [
 		ifTrue: [ ^ self ].
 	cantidadAsientos ifEmpty: [ ^ self ].
 	ruta ifEmpty: [ ^ self ].
-	"FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
+	(Sistema soleInstance
+		crearViajeWithRuta: ruta
+		andFecha: fecha
+		andCantidadAsientos: cantidadAsientos)
+		ifNil: [ mensaje := 'Ya existe viaje con esos datos registrado'.
+			^ self ].
+	self answer
 ]
 
 { #category : #accessing }

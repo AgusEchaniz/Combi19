@@ -9,6 +9,13 @@ Class {
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'as yet unclassified' }
+VerRutaComponent >> chequearVacio [
+| rutas |
+	rutas := Sistema soleInstance rutas.
+	rutas ifEmpty: [ mensaje:='No existen rutas cargadas en el sistema.' ]
+]
+
 { #category : #ruta }
 VerRutaComponent >> eliminarRuta: unaRuta [
 	viajes := (Sistema soleInstance eliminarRuta: unaRuta)
@@ -30,13 +37,16 @@ VerRutaComponent >> initialize [
 { #category : #rendering }
 VerRutaComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	self chequearVacio.
 	aCanvas heading
 		level: 4;
 		with: mensaje.
 	eliminar
-		ifFalse: [ (self confirm: 'La ruta que intenta borrar tiene uno o mas viajes asignados, desea ver estos viajes?')
-        ifTrue: [ self call: (VerViajesComponent newWithViajes: viajes) ] ].
-	self renderRutasOn: aCanvas.
+		ifFalse: [ (self
+				confirm:
+					'La ruta que intenta borrar tiene uno o mas viajes asignados, desea ver estos viajes?')
+				ifTrue: [ self call: (VerViajesComponent newWithViajes: viajes) ] ].
+	self renderRutasOn: aCanvas
 ]
 
 { #category : #rendering }
