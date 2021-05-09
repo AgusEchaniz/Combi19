@@ -6,7 +6,8 @@ Class {
 		'fecha',
 		'cantidadAsientos',
 		'objetivo',
-		'viaje'
+		'viaje',
+		'mensaje'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -18,12 +19,27 @@ ViajeComponent class >> newWithObjetivo:unObjetivo andViaje: unViaje [
 
 { #category : #rendering }
 ViajeComponent >> agregarViaje [
-	fecha ifNil: [ ^ self ].
+	fecha
+		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
+			^ self ].
 	fecha = Date today
-		ifTrue: [ ^ self ].
-	cantidadAsientos ifEmpty: [ ^ self ].
-	ruta ifEmpty: [ ^ self ].
-	"FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
+		ifTrue: [ mensaje := 'Por favor ingrese una fecha'.
+			^ self ].
+	cantidadAsientos
+		ifEmpty: [ mensaje := 'Por favor ingrese una cantidad'.
+			^ self ].
+	ruta
+		ifNil: [ mensaje := 'Por favor seleccione una ruta'.
+			^ self ].
+	cantidadAsientos > ruta cantidadAsientosDeLaCombi
+		ifTrue: [ "FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
+			mensaje := 'La cantidad de asientos ingresada es mayor a la capacidad máxima de la combi, como máximo ingrese: '
+				, ruta cantidadAsientosDeLaCombi asString ].
+			(Sistema soleInstance
+		crearViajeWithRuta: ruta andFecha: fecha andCantidadAsientos: cantidadAsientos )
+		ifNil: [ mensaje := 'Ya existe un viaje en esa fecha con esa ruta registrado'.
+			^ self ].
+	self answer
 ]
 
 { #category : #accessing }
@@ -48,15 +64,18 @@ ViajeComponent >> fecha: anObject [
 
 { #category : #accessing }
 ViajeComponent >> initialize [
-super initialize.
-fecha:= Date today
+	super initialize.
+	fecha := Date today.
+	mensaje:=' '.
 ]
 
 { #category : #initialization }
 ViajeComponent >> initializeWithObjetivo: unObjetivo andViaje: unViaje [
-super initialize.
+	super initialize.
 	objetivo := unObjetivo.
-	viaje := unViaje
+	viaje := unViaje.
+	mensaje := ' '.
+	fecha:= unViaje fecha
 ]
 
 { #category : #rendering }
@@ -89,13 +108,12 @@ ViajeComponent >> modificarViaje [
 
 { #category : #rendering }
 ViajeComponent >> renderButtonsOn: aCanvas [
-	aCanvas anchor
+	aCanvas submitButton 
 		callback: [ self agregarViaje ];
-		with: [ aCanvas button: 'Agregar viaje' ].
-			aCanvas anchor
-		callback: [ self answer  ];
-		with: [ aCanvas button: 'Cancelar' ].
-		
+		with: 'Agregar viaje' .
+	aCanvas submitButton 
+		callback: [ self answer ];
+		with:'Cancelar' 
 ]
 
 { #category : #rendering }
@@ -107,24 +125,27 @@ ViajeComponent >> renderCantAsientos: aCanvas [
 { #category : #rendering }
 ViajeComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-
-	self renderFecha: aCanvas.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
+	aCanvas form:[self renderFecha: aCanvas.
 	aCanvas horizontalRule.
 	self renderRutasOn: aCanvas.
 	aCanvas horizontalRule.
 	self renderCantAsientos: aCanvas.
-	self renderButtonsOn: aCanvas
+	self renderButtonsOn: aCanvas]
 ]
 
 { #category : #rendering }
 ViajeComponent >> renderFecha: aCanvas [
 	aCanvas paragraph: 'Ingrese fecha del viaje  mes/día/año'.
-	aCanvas paragraph: [ aCanvas textInput on: #fecha of: self ]
+"	aCanvas paragraph: [ aCanvas textInput on: #fecha of: self ]"
+	aCanvas dateInput on:#fecha of:self
 ]
 
 { #category : #rendering }
 ViajeComponent >> renderRutasDisponibles: rutas on: aCanvas [
-	^ aCanvas
+	 aCanvas
 		unorderedList: [ rutas
 				do: [ :each | 
 					(self model canBeRuta: each enFecha: fecha)
@@ -132,9 +153,9 @@ ViajeComponent >> renderRutasDisponibles: rutas on: aCanvas [
 								listItem: [ aCanvas text: each nombre.	"aCanvas anchor
 										callback: [ self call: (RutaComponent newWithRuta: each) ];
 										with: each nombre."
-									aCanvas anchor
+									aCanvas submitButton 
 										callback: [ self ruta: each ];
-										with: [ aCanvas button: 'Agregar ruta' ] ] ] ] ]
+										with: 'Agregar ruta' ] ] ]  ]
 ]
 
 { #category : #rendering }

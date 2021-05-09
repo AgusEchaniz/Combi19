@@ -21,6 +21,11 @@ Ruta class >> newWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino 
 		andDistancia: unaDistancia
 ]
 
+{ #category : #'as yet unclassified' }
+Ruta >> cantidadAsientosDeLaCombi [
+^combi cantidadAsientos 
+]
+
 { #category : #accessing }
 Ruta >> combi [
 	^ combi
@@ -73,7 +78,7 @@ Ruta >> modificarRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDest
 
 { #category : #accessing }
 Ruta >> nombre [
-	^ (lugarOrigen nombre , ' - ' , lugarDestino nombre)
+	^ lugarOrigen nombre , ' - ' , lugarDestino nombre,' ',horario asString
 ]
 
 { #category : #'as yet unclassified' }
