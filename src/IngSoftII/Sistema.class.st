@@ -272,9 +272,10 @@ Sistema >> eliminarRuta: unaRuta [
 ]
 
 { #category : #usuario }
-Sistema >> eliminarUsuario:unUsuario [
-	usuarios remove:unUsuario.
-(	viajes select:[:viaje| viaje incluyenPasajero:unUsuario]) do:[:viaje| viaje eliminarPasajero:unUsuario].
+Sistema >> eliminarUsuario: unUsuario [
+	usuarios remove: unUsuario ifAbsent:[].
+	(viajes select: [ :viaje | viaje incluyenPasajero: unUsuario ])
+		do: [ :viaje | viaje eliminarPasajero: unUsuario ]
 ]
 
 { #category : #viaje }

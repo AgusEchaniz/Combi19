@@ -22,7 +22,7 @@ Tarjeta >> esNumeroValido: unNumero [
 
 { #category : #'as yet unclassified' }
 Tarjeta >> estaVigente: unaFecha [
-	^ unaFecha asDate isAfter: Date today
+	^ unaFecha isOnOrAfter:Date today
 ]
 
 { #category : #initialization }
