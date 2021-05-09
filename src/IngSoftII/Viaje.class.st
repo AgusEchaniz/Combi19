@@ -37,6 +37,20 @@ Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: una
 	cantidadVendidos := 0
 ]
 
+{ #category : #'as yet unclassified' }
+Viaje >> modificarViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+	ruta := unaRuta.
+	fecha := unaFecha.
+	cantidadAsientos := unaCantidadAsientos.
+	cantidadVendidos := 0
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> modificarWithCantidadAsientos: unaCantidadAsientos [
+	cantidadAsientos := unaCantidadAsientos 
+	
+]
+
 { #category : #accessing }
 Viaje >> nombre [
 	^ ruta nombre , ' - ' , fecha asString

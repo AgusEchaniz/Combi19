@@ -183,6 +183,16 @@ RutaComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 ]
 
 { #category : #initialization }
+RutaComponent >> renderCombisOn: aCanvas [
+	aCanvas paragraph: 'Seleccione la combi'.
+	(aCanvas select
+		list:
+			(Sistema soleInstance
+				combisDisponiblesEnHorario: (hora asString , ':' , minuto asString) asTime);
+		labels: [ :each | each nombre ]) on: #combi of: self.
+]
+
+{ #category : #initialization }
 RutaComponent >> renderContentOn: aCanvas [
 	| combisDisponibles |
 	aCanvas paragraph: (BasicComponent newWithParent: self).

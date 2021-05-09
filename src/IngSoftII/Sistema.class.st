@@ -453,6 +453,23 @@ Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino
 	^ nil
 ]
 
+{ #category : #chofer }
+Sistema >> modificarViaje: unViaje withCantidadAsientos: unaCantidadAsientos [
+	unViaje modificarWithCantidadAsientos: unaCantidadAsientos 
+	
+]
+
+{ #category : #viaje }
+Sistema >> modificarViaje: unViaje withRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+	| viaje |
+	(self puedeSerViajeConRuta: unaRuta andFecha: unaFecha)
+		ifTrue: [ viaje := unViaje
+				modificarViajeWithRuta: unaRuta
+				andFecha: unaFecha
+				andCantidadAsientos: unaCantidadAsientos. ^viaje ].
+			^nil
+]
+
 { #category : #ruta }
 Sistema >> noPuedeSerRutaConOrigen: unLugarOrigen
 		andUnDestino: unLugarDestino
