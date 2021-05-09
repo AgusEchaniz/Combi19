@@ -14,6 +14,11 @@ VerViajesComponent class >> newWithViajes: viajes [
 ]
 
 { #category : #'as yet unclassified' }
+VerViajesComponent >> chequearVacio [ 
+	viajes ifEmpty: [ mensaje := 'No existen viajes cargados en el sistema.' ]
+]
+
+{ #category : #'as yet unclassified' }
 VerViajesComponent >> eliminarViaje: unViaje [
 	(Sistema soleInstance sePuedeEliminarViaje: unViaje)
 		ifTrue: [ Sistema soleInstance eliminarViaje: unViaje ]
@@ -33,8 +38,9 @@ VerViajesComponent >> initializeWithViajes: unosViajes [
 ]
 
 { #category : #rendering }
-VerViajesComponent >> renderContentOn:aCanvas [
-aCanvas paragraph: (BasicComponent newWithParent: self).
+VerViajesComponent >> renderContentOn: aCanvas [
+	aCanvas paragraph: (BasicComponent newWithParent: self).
+	self chequearVacio.
 	aCanvas heading
 		level: 4;
 		with: mensaje.
