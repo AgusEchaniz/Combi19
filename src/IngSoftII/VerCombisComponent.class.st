@@ -11,6 +11,13 @@ Class {
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'as yet unclassified' }
+VerCombisComponent >> chquearVacio [
+| combis |
+combis := Sistema soleInstance combis.
+combis ifEmpty: [ mensaje :='No existen combis cargadas en el sistema.' ].
+]
+
 { #category : #combi }
 VerCombisComponent >> eliminarCombi:unaCombi [
 	Sistema soleInstance eliminarCombi: unaCombi
@@ -48,5 +55,9 @@ VerCombisComponent >> renderCombisOn: aCanvas [
 { #category : #rendering }
 VerCombisComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	self chquearVacio.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	self renderCombisOn: aCanvas
 ]

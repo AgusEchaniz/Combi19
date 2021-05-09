@@ -149,8 +149,8 @@ ViajeComponent >> renderContentOn: aCanvas [
 { #category : #rendering }
 ViajeComponent >> renderFecha: aCanvas [
 	aCanvas paragraph: 'Ingrese fecha del viaje  mes/día/año'.
-"	aCanvas paragraph: [ aCanvas textInput on: #fecha of: self ]"
-	aCanvas dateInput on:#fecha of:self
+	"	aCanvas paragraph: [ aCanvas textInput on: #fecha of: self ]"
+	(aCanvas dateInput options: #(day month year)) on: #fecha of: self
 ]
 
 { #category : #rendering }

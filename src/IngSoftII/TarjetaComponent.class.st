@@ -22,8 +22,8 @@ TarjetaComponent >> cargarTarjeta [
 	numeroTarjeta ifEmpty: [ ^ self ].
 	codSeg ifEmpty: [ ^ self ].
 	unaFechaVencimiento ifNil: [ ^ self ].
-	unaFechaVencimiento = Date today
-		ifTrue: [ ^ self ].
+	"unaFechaVencimiento = Date today
+		ifTrue: [ ^ self ]."
 	nombreDeTarjeta ifEmpty: [ ^ self ].
 	(user
 		puedeSerTarjetaWithNumero: numeroTarjeta
@@ -33,7 +33,12 @@ TarjetaComponent >> cargarTarjeta [
 				andCodigoSeguridad: codSeg
 				andFechaVencimiento: unaFechaVencimiento
 				andNombre: nombreDeTarjeta ]
-		ifFalse: [ (user esNumeroValido:numeroTarjeta)ifFalse:[mensaje:='Número de tarjeta inválido, recuerde que son 16 caracteres númericos'] ifTrue:[(user estaVigente:unaFechaVencimiento) ifFalse:[mensaje:='La tarjeta ingresada se encuentra vencida']]. ^ self ].
+		ifFalse: [ (user esNumeroValido: numeroTarjeta)
+				ifFalse:
+					[ mensaje := 'Número de tarjeta inválido, recuerde que son 16 caracteres numéricos' ]
+				ifTrue: [ (user estaVigente: unaFechaVencimiento)
+						ifFalse: [ mensaje := 'La tarjeta ingresada se encuentra vencida' ] ].
+			^ self ].
 	self call: LoginComponent new
 ]
 
@@ -76,7 +81,9 @@ TarjetaComponent >> numeroTarjeta: anObject [
 
 { #category : #rendering }
 TarjetaComponent >> renderContentOn: aCanvas [
-aCanvas heading level:4;with: mensaje.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	aCanvas
 		form: [ aCanvas paragraph: 'Numero de tarjeta'.
 			aCanvas
@@ -87,8 +94,15 @@ aCanvas heading level:4;with: mensaje.
 			aCanvas paragraph: 'Código de seguridad'.
 			aCanvas paragraph: [ aCanvas textInput on: #codSeg of: self ].
 			aCanvas paragraph: 'Ingrese fecha de vencimiento mes/día/año'.
-			aCanvas
-				paragraph: [ aCanvas textInput on: #unaFechaVencimiento of: self ].
+			(aCanvas dateInput options: #(month year))
+				on: #unaFechaVencimiento
+				of: self.
+			aCanvas break.
+			aCanvas submitButton
+				callback: [ self cargarTarjeta ];
+				with: 'Cargar'.
+			"aCanvas
+				paragraph: [ aCanvas textInput on: #unaFechaVencimiento of: self ]."
 			"aCanvas anchor
 		callback: [ self cargarTarjeta ];
 		with: [ aCanvas button: 'Cargar' ].
@@ -96,11 +110,8 @@ aCanvas heading level:4;with: mensaje.
 		callback: [ self answer ];
 		with: [ aCanvas button: 'Cancelar' ]"
 			aCanvas submitButton
-				callback: [ self cargarTarjeta ];
-				with: 'Cargar'.
-			aCanvas submitButton
 				callback: [ self answer ];
-				with: 'Cancel' ]
+				with: 'Cancelar' ]
 ]
 
 { #category : #accessing }

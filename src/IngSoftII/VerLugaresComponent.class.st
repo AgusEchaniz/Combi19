@@ -9,6 +9,13 @@ Class {
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'as yet unclassified' }
+VerLugaresComponent >> chequearVacio [
+ |lugares |
+	lugares := Sistema soleInstance lugares.
+	lugares ifEmpty: [ mensaje:= 'No existen lugares cargados en el sistema.' ]
+]
+
 { #category : #lugar }
 VerLugaresComponent >> eliminarLugar:unLugar [
 Sistema soleInstance eliminarLugar: unLugar
@@ -17,6 +24,10 @@ Sistema soleInstance eliminarLugar: unLugar
 { #category : #rendering }
 VerLugaresComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	self chequearVacio.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	self renderLugaresOn: aCanvas
 ]
 

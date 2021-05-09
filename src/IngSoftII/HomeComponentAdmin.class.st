@@ -23,9 +23,11 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 			aCanvas anchor
 				callback: [ self call: RutaComponent new ];
 				with: [ aCanvas button: 'Agregar Ruta' ].
-				aCanvas anchor
+			aCanvas anchor
 				callback: [ self call: ViajeComponent new ];
 				with: [ aCanvas button: 'Agregar Viaje' ].
+			aCanvas space.
+			aCanvas space.
 			aCanvas anchor
 				callback: [ self call: VerViajesComponent new ];
 				with: [ aCanvas button: 'Ver viajes' ].
@@ -46,5 +48,6 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 				with: [ aCanvas button: 'Ver lugares' ].
 			aCanvas anchor
 				callback: [ self call: VerCombisComponent new ];
-				with: [ aCanvas button: 'Ver combis' ] ]
+				with: [ aCanvas button: 'Ver combis' ] ].
+			aCanvas horizontalRule
 ]

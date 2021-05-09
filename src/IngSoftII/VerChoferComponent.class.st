@@ -7,6 +7,15 @@ Class {
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'as yet unclassified' }
+VerChoferComponent >> chequearVacio [
+|usuarios|
+usuarios := Sistema soleInstance usuarios.
+	usuarios := usuarios select: [ :each | each soy = 'chofer' ].
+	usuarios
+		ifEmpty: [ mensaje := 'No existen choferes cargados en el sistema.' ].
+]
+
 { #category : #chofer }
 VerChoferComponent >> eliminarChofer: unChofer [
 	(Sistema soleInstance eliminarChofer: unChofer)
@@ -24,6 +33,8 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 	| usuarios |
 	usuarios := Sistema soleInstance usuarios.
 	usuarios := usuarios select: [ :each | each soy = 'chofer' ].
+	"usuarios
+		ifEmpty: [ mensaje := 'No existen choferes cargados en el sistema.' ]."
 	^ aCanvas
 		form: [ aCanvas
 				unorderedList: [ usuarios
@@ -35,7 +46,7 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
 											aCanvas submitButton
-												callback: [ self eliminarChofer: each  ];
+												callback: [ self eliminarChofer: each ];
 												with: 'Eliminar'.
 											aCanvas submitButton
 												callback: [ self
@@ -51,10 +62,12 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 
 { #category : #rendering }
 VerChoferComponent >> renderContentOn: aCanvas [
+	
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	self chequearVacio.
+	
 	aCanvas heading
 		level: 4;
-		with:
-		mensaje.
+		with: mensaje.
 	self renderChoferesOn: aCanvas
 ]

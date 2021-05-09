@@ -7,15 +7,32 @@ Class {
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'as yet unclassified' }
+VerInsumoComponent >> chequearVacio [
+| insumos |
+	insumos := Sistema soleInstance insumos.
+	insumos
+		ifEmpty: [ mensaje := 'No hay insumos cargados en el sistema.' ].
+]
+
 { #category : #insumo }
 VerInsumoComponent >> eliminarInsumo: unInsumo [
 	Sistema soleInstance eliminarInsumo: unInsumo 
 ]
 
+{ #category : #initialization }
+VerInsumoComponent >> initialize [ 
+super initialize .
+mensaje:=' '.
+]
+
 { #category : #rendering }
 VerInsumoComponent >> renderContentOn: aCanvas [
-
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	self chequearVacio.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	self renderInsumosOn: aCanvas
 ]
 
@@ -38,9 +55,7 @@ VerInsumoComponent >> renderInsumosOn: aCanvas [
 												with: 'Eliminar'.
 											aCanvas submitButton
 												callback: [ self
-														call: (InsumoComponent
-														newWithObjetivo: 'modificar'
-														andInsumo: each) ];
+														call: (InsumoComponent newWithObjetivo: 'modificar' andInsumo: each) ];
 												with: 'Modificar' ].
 									aCanvas break.
 									aCanvas break ] ] ].
