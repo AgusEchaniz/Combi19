@@ -138,7 +138,9 @@ CombiComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 CombiComponent >> renderChoferesOn: aCanvas [
 	| usuarios |
 	usuarios := Sistema soleInstance choferesDisponibles.
-	^ aCanvas
+	aCanvas paragraph:'Seleccione un chofer'.
+	usuarios ifEmpty: [ aCanvas paragraph:'No hay choferes disponibles' ].
+	aCanvas
 		unorderedList: [ usuarios
 				do: [ :each | 
 					aCanvas
@@ -147,10 +149,9 @@ CombiComponent >> renderChoferesOn: aCanvas [
 									aCanvas space.	"aCanvas anchor
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
-									
 									aCanvas submitButton
 										callback: [ self chofer: each ];
-										with: 'Selecionar'.
+										with: 'Seleccionar'.
 									aCanvas break ] ] ] ]
 ]
 

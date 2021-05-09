@@ -142,19 +142,47 @@ Sistema >> crearAdmin [
 
 { #category : #ruta }
 Sistema >> crearProvincias [
-provincias add:'Buenos Aires';add:'Entre Rios';add:'Corrientes';add:'Misiones'; add:'Formosa'; add:'La Pampa'; add:'Salta'; add:'Tucuman'; add:'Jujuy';add:'Chaco';add:'Santiago del Estero';add:'Catamarca'; add:'La Rioja'; add:'Cordoba'; add:'Santa fe'; add: 'San Juan'; add:'Mendoza'; add:'Rio Negro';add:'San Luis';add:'Neuquen';add:'Santa Cruz';add:'Chubut';add:'Tierra Del Fuego'.
+	provincias
+		add: 'Buenos Aires';
+		add: 'Entre Rios';
+		add: 'Corrientes';
+		add: 'Misiones';
+		add: 'Formosa';
+		add: 'La Pampa';
+		add: 'Salta';
+		add: 'Tucuman';
+		add: 'Jujuy';
+		add: 'Chaco';
+		add: 'Santiago del Estero';
+		add: 'Catamarca';
+		add: 'La Rioja';
+		add: 'Cordoba';
+		add: 'Santa fe';
+		add: 'San Juan';
+		add: 'Mendoza';
+		add: 'Rio Negro';
+		add: 'San Luis';
+		add: 'Neuquen';
+		add: 'Santa Cruz';
+		add: 'Chubut';
+		add: 'Tierra Del Fuego';
+		add:'C.A.B.A'
 ]
 
 { #category : #ruta }
 Sistema >> crearRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	| ruta |
+	unLugarOrigen = unLugarDestino
+		ifTrue: [ ^ false ].
 	(self puedeSerCombi: unaCombi enHorario: unHorario)
-		ifTrue: [rutas add: (ruta := Ruta
-				newWithLugarOrigen: unLugarOrigen
-				andLugarDestino: unLugarDestino
-				andCombi: unaCombi
-				andHorario: unHorario
-				andDistancia: unaDistancia).
+		ifTrue: [ rutas
+				add:
+					(ruta := Ruta
+						newWithLugarOrigen: unLugarOrigen
+						andLugarDestino: unLugarDestino
+						andCombi: unaCombi
+						andHorario: unHorario
+						andDistancia: unaDistancia).
 			^ ruta ].
 	^ nil
 ]

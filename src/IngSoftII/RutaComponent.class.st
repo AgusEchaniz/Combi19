@@ -10,7 +10,8 @@ Class {
 		'hora',
 		'minuto',
 		'combi',
-		'distancia'
+		'distancia',
+		'horario'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -28,11 +29,14 @@ RutaComponent >> agregarRuta [
 	minuto ifNil: [ ^ self ].
 	combi ifNil: [ ^ self ].
 	distancia ifEmpty: [ ^ self ].
+	lugarDestino = lugarOrigen
+		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales'.
+			^ self ].
 	(Sistema soleInstance
 		crearRutaWithLugarOrigen: lugarOrigen
 		andLugarDestino: lugarDestino
 		andCombi: combi
-		andHorario: (hora asString , ':' , minuto asString) asTime
+		andHorario: horario
 		andDistancia: distancia)
 		ifNil:
 			[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de origen y mismo horario'.
@@ -73,14 +77,22 @@ hora := unaHora
 ]
 
 { #category : #initialization }
-RutaComponent >> horario [ 	^hora
+RutaComponent >> horario [
+	^ horario
+]
+
+{ #category : #initialization }
+RutaComponent >> horario:unHorario [
+horario:= unHorario
 ]
 
 { #category : #initialization }
 RutaComponent >> initialize [
 	super initialize.
 	mensaje := ' '.
-	objetivo := 'agregar'
+	objetivo := 'agregar'.
+	hora := 0.
+	minuto := 0.
 ]
 
 { #category : #initialization }
@@ -88,7 +100,13 @@ RutaComponent >> initializeWithObjetivo: unObjetivo andRuta: unaRuta [
 	super initialize.
 	mensaje := ''.
 	objetivo := unObjetivo.
-	ruta := unaRuta
+	ruta := unaRuta.
+	lugarOrigen := unaRuta lugarOrigen.
+	lugarDestino := unaRuta lugarDestino.
+	horario:= unaRuta horario.
+	hora := unaRuta horario hour24.
+	minuto := unaRuta horario minute.
+	combi := unaRuta combi nombre
 ]
 
 { #category : #initialization }
@@ -129,9 +147,12 @@ RutaComponent >> modificarRuta [
 	minuto ifNil: [ ^ self ].
 	combi ifNil: [ ^ self ].
 	distancia ifEmpty: [ ^ self ].
+		lugarDestino = lugarOrigen
+		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales' ].
 	(lugarOrigen nombre , ' - ' , lugarDestino nombre) = ruta nombre
 		ifFalse: [ (Sistema soleInstance
-				modificarRuta: ruta WithLugarOrigen: lugarOrigen
+				modificarRuta: ruta
+				withLugarOrigen: lugarOrigen
 				andLugarDestino: lugarDestino
 				andCombi: combi
 				andHorario: (hora asString , ':' , minuto asString) asTime
@@ -140,7 +161,8 @@ RutaComponent >> modificarRuta [
 					[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de origen y mismo horario'.
 					^ self ] ]
 		ifTrue: [ Sistema soleInstance
-				modificarRuta: ruta withCombi: combi
+				modificarRuta: ruta
+				withCombi: combi
 				andHorario: (hora asString , ':' , minuto asString) asTime
 				andDistancia: distancia ].
 	self answer
@@ -162,35 +184,47 @@ RutaComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 
 { #category : #initialization }
 RutaComponent >> renderContentOn: aCanvas [
+	| combisDisponibles |
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	aCanvas heading
 		level: 4;
 		with: mensaje.
-	hora := 0.
-	minuto := 0.
+	combisDisponibles := Sistema soleInstance
+		combisDisponiblesEnHorario: horario.
 	aCanvas
 		form: [ aCanvas paragraph: 'seleccione el lugar de partida de la ruta'.
-			(aCanvas select
-				list: Sistema soleInstance lugares;
-				labels: [ :each | each nombre ]) on: #lugarOrigen of: self.
+			Sistema soleInstance lugares
+				ifNotEmpty: [ (aCanvas select
+						list: Sistema soleInstance lugares;
+						labels: [ :each | each nombre ]) on: #lugarOrigen of: self ]
+				ifEmpty: [ aCanvas heading
+						level: 4;
+						with: 'No hay lugares registrados en el sistema' ].
 			aCanvas break.
 			aCanvas paragraph: 'Seleccione el lugar de llegada de la ruta'.
-			(aCanvas select
-				list: Sistema soleInstance lugares;
-				labels: [ :each | each nombre ]) on: #lugarDestino of: self.
+			Sistema soleInstance lugares
+				ifNotEmpty: [ (aCanvas select
+						list: Sistema soleInstance lugares;
+						labels: [ :each | each nombre ]) on: #lugarDestino of: self ]
+				ifEmpty: [ aCanvas heading
+						level: 4;
+						with: 'No hay lugares registrados en el sistema' ].
 			aCanvas horizontalRule.
 			aCanvas paragraph: 'Seleccione la hora'.
-			(aCanvas select list: (0 to: 23)) on: #hora of: self.
+			aCanvas timeInput on: #horario of: self.
+			"		(aCanvas select list: (0 to: 23)) on: #hora of: self.
 			aCanvas paragraph: 'Seleccione los minutos'.
-			(aCanvas select list: (0 to: 59)) on: #minuto of: self.
+			(aCanvas select list: (0 to: 59)) on: #minuto of: self."
 			aCanvas horizontalRule.
 			aCanvas paragraph: 'Seleccione la combi'.
-			(aCanvas select
-				list:
-					(Sistema soleInstance
-						combisDisponiblesEnHorario: (hora asString , ':' , minuto asString) asTime);
-				labels: [ :each | each nombre ]) on: #combi of: self.
-			aCanvas break.
+			combisDisponibles
+				ifEmpty: [ aCanvas
+						paragraph: 'No hay combis disponibles para el horario seleccionado' ]
+				ifNotEmpty:
+					[ (aCanvas select
+						list: (Sistema soleInstance combisDisponiblesEnHorario: horario);
+						labels: [ :each | each nombre ]) on: #combi of: self ]. aCanvas
+						break.
 			aCanvas paragraph: 'Ingrese la distancia del viaje'.
 			aCanvas textArea on: #distancia of: self.
 			aCanvas break.
