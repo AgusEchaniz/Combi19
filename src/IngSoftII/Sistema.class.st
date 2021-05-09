@@ -248,8 +248,10 @@ Sistema >> eliminarChofer: unChofer [
 
 { #category : #combi }
 Sistema >> eliminarCombi: unaCombi [
-"combi no debe estar asignada a una ruta(ni tener un chofer asignado?)"
-	combis remove: unaCombi
+		(self sePuedeEliminarCombi: unaCombi)
+		ifTrue: [ combis remove: unaCombi.
+			^ true ].
+	^ false
 ]
 
 { #category : #insumo }
@@ -349,28 +351,26 @@ Sistema >> lugares [ ^lugares
 ]
 
 { #category : #chofer }
-Sistema >> modificarChofer: unChofer withNombre: unNombre	andApellido: unApellido	andTelefono: unTelefono [
-	
-unChofer
-				modificarWithNombre: unNombre
-				andApellido: unApellido
-				andTelefono: unTelefono.
-
-
+Sistema >> modificarChofer: unChofer withNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña:unaContra [
+	unChofer
+		modificarWithNombre: unNombre
+		andApellido: unApellido
+		andTelefono: unTelefono
+		andContraseña:unaContra
 ]
 
 { #category : #chofer }
-Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono [
-	| chofer  |
+Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña:unaContra [
+	| chofer |
 	(self existeUsuario: unNombreUsuario)
 		ifFalse: [ chofer := unChofer
 				modificarWithNombreUsuario: unNombreUsuario
-				andNombre:unNombre 
-				andApellido: unApellido 
-				andTelefono: unTelefono.
+				andNombre: unNombre
+				andApellido: unApellido
+				andTelefono: unTelefono
+				andContraseña:unaContra.
 			^ chofer ].
 	^ nil
-	
 ]
 
 { #category : #combi }
@@ -429,7 +429,7 @@ Sistema >> modificarLugar: unLugar withProvincia: unaProvincia [
 
 ]
 
-{ #category : #chofer }
+{ #category : #ruta }
 Sistema >> modificarRuta: unaRuta withCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	unaRuta modificarCombi: unaCombi andHorario: unHorario  andDistancia: unaDistancia
 	
@@ -452,6 +452,23 @@ Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino
 						andDistancia: unaDistancia.
 					^ ruta ] ].
 	^ nil
+]
+
+{ #category : #chofer }
+Sistema >> modificarViaje: unViaje withCantidadAsientos: unaCantidadAsientos [
+	unViaje modificarWithCantidadAsientos: unaCantidadAsientos 
+	
+]
+
+{ #category : #viaje }
+Sistema >> modificarViaje: unViaje withRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+	| viaje |
+	(self puedeSerViajeConRuta: unaRuta andFecha: unaFecha)
+		ifTrue: [ viaje := unViaje
+				modificarViajeWithRuta: unaRuta
+				andFecha: unaFecha
+				andCantidadAsientos: unaCantidadAsientos. ^viaje ].
+			^nil
 ]
 
 { #category : #ruta }
@@ -478,7 +495,7 @@ Sistema >> puedeSerChofer: unNombreDeUsuario conContraseña: unaContraseña [
 	^ false
 ]
 
-{ #category : #chofer }
+{ #category : #combi }
 Sistema >> puedeSerCombi: unaCombi enHorario: unHorario [
 	^(self combisDisponiblesEnHorario: unHorario) includes: unaCombi
 ]
@@ -504,9 +521,14 @@ Sistema >> rutas [
 ^rutas
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #chofer }
 Sistema >> sePuedeEliminarChofer: unChofer [
 ^( combis anySatisfy: [ :combi| combi tieneChofer:unChofer ])not
+]
+
+{ #category : #combi }
+Sistema >> sePuedeEliminarCombi: unaCombi [
+		^ (rutas anySatisfy: [ :ruta | ruta tieneCombi: unaCombi ]) not
 ]
 
 { #category : #viaje }

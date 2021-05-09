@@ -23,13 +23,13 @@ CombiComponent >> agregarCombi [
 	patente ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].
 	cantidadAsientos ifEmpty: [ ^ self ].
-	chofer ifNil:[^self].
+	chofer ifNil: [ mensaje :='Seleccione un chofer'.^ self ].
 	(Sistema soleInstance
 		agregarCombiWithPatente: patente
 		andTipo: tipo
 		andCantAsientos: cantidadAsientos
 		andChofer: chofer)
-		ifNil: [ mensaje := 'Ya existe un insumo con ese nombre registrado'.
+		ifNil: [ mensaje := 'Ya existe una combi con esa patente registrado'.
 			^ self ].
 	self answer
 ]

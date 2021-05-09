@@ -27,7 +27,9 @@ RutaComponent >> agregarRuta [
 	lugarDestino ifNil: [ ^ self ].
 	hora ifNil: [ ^ self ].
 	minuto ifNil: [ ^ self ].
-	combi ifNil: [ ^ self ].
+	combi
+		ifNil: [ 
+			^ self ].
 	distancia ifEmpty: [ ^ self ].
 	lugarDestino = lugarOrigen
 		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales'.
@@ -184,6 +186,16 @@ RutaComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 	aCanvas submitButton
 		callback: [ self answer ];
 		with: 'Cancelar'
+]
+
+{ #category : #initialization }
+RutaComponent >> renderCombisOn: aCanvas [
+	aCanvas paragraph: 'Seleccione la combi'.
+	(aCanvas select
+		list:
+			(Sistema soleInstance
+				combisDisponiblesEnHorario: (hora asString , ':' , minuto asString) asTime);
+		labels: [ :each | each nombre ]) on: #combi of: self.
 ]
 
 { #category : #initialization }

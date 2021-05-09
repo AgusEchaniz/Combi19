@@ -28,7 +28,7 @@ BasicComponent >> renderContentOn: aCanvas [
 		paragraph: [ aCanvas image
 				url: 'https://i.imgur.com/QbQap9R.png';
 				height: 100;
-				width: 100 ].
+				width: 100].
 	aCanvas
 		paragraph: [ aCanvas emphasis: 'Bienvenido ' , self session user nombre.
 			aCanvas space.

@@ -45,20 +45,22 @@ Chofer >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaCo
 ]
 
 { #category : #modificar }
-Chofer >> modificarWithNombre: unNombre
-		andApellido: unApellido
-		andTelefono: unTelefono [
-	
+Chofer >> modificarWithNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña:unaContraseña [ 
 	nombre := unNombre.
 	apellido := unApellido.
-	telefono := unTelefono
+	telefono := unTelefono.
+	contraseña :=unaContraseña 
 ]
 
 { #category : #modificar }
-Chofer >> modificarWithNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono [
-	self modificarWithNombre: unNombre andApellido: unApellido  andTelefono: unTelefono .
-	nombreUsuario := unNombreUsuario.
-"	nombre := unNombre.
+Chofer >> modificarWithNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña:unaContra [
+	self
+		modificarWithNombre: unNombre
+		andApellido: unApellido
+		andTelefono: unTelefono
+		andContraseña:unaContra.
+	nombreUsuario := unNombreUsuario
+	"	nombre := unNombre.
 	apellido := unApellido.
 	telefono := unTelefono"
 ]
