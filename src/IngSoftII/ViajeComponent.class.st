@@ -176,7 +176,8 @@ ViajeComponent >> renderRutasOn: aCanvas [
 	aCanvas paragraph: 'RUTAS DISPONIBLES: '.
 	rutas := Sistema soleInstance rutas.
 	rutas
-		ifEmpty: [ aCanvas paragraph: 'Lo sentimos.. No hay rutas disponibles' ]
+		ifEmpty: [ aCanvas paragraph: 'Lo sentimos.. No hay rutas disponibles'. objetivo = 'modificar'
+						ifTrue: [ aCanvas paragraph: 'Ruta actual: ' , viaje ruta nombre ] ]
 		ifNotEmpty: [ self renderRutasDisponibles: rutas on: aCanvas ]
 ]
 
