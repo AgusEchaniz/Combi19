@@ -19,21 +19,23 @@ combis ifEmpty: [ mensaje :='No existen combis cargadas en el sistema.' ].
 ]
 
 { #category : #combi }
-VerCombisComponent >> eliminarCombi:unaCombi [
-	Sistema soleInstance eliminarCombi: unaCombi
+VerCombisComponent >> eliminarCombi: unaCombi [
+		(Sistema soleInstance eliminarCombi:unaCombi)
+		ifFalse:
+			[ mensaje := 'No se pudo eliminar la combi porque está asignada a un viaje' ]
 ]
 
 { #category : #rendering }
 VerCombisComponent >> renderCombisOn: aCanvas [
 	| combis |
-	combis := Sistema soleInstance combis .
+	combis := Sistema soleInstance combis.
 	^ aCanvas
 		form: [ aCanvas
 				unorderedList: [ combis
 						do: [ :each | 
 							aCanvas
 								listItem: [ aCanvas
-										paragraph: [ aCanvas text: each patente .
+										paragraph: [ aCanvas text: each nombre.
 											aCanvas space.	"aCanvas anchor
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
@@ -42,11 +44,10 @@ VerCombisComponent >> renderCombisOn: aCanvas [
 												with: 'Eliminar'.
 											aCanvas submitButton
 												callback: [ self
-														call:
-															(CombiComponent newWithObjetivo: 'modificar' andCombi: each) ];
+														call: (CombiComponent newWithObjetivo: 'modificar' andCombi: each) ];
 												with: 'Modificar' ].
-									aCanvas break.
 									aCanvas break ] ] ].
+			aCanvas horizontalRule.
 			aCanvas submitButton
 				callback: [ self answer ];
 				with: 'Volver' ]

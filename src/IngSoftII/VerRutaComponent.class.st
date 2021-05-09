@@ -55,8 +55,8 @@ VerRutaComponent >> renderContentOn: aCanvas [
 ]
 
 { #category : #rendering }
-VerRutaComponent >> renderRutasOn: aCanvas [ 
-| rutas |
+VerRutaComponent >> renderRutasOn: aCanvas [
+	| rutas |
 	rutas := Sistema soleInstance rutas.
 	^ aCanvas
 		form: [ aCanvas
@@ -73,11 +73,11 @@ VerRutaComponent >> renderRutasOn: aCanvas [
 												with: 'Eliminar'.
 											aCanvas submitButton
 												callback: [ self
-														call:
-															(RutaComponent  newWithObjetivo: 'modificar' andRuta: each) ];
+														call: (RutaComponent newWithObjetivo: 'modificar' andRuta: each) ];
 												with: 'Modificar' ].
 									aCanvas break.
-									aCanvas break ] ] ].
+									 ] ] ].
+			aCanvas horizontalRule.
 			aCanvas submitButton
 				callback: [ self answer ];
 				with: 'Volver' ]

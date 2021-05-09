@@ -23,13 +23,13 @@ CombiComponent >> agregarCombi [
 	patente ifEmpty: [ ^ self ].
 	tipo ifEmpty: [ ^ self ].
 	cantidadAsientos ifEmpty: [ ^ self ].
-	chofer ifNil:[^self].
+	chofer ifNil: [ mensaje :='Seleccione un chofer'.^ self ].
 	(Sistema soleInstance
 		agregarCombiWithPatente: patente
 		andTipo: tipo
 		andCantAsientos: cantidadAsientos
 		andChofer: chofer)
-		ifNil: [ mensaje := 'Ya existe un insumo con ese nombre registrado'.
+		ifNil: [ mensaje := 'Ya existe una combi con esa patente registrado'.
 			^ self ].
 	self answer
 ]
@@ -138,8 +138,9 @@ CombiComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 CombiComponent >> renderChoferesOn: aCanvas [
 	| usuarios |
 	usuarios := Sistema soleInstance choferesDisponibles.
-	aCanvas paragraph:'Seleccione un chofer'.
-	usuarios ifEmpty: [ aCanvas paragraph:'No hay choferes disponibles' ].
+	aCanvas paragraph: 'Seleccione un chofer'.
+	usuarios
+		ifEmpty: [ aCanvas heading level:4;with: 'No hay choferes disponibles' ].
 	aCanvas
 		unorderedList: [ usuarios
 				do: [ :each | 
@@ -158,7 +159,6 @@ CombiComponent >> renderChoferesOn: aCanvas [
 { #category : #rendering }
 CombiComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	aCanvas horizontalRule.
 	aCanvas heading
 		level: 4;
 		with: mensaje.
@@ -166,11 +166,12 @@ CombiComponent >> renderContentOn: aCanvas [
 		form: [ aCanvas paragraph: 'Ingrese la patente de la combi'.
 			aCanvas textArea on: #patente of: self.
 			aCanvas paragraph: 'Ingrese el tipo de combi'.
-			aCanvas textArea on: #tipo of: self.
+			"aCanvas textArea on: #tipo of: self."
+			(aCanvas select list: #('Cama' 'Semi-cama')) on: #tipo of: self.
 			aCanvas paragraph: 'Ingrese la cantidad de asientos'.
 			aCanvas textArea on: #cantidadAsientos of: self.
-objetivo = 'modificar'
-										ifTrue: [ aCanvas paragraph: 'Chofer actual: ' , chofer nombre ].
+			objetivo = 'modificar'
+				ifTrue: [ aCanvas paragraph: 'Chofer actual: ' , chofer nombre ].
 			self renderChoferesOn: aCanvas.
 			aCanvas horizontalRule.
 			aCanvas break.

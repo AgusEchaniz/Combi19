@@ -41,7 +41,7 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 						do: [ :each | 
 							aCanvas
 								listItem: [ aCanvas
-										paragraph: [ aCanvas text: each nombreUsuario.
+										paragraph: [ aCanvas text: each nombreCompleto.
 											aCanvas space.	"aCanvas anchor
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
@@ -55,6 +55,7 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 													with: 'Modificar' ].
 									aCanvas break.
 									aCanvas break ] ] ].
+			aCanvas horizontalRule.
 			aCanvas submitButton
 				callback: [ self answer ];
 				with: 'Volver' ]

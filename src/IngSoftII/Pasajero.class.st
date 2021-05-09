@@ -5,7 +5,8 @@ Class {
 		'fechaNac',
 		'dni',
 		'membresia',
-		'tarjeta'
+		'tarjeta',
+		'nombreCompleto'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -69,6 +70,11 @@ Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: una
 { #category : #accessing }
 Pasajero >> membresia [
 	^ membresia
+]
+
+{ #category : #accessing }
+Pasajero >> nombreCompleto [
+^nombre,' ',apellido
 ]
 
 { #category : #'as yet unclassified' }

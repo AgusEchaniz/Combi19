@@ -138,12 +138,14 @@ ViajeComponent >> renderContentOn: aCanvas [
 	aCanvas heading
 		level: 4;
 		with: mensaje.
-	aCanvas form:[self renderFecha: aCanvas.
-	aCanvas horizontalRule.
-	self renderRutasOn: aCanvas.
-	aCanvas horizontalRule.
-	self renderCantAsientos: aCanvas.
-	self renderButtonsOn: aCanvas]
+	aCanvas
+		form: [ self renderFecha: aCanvas.
+			aCanvas horizontalRule.
+			self renderRutasOn: aCanvas.
+			aCanvas horizontalRule.
+			self renderCantAsientos: aCanvas.
+						aCanvas horizontalRule.
+			self renderButtonsOn: aCanvas ]
 ]
 
 { #category : #rendering }

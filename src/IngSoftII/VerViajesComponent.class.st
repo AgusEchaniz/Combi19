@@ -48,7 +48,7 @@ VerViajesComponent >> renderContentOn: aCanvas [
 ]
 
 { #category : #rendering }
-VerViajesComponent >> renderViajesOn:aCanvas [
+VerViajesComponent >> renderViajesOn: aCanvas [
 	^ aCanvas
 		form: [ aCanvas
 				unorderedList: [ viajes
@@ -64,10 +64,11 @@ VerViajesComponent >> renderViajesOn:aCanvas [
 												with: 'Eliminar'.
 											aCanvas submitButton
 												callback: [ self
-														call: (ViajeComponent  newWithObjetivo: 'modificar' andViaje: each) ];
+														call: (ViajeComponent newWithObjetivo: 'modificar' andViaje: each) ];
 												with: 'Modificar' ].
 									aCanvas break.
-									aCanvas break ] ] ].
+] ] ].
+			aCanvas horizontalRule.
 			aCanvas submitButton
 				callback: [ self answer ];
 				with: 'Volver' ]
