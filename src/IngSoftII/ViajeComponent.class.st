@@ -85,24 +85,34 @@ ViajeComponent >> model [
 
 { #category : #'as yet unclassified' }
 ViajeComponent >> modificarViaje [
-	fecha ifNil: [ ^ self ].
+	fecha
+		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
+			^ self ].
 	fecha = Date today
-		ifTrue: [ ^ self ].
-	cantidadAsientos ifEmpty: [ ^ self ].
-	ruta ifEmpty: [ ^ self ]
-	"FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
-	ruta nombre = viaje obtenerNombreRuta
-	"	ifFalse: [ (Sistema soleInstance
-				modificarInsumo: insumo
-				withNombre: nombre
-				andTipo: tipo
-				andPrecio: precio)
-				ifNil: [ mensaje := 'Ya existe un insumo con ese nombre registrado'.
+		ifTrue: [ mensaje := 'Por favor ingrese una fecha'.
+			^ self ].
+	cantidadAsientos
+		ifEmpty: [ mensaje := 'Por favor ingrese una cantidad'.
+			^ self ].
+	ruta
+		ifNil: [ mensaje := 'Por favor seleccione una ruta'.
+			^ self ].
+	cantidadAsientos > ruta cantidadAsientosDeLaCombi
+		ifTrue:
+			[ mensaje := 'La cantidad de asientos ingresada es mayor a la capacidad máxima de la combi, como máximo ingrese: '
+				, ruta cantidadAsientosDeLaCombi asString. ^self ].
+	ruta = viaje ruta & (fecha = viaje fecha)
+		ifFalse: [ (Sistema soleInstance
+				modificarViaje: viaje
+				withRuta: ruta
+				andFecha: fecha
+				andCantidadAsientos: cantidadAsientos)
+				ifNil:
+					[ mensaje := 'Ya existe un viaje en esa fecha con esa ruta registrado'.
 					^ self ] ]
 		ifTrue: [ Sistema soleInstance
-				modificarInsumo: insumo
-				withTipo: tipo
-				andPrecio: precio ]." "Cambiar por método modificar viaje"
+				modificarViaje: viaje
+				withCantidadAsientos: cantidadAsientos ].
 	self answer
 ]
 

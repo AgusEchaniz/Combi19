@@ -105,10 +105,11 @@ RutaComponent >> initializeWithObjetivo: unObjetivo andRuta: unaRuta [
 	ruta := unaRuta.
 	lugarOrigen := unaRuta lugarOrigen.
 	lugarDestino := unaRuta lugarDestino.
-	horario:= unaRuta horario.
+	horario := unaRuta horario.
 	hora := unaRuta horario hour24.
 	minuto := unaRuta horario minute.
-	combi := unaRuta combi nombre
+	combi := unaRuta combi nombre.
+	distancia:=unaRuta distancia
 ]
 
 { #category : #initialization }
@@ -148,10 +149,13 @@ RutaComponent >> modificarRuta [
 	hora ifNil: [ ^ self ].
 	minuto ifNil: [ ^ self ].
 	combi ifNil: [ ^ self ].
-	distancia ifEmpty: [ ^ self ].
-		lugarDestino = lugarOrigen
+	(Sistema soleInstance combisDisponiblesEnHorario: horario) ifEmpty:[combi:=ruta combi].distancia
+		ifEmpty: [ ^ self ].
+	lugarDestino = lugarOrigen
 		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales' ].
-	(lugarOrigen nombre , ' - ' , lugarDestino nombre) = ruta nombre
+	(ruta nombre
+		includesSubstring: lugarOrigen nombre , ' - ' , lugarDestino nombre
+		caseSensitive: false)
 		ifFalse: [ (Sistema soleInstance
 				modificarRuta: ruta
 				withLugarOrigen: lugarOrigen
@@ -160,7 +164,7 @@ RutaComponent >> modificarRuta [
 				andHorario: (hora asString , ':' , minuto asString) asTime
 				andDistancia: distancia)
 				ifNil:
-					[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de origen y mismo horario'.
+					[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de origen, misma combi y mismo horario'.
 					^ self ] ]
 		ifTrue: [ Sistema soleInstance
 				modificarRuta: ruta
@@ -182,6 +186,16 @@ RutaComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 	aCanvas submitButton
 		callback: [ self answer ];
 		with: 'Cancelar'
+]
+
+{ #category : #initialization }
+RutaComponent >> renderCombisOn: aCanvas [
+	aCanvas paragraph: 'Seleccione la combi'.
+	(aCanvas select
+		list:
+			(Sistema soleInstance
+				combisDisponiblesEnHorario: (hora asString , ':' , minuto asString) asTime);
+		labels: [ :each | each nombre ]) on: #combi of: self.
 ]
 
 { #category : #initialization }
@@ -221,15 +235,16 @@ RutaComponent >> renderContentOn: aCanvas [
 			aCanvas paragraph: 'Seleccione la combi'.
 			combisDisponibles
 				ifEmpty: [ aCanvas
-						paragraph: 'No hay combis disponibles para el horario seleccionado' ]
-				ifNotEmpty:
-					[ (aCanvas select
+						paragraph: 'No hay combis disponibles para el horario seleccionado'.
+					objetivo='modificar' ifTrue:[
+					aCanvas paragraph: 'Combi actual: ' , ruta combi nombre ]]
+				ifNotEmpty: [ (aCanvas select
 						list: (Sistema soleInstance combisDisponiblesEnHorario: horario);
-						labels: [ :each | each nombre ]) on: #combi of: self ]. aCanvas
-						break.
+						labels: [ :each | each nombre ]) on: #combi of: self ].
+			aCanvas break.
 			aCanvas paragraph: 'Ingrese la distancia del viaje'.
 			aCanvas textArea on: #distancia of: self.
 			aCanvas break.
 			aCanvas break.
-			self renderButtonsOn: aCanvas para: objetivo ]
+			self renderButtonsOn: aCanvas para: objetivo ]  
 ]

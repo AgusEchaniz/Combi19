@@ -274,9 +274,10 @@ Sistema >> eliminarRuta: unaRuta [
 ]
 
 { #category : #usuario }
-Sistema >> eliminarUsuario:unUsuario [
-	usuarios remove:unUsuario.
-(	viajes select:[:viaje| viaje incluyenPasajero:unUsuario]) do:[:viaje| viaje eliminarPasajero:unUsuario].
+Sistema >> eliminarUsuario: unUsuario [
+	usuarios remove: unUsuario ifAbsent:[].
+	(viajes select: [ :viaje | viaje incluyenPasajero: unUsuario ])
+		do: [ :viaje | viaje eliminarPasajero: unUsuario ]
 ]
 
 { #category : #viaje }
@@ -451,6 +452,23 @@ Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino
 						andDistancia: unaDistancia.
 					^ ruta ] ].
 	^ nil
+]
+
+{ #category : #chofer }
+Sistema >> modificarViaje: unViaje withCantidadAsientos: unaCantidadAsientos [
+	unViaje modificarWithCantidadAsientos: unaCantidadAsientos 
+	
+]
+
+{ #category : #viaje }
+Sistema >> modificarViaje: unViaje withRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+	| viaje |
+	(self puedeSerViajeConRuta: unaRuta andFecha: unaFecha)
+		ifTrue: [ viaje := unViaje
+				modificarViajeWithRuta: unaRuta
+				andFecha: unaFecha
+				andCantidadAsientos: unaCantidadAsientos. ^viaje ].
+			^nil
 ]
 
 { #category : #ruta }

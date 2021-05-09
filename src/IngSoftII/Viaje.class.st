@@ -5,7 +5,8 @@ Class {
 		'ruta',
 		'fecha',
 		'cantidadAsientos',
-		'cantidadVendidos'
+		'cantidadVendidos',
+		'pasajeros'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -20,6 +21,11 @@ Viaje >> cantidadVendidos [
 	^cantidadVendidos 
 ]
 
+{ #category : #rendering }
+Viaje >> eliminarPasajero: unUsuario [ 
+pasajeros remove:unUsuario ifAbsent:[]
+]
+
 { #category : #accessing }
 Viaje >> fecha [ ^fecha
 ]
@@ -30,11 +36,31 @@ Viaje >> incluyeRuta: unaRuta [
 ]
 
 { #category : #'as yet unclassified' }
+Viaje >> incluyenPasajero: unUsuario [
+	^pasajeros includes: unUsuario
+]
+
+{ #category : #'as yet unclassified' }
 Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
 	ruta := unaRuta.
 	fecha := unaFecha.
 	cantidadAsientos := unaCantidadAsientos.
+	cantidadVendidos := 0.
+	pasajeros:=OrderedCollection new.
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> modificarViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+	ruta := unaRuta.
+	fecha := unaFecha.
+	cantidadAsientos := unaCantidadAsientos.
 	cantidadVendidos := 0
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> modificarWithCantidadAsientos: unaCantidadAsientos [
+	cantidadAsientos := unaCantidadAsientos 
+	
 ]
 
 { #category : #accessing }
