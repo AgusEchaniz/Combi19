@@ -56,9 +56,13 @@ VerCombisComponent >> renderCombisOn: aCanvas [
 { #category : #rendering }
 VerCombisComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	self chquearVacio.
 	aCanvas heading
-		level: 4;
-		with: mensaje.
+		level: 3;
+		with: 'Combis: '.
+	self chquearVacio.
+	aCanvas
+		paragraph: [ aCanvas space.
+			aCanvas space.
+			aCanvas text: mensaje ].
 	self renderCombisOn: aCanvas
 ]

@@ -40,10 +40,14 @@ VerViajesComponent >> initializeWithViajes: unosViajes [
 { #category : #rendering }
 VerViajesComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	self chequearVacio.
 	aCanvas heading
-		level: 4;
-		with: mensaje.
+		level: 3;
+		with: 'Viajes: '.
+	self chequearVacio.
+	aCanvas
+		paragraph: [ aCanvas space.
+			aCanvas space.
+			aCanvas text: mensaje ].
 	self renderViajesOn: aCanvas
 ]
 

@@ -26,14 +26,15 @@ PasajeroComponent >> mostrarPasajeros: users on: aCanvas [
 				do: [ :each | 
 					(each es: 'pasajero')
 						ifTrue: [ aCanvas
-								listItem: [ aCanvas text: each nombreCompleto.	"aCanvas anchor
+								listItem: [ aCanvas text: each nombreCompleto.	aCanvas space."aCanvas anchor
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
 									aCanvas anchor
 										callback: [ self eliminarPasajero: each ];
 										with: [ aCanvas button: 'Eliminar' ].
 									aCanvas break.
-									aCanvas break. aCanvas break] ] ] ]
+									aCanvas break.
+									aCanvas break ] ] ] ]
 ]
 
 { #category : #rendering }
@@ -41,9 +42,12 @@ PasajeroComponent >> renderContentOn: aCanvas [
 	| users |
 	users := Sistema soleInstance usuarios.
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas heading
+		level: 3;
+		with: 'Usuarios: '.
 	self mostrarPasajeros: users on: aCanvas.
-				aCanvas horizontalRule.
+	aCanvas horizontalRule.
 	aCanvas anchor
 		callback: [ self answer ];
-		with: [ aCanvas button: 'Finish' ]
+		with: [ aCanvas button: 'Volver' ]
 ]

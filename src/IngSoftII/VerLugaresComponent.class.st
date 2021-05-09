@@ -24,10 +24,14 @@ Sistema soleInstance eliminarLugar: unLugar
 { #category : #rendering }
 VerLugaresComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	self chequearVacio.
 	aCanvas heading
-		level: 4;
-		with: mensaje.
+		level: 3;
+		with: 'Lugares: '.
+	self chequearVacio.
+	aCanvas
+		paragraph: [ aCanvas space.
+			aCanvas space.
+			aCanvas text: mensaje ].
 	self renderLugaresOn: aCanvas
 ]
 

@@ -42,10 +42,14 @@ VerRutaComponent >> initialize [
 { #category : #rendering }
 VerRutaComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	self chequearVacio.
 	aCanvas heading
-		level: 4;
-		with: mensaje.
+		level: 3;
+		with: 'Rutas: '.
+	self chequearVacio.
+	aCanvas
+		paragraph: [ aCanvas space.
+			aCanvas space.
+			aCanvas text: mensaje ].
 	"eliminar
 		ifFalse: [ (self
 				confirm:
