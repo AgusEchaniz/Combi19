@@ -55,7 +55,8 @@ VerLugaresComponent >> renderLugaresOn: aCanvas [
 														call: (LugarComponent newWithObjetivo: 'modificar' andLugar: each) ];
 												with: 'Modificar' ].
 									aCanvas break.
-									aCanvas break ] ] ].
+									] ] ].
+			aCanvas horizontalRule.
 			aCanvas submitButton
 				callback: [ self answer ];
 				with: 'Volver' ]

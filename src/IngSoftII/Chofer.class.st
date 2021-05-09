@@ -63,6 +63,11 @@ Chofer >> modificarWithNombreUsuario: unNombreUsuario andNombre: unNombre andApe
 	telefono := unTelefono"
 ]
 
+{ #category : #accessing }
+Chofer >> nombreCompleto [
+^nombre,' ',apellido,': ',nombreUsuario 
+]
+
 { #category : #'as yet unclassified' }
 Chofer >> soy [
 ^'chofer'

@@ -138,8 +138,9 @@ CombiComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 CombiComponent >> renderChoferesOn: aCanvas [
 	| usuarios |
 	usuarios := Sistema soleInstance choferesDisponibles.
-	aCanvas paragraph:'Seleccione un chofer'.
-	usuarios ifEmpty: [ aCanvas paragraph:'No hay choferes disponibles' ].
+	aCanvas paragraph: 'Seleccione un chofer'.
+	usuarios
+		ifEmpty: [ aCanvas heading level:4;with: 'No hay choferes disponibles' ].
 	aCanvas
 		unorderedList: [ usuarios
 				do: [ :each | 
@@ -158,7 +159,7 @@ CombiComponent >> renderChoferesOn: aCanvas [
 { #category : #rendering }
 CombiComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	aCanvas horizontalRule.
+
 	aCanvas heading
 		level: 4;
 		with: mensaje.
@@ -169,8 +170,8 @@ CombiComponent >> renderContentOn: aCanvas [
 			aCanvas textArea on: #tipo of: self.
 			aCanvas paragraph: 'Ingrese la cantidad de asientos'.
 			aCanvas textArea on: #cantidadAsientos of: self.
-objetivo = 'modificar'
-										ifTrue: [ aCanvas paragraph: 'Chofer actual: ' , chofer nombre ].
+			objetivo = 'modificar'
+				ifTrue: [ aCanvas paragraph: 'Chofer actual: ' , chofer nombre ].
 			self renderChoferesOn: aCanvas.
 			aCanvas horizontalRule.
 			aCanvas break.

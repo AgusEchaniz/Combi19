@@ -196,7 +196,7 @@ RutaComponent >> renderContentOn: aCanvas [
 	combisDisponibles := Sistema soleInstance
 		combisDisponiblesEnHorario: horario.
 	aCanvas
-		form: [ aCanvas paragraph: 'seleccione el lugar de partida de la ruta'.
+		form: [ aCanvas paragraph: 'Seleccione el lugar de partida de la ruta'.
 			Sistema soleInstance lugares
 				ifNotEmpty: [ (aCanvas select
 						list: Sistema soleInstance lugares;
@@ -224,15 +224,17 @@ RutaComponent >> renderContentOn: aCanvas [
 			combisDisponibles
 				ifEmpty: [ aCanvas
 						paragraph: 'No hay combis disponibles para el horario seleccionado'.
-					objetivo='modificar' ifTrue:[
-					aCanvas paragraph: 'Combi actual: ' , ruta combi nombre ]]
+					objetivo = 'modificar'
+						ifTrue: [ aCanvas paragraph: 'Combi actual: ' , ruta combi nombre ] ]
 				ifNotEmpty: [ (aCanvas select
 						list: (Sistema soleInstance combisDisponiblesEnHorario: horario);
 						labels: [ :each | each nombre ]) on: #combi of: self ].
 			aCanvas break.
+			aCanvas horizontalRule.
 			aCanvas paragraph: 'Ingrese la distancia del viaje'.
 			aCanvas textArea on: #distancia of: self.
 			aCanvas break.
-			aCanvas break.
-			self renderButtonsOn: aCanvas para: objetivo ]  
+			aCanvas horizontalRule.
+
+			self renderButtonsOn: aCanvas para: objetivo ]
 ]

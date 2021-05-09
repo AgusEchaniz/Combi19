@@ -69,7 +69,7 @@ Combi >> modificarWithTipo: unTipo andCantAsientos: unaCantidad andChofer: unCho
 
 { #category : #accessing }
 Combi >> nombre [
-	^ patente , ' ' , tipo , ' Cantidad de asientos:' , cantidadAsientos
+	^ patente , ' - ' , tipo , ' - Cantidad de asientos:' , cantidadAsientos
 ]
 
 { #category : #accessing }

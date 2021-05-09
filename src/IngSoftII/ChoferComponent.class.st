@@ -150,8 +150,10 @@ ChoferComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 { #category : #rendering }
 ChoferComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	aCanvas horizontalRule.
-	aCanvas heading level: 4;with: mensaje.
+
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	aCanvas
 		form: [ aCanvas paragraph: 'Ingrese el nombre de usuario del chofer'.
 			aCanvas textArea on: #nombreUsuario of: self.
