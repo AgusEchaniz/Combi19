@@ -25,13 +25,11 @@ Sistema soleInstance eliminarLugar: unLugar
 VerLugaresComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	aCanvas heading
-		level: 3;
-		with: 'Lugares: '.
-	self chequearVacio.
-	aCanvas
-		paragraph: [ aCanvas space.
-			aCanvas space.
-			aCanvas text: mensaje ].
+		level: 2;
+		with: 'Lugares: ' .self chequearVacio.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	self renderLugaresOn: aCanvas
 ]
 

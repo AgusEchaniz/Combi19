@@ -66,7 +66,8 @@ ViajeComponent >> fecha: anObject [
 ViajeComponent >> initialize [
 	super initialize.
 	fecha := Date today.
-	mensaje:=' '.
+	mensaje := ' '.
+	objetivo:='agregar'.
 ]
 
 { #category : #initialization }

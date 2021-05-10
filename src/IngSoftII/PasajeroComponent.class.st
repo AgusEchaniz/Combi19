@@ -1,12 +1,31 @@
 Class {
 	#name : #PasajeroComponent,
 	#superclass : #WAComponent,
+	#instVars : [
+		'mensaje'
+	],
 	#category : #'IngSoftII-ui'
 }
+
+{ #category : #'as yet unclassified' }
+PasajeroComponent >> chequearVacio [
+	| usuarios |
+	usuarios := Sistema soleInstance usuarios.
+	usuarios := usuarios select: [ :each | each soy = 'pasajero' ].
+	usuarios
+		ifEmpty: [ mensaje := 'No existen usuarios pasajeros cargados en el sistema.' ]
+]
 
 { #category : #rendering }
 PasajeroComponent >> eliminarPasajero: unPasajero [
 	Sistema soleInstance eliminarUsuario: unPasajero
+]
+
+{ #category : #initialization }
+PasajeroComponent >> initialize [ 
+super initialize.
+mensaje:= ' '
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -43,8 +62,13 @@ PasajeroComponent >> renderContentOn: aCanvas [
 	users := Sistema soleInstance usuarios.
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	aCanvas heading
-		level: 3;
+		level: 2;
 		with: 'Usuarios: '.
+			
+	self chequearVacio.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	self mostrarPasajeros: users on: aCanvas.
 	aCanvas horizontalRule.
 	aCanvas anchor

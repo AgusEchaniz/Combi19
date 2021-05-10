@@ -30,13 +30,12 @@ mensaje:=' '.
 VerInsumoComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	aCanvas heading
-		level: 3;
+		level: 2;
 		with: 'Insumos: '.
 	self chequearVacio.
-	aCanvas
-		paragraph: [ aCanvas space.
-			aCanvas space.
-			aCanvas text: mensaje ].
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	self renderInsumosOn: aCanvas
 ]
 

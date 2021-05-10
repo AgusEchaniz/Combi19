@@ -78,7 +78,8 @@ Ruta >> modificarRutaWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDest
 
 { #category : #accessing }
 Ruta >> nombre [
-	^ lugarOrigen nombre , ' - ' , lugarDestino nombre,' ',horario asString
+	^ (lugarOrigen nombre , ' - ' , lugarDestino nombre , ' '
+		, horario asString)
 ]
 
 { #category : #'as yet unclassified' }

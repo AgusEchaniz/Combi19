@@ -45,6 +45,13 @@ Viaje >> incluyenPasajero: unUsuario [
 	^pasajeros includes: unUsuario
 ]
 
+{ #category : #initialization }
+Viaje >> initialize [ 
+super initialize.
+cantidadVendidos :=0.
+
+]
+
 { #category : #'as yet unclassified' }
 Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
 	ruta := unaRuta.

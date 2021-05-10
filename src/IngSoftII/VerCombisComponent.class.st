@@ -20,9 +20,9 @@ combis ifEmpty: [ mensaje :='No existen combis cargadas en el sistema.' ].
 
 { #category : #combi }
 VerCombisComponent >> eliminarCombi: unaCombi [
-		(Sistema soleInstance eliminarCombi:unaCombi)
+	(Sistema soleInstance eliminarCombi: unaCombi)
 		ifFalse:
-			[ mensaje := 'No se pudo eliminar la combi porque está asignada a un viaje' ]
+			[ mensaje := 'No se pudo eliminar la combi porque está asignada a una ruta' ]
 ]
 
 { #category : #rendering }
@@ -57,12 +57,10 @@ VerCombisComponent >> renderCombisOn: aCanvas [
 VerCombisComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
 	aCanvas heading
-		level: 3;
+		level: 2;
 		with: 'Combis: '.
 	self chquearVacio.
-	aCanvas
-		paragraph: [ aCanvas space.
-			aCanvas space.
-			aCanvas text: mensaje ].
-	self renderCombisOn: aCanvas
+aCanvas heading
+		level: 4;
+		with: mensaje.	self renderCombisOn: aCanvas
 ]
