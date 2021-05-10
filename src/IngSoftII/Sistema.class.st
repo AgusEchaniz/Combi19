@@ -58,11 +58,6 @@ Sistema class >> soleInstance [
 	^ soleInstance ifNil: [ soleInstance := self new ]
 ]
 
-{ #category : #accessing }
-Sistema >> CrearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
-	
-]
-
 { #category : #combi }
 Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaCantAsientos andChofer: unChofer [
 	| combi |
@@ -225,7 +220,7 @@ Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContras
 ]
 
 { #category : #viaje }
-Sistema >> crearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+Sistema >> crearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
 	| viaje |
 	(self puedeSerViajeConRuta: unaRuta andFecha: unaFecha)
 		ifTrue: [ viajes
@@ -233,8 +228,9 @@ Sistema >> crearViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: u
 					(viaje := Viaje
 						newWithRuta: unaRuta
 						andFecha: unaFecha
-						andCantidadAsientos: unaCantidadAsientos). ^viaje ].
-					^nil
+						andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio).
+			^ viaje ].
+	^ nil
 ]
 
 { #category : #chofer }
@@ -455,20 +451,20 @@ Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino
 ]
 
 { #category : #chofer }
-Sistema >> modificarViaje: unViaje withCantidadAsientos: unaCantidadAsientos [
-	unViaje modificarWithCantidadAsientos: unaCantidadAsientos 
-	
+Sistema >> modificarViaje: unViaje withCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
+	unViaje modificarWithCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio
 ]
 
 { #category : #viaje }
-Sistema >> modificarViaje: unViaje withRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+Sistema >> modificarViaje: unViaje withRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
 	| viaje |
 	(self puedeSerViajeConRuta: unaRuta andFecha: unaFecha)
 		ifTrue: [ viaje := unViaje
 				modificarViajeWithRuta: unaRuta
 				andFecha: unaFecha
-				andCantidadAsientos: unaCantidadAsientos. ^viaje ].
-			^nil
+				andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio.
+			^ viaje ].
+	^ nil
 ]
 
 { #category : #ruta }

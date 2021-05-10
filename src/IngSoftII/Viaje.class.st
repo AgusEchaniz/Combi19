@@ -6,14 +6,18 @@ Class {
 		'fecha',
 		'cantidadAsientos',
 		'cantidadVendidos',
-		'pasajeros'
+		'pasajeros',
+		'precio'
 	],
 	#category : #'IngSoftII-model'
 }
 
 { #category : #'instance creation' }
-Viaje class >> newWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
-	^ self new initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos
+Viaje class >> newWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
+	^ self new
+		initializeWithRuta: unaRuta
+		andFecha: unaFecha
+		andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio
 ]
 
 { #category : #accessing }
@@ -53,26 +57,28 @@ cantidadVendidos :=0.
 ]
 
 { #category : #'as yet unclassified' }
-Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
 	ruta := unaRuta.
 	fecha := unaFecha.
 	cantidadAsientos := unaCantidadAsientos.
 	cantidadVendidos := 0.
-	pasajeros:=OrderedCollection new.
+	pasajeros := OrderedCollection new.
+	precio:=unPrecio 
 ]
 
 { #category : #'as yet unclassified' }
-Viaje >> modificarViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos [
+Viaje >> modificarViajeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos andPrecio: unPrecio [
 	ruta := unaRuta.
 	fecha := unaFecha.
 	cantidadAsientos := unaCantidadAsientos.
-	cantidadVendidos := 0
+
+	precio := unPrecio
 ]
 
 { #category : #'as yet unclassified' }
-Viaje >> modificarWithCantidadAsientos: unaCantidadAsientos [
-	cantidadAsientos := unaCantidadAsientos 
-	
+Viaje >> modificarWithCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
+	cantidadAsientos := unaCantidadAsientos.
+	precio:=unPrecio
 ]
 
 { #category : #accessing }
@@ -83,6 +89,11 @@ Viaje >> nombre [
 { #category : #'as yet unclassified' }
 Viaje >> obtenerNombreRuta [
 ^ruta nombre
+]
+
+{ #category : #accessing }
+Viaje >> precio [ 
+^precio
 ]
 
 { #category : #accessing }
