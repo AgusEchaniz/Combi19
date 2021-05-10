@@ -21,7 +21,7 @@ VerLugaresComponent >> chequearVacio [
 VerLugaresComponent >> eliminarLugar: unLugar [
 	(Sistema soleInstance eliminarLugar: unLugar)
 		ifFalse:
-			[ mensaje := 'No se pudo eliminar el lugar porque esta asignado a una ruta' ]
+			[ mensaje := 'No se pudo eliminar el lugar porque esta asignado a una o más rutas' ]
 ]
 
 { #category : #rendering }

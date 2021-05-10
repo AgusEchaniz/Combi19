@@ -6,8 +6,7 @@ Class {
 		'membresia',
 		'unaFecha',
 		'unApellido',
-		'unDni',
-		'mensaje'
+		'unDni'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -16,7 +15,7 @@ Class {
 RegisterComponent >> initialize [
 	super initialize.
 	unaFecha := Date today.
-	mensaje:=' '.
+	
 ]
 
 { #category : #accessing }
@@ -107,11 +106,12 @@ RegisterComponent >> renderInputElementsOn: aCanvas [
 	aCanvas submitButton
 		callback: [ self membresia: 'gold' ];
 		with: 'Gold. Paga sólo $250 al mes'.
-	
-	
 	aCanvas break.
 	aCanvas break.
-	super renderInputElementsOn: aCanvas
+	aCanvas label: 'Email'.
+	aCanvas paragraph: [ aCanvas textInput on: #email of: self ].
+	aCanvas label: 'Contraseña'.
+	aCanvas paragraph: [ aCanvas passwordInput on: #password of: self ]
 ]
 
 { #category : #accessing }

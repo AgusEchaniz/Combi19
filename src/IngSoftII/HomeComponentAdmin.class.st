@@ -26,7 +26,6 @@ HomeComponentAdmin >> renderContentOn: aCanvas [
 			aCanvas anchor
 				callback: [ self call: ViajeComponent new ];
 				with: [ aCanvas button: 'Agregar Viaje' ].
-
 			aCanvas anchor
 				callback: [ self call: VerInsumoComponent new ];
 				with: [ aCanvas button: 'Ver Insumos' ].

@@ -64,7 +64,6 @@ PasajeroComponent >> renderContentOn: aCanvas [
 	aCanvas heading
 		level: 2;
 		with: 'Usuarios: '.
-			
 	self chequearVacio.
 	aCanvas heading
 		level: 4;

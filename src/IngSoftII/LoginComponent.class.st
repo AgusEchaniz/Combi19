@@ -56,9 +56,13 @@ Class {
 { #category : #'private protocol' }
 LoginComponent >> login [
 	(self model userWithEmail: email protectedBy: password)
-		ifNotNil: [ :it | self proceedWith: it ].
+		ifNotNil: [ :it | self proceedWith: it ]
+		ifNil: [ (self model existeUsuario: email)
+				ifFalse: [ mensaje := 'El email ingresado no existe' ]
+				ifTrue: [ mensaje := 'La contraseña ingresada es incorrecta' ] ].
 	email := nil.
-	password := nil
+	password := nil.
+	
 ]
 
 { #category : #'private protocol' }

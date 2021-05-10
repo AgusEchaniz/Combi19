@@ -351,24 +351,25 @@ Sistema >> lugares [ ^lugares
 ]
 
 { #category : #chofer }
-Sistema >> modificarChofer: unChofer withNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña:unaContra [
+Sistema >> modificarChofer: unChofer withNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña: unaContra [
+(self esValidaContraseña: unaContra) ifTrue:[
 	unChofer
 		modificarWithNombre: unNombre
 		andApellido: unApellido
 		andTelefono: unTelefono
-		andContraseña:unaContra
+		andContraseña: unaContra] ifFalse:[^nil]
 ]
 
 { #category : #chofer }
-Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña:unaContra [
+Sistema >> modificarChofer: unChofer withNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andTelefono: unTelefono andContraseña: unaContra [
 	| chofer |
-	(self existeUsuario: unNombreUsuario)
-		ifFalse: [ chofer := unChofer
+	(self puedeSerChofer: unNombreUsuario conContraseña: unaContra)
+		ifTrue: [ chofer := unChofer
 				modificarWithNombreUsuario: unNombreUsuario
 				andNombre: unNombre
 				andApellido: unApellido
 				andTelefono: unTelefono
-				andContraseña:unaContra.
+				andContraseña: unaContra.
 			^ chofer ].
 	^ nil
 ]

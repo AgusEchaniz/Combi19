@@ -24,9 +24,10 @@ ChoferComponent >> agregarChofer [
 	nombreUsuario ifEmpty: [ ^ self ].
 	(self model puedeSerChofer: nombreUsuario conContraseña: contraseña)
 		ifFalse: [ (self model existeUsuario: nombreUsuario)
-				ifTrue: [ mensaje := 'Ya existe un chofer con ese email ingresado.' ]
-				ifFalse: [ (self model esValidaContraseña: contraseña ) ifFalse: [ mensaje:= 'La contraseña ingresada debe tener minimo 6 caracteres.' ] ].
-				
+				ifTrue: [ mensaje := 'Ya existe un usuario con ese nombre de usuario registrado' ]
+				ifFalse: [ (self model esValidaContraseña: contraseña)
+						ifFalse:
+							[ mensaje := 'La contraseña ingresada debe tener minimo 6 caracteres.' ] ].
 			^ self ].
 	self model
 		crearUsuarioChoferWithNombreDeUsuario: nombreUsuario
@@ -94,15 +95,23 @@ ChoferComponent >> modificarChofer [
 				andNombre: nombre
 				andApellido: apellido
 				andTelefono: telefono
-				andContraseña:contraseña )
-				ifNil: [ mensaje := 'Ya existe un chofer con ese nombre registrado'.
+				andContraseña: contraseña)
+				ifNil: [ (Sistema soleInstance existeUsuario: nombreUsuario)
+						ifTrue:
+							[ mensaje := 'Ya existe un usuario con ese nombre de usuario registrado' ]
+						ifFalse: [ (Sistema soleInstance esValidaContraseña: contraseña)
+								ifFalse:
+									[ mensaje := 'La contraseña ingresada debe tener minimo 6 caracteres.' ] ].
 					^ self ] ]
-		ifTrue: [ Sistema soleInstance
+		ifTrue: [ (Sistema soleInstance
 				modificarChofer: chofer
 				withNombre: nombre
 				andApellido: apellido
 				andTelefono: telefono
-				 andContraseña:contraseña ].
+				andContraseña: contraseña)
+				ifNil: [ (Sistema soleInstance esValidaContraseña: contraseña)
+						ifFalse:
+							[ mensaje := 'La contraseña ingresada debe tener minimo 6 caracteres.' .^self] ] ].
 	self answer
 ]
 

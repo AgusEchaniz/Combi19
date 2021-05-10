@@ -3,7 +3,8 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'email',
-		'password'
+		'password',
+		'mensaje'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -16,6 +17,12 @@ AccessGrantingComponent >> email [
 { #category : #accessing }
 AccessGrantingComponent >> email:aEmail [
 email:=aEmail
+]
+
+{ #category : #initialization }
+AccessGrantingComponent >> initialize [ 
+super initialize.
+mensaje:=''.
 ]
 
 { #category : #accessing }
@@ -60,6 +67,7 @@ AccessGrantingComponent >> renderContentOn: aCanvas [
 
 { #category : #accessing }
 AccessGrantingComponent >> renderInputElementsOn: aCanvas [
+	aCanvas heading level:4;with:mensaje.
 	aCanvas label: 'Email'.
 	aCanvas paragraph: [ aCanvas textInput on: #email of: self ].
 	aCanvas label: 'Contraseña'.
