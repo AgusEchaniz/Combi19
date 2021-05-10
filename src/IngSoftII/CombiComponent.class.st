@@ -8,7 +8,8 @@ Class {
 		'cantidadAsientos',
 		'mensaje',
 		'objetivo',
-		'combi'
+		'combi',
+		'usarChoferActual'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -66,9 +67,10 @@ CombiComponent >> initializeWithObjetivo: unObjetivo andCombi: unaCombi [
 	objetivo := unObjetivo.
 	combi := unaCombi.
 	patente := unaCombi patente.
-		chofer:=unaCombi chofer.
+	chofer := unaCombi chofer.
 	tipo := unaCombi tipo.
-	cantidadAsientos := unaCombi cantidadAsientos
+	cantidadAsientos := unaCombi cantidadAsientos.
+	usarChoferActual :=false.
 ]
 
 { #category : #accessing }
@@ -82,6 +84,8 @@ CombiComponent >> modificarCombi [
 	tipo ifEmpty: [ ^ self ].
 	cantidadAsientos ifEmpty: [ ^ self ].
 	chofer ifNil: [ ^ self ].
+	usarChoferActual
+		ifTrue: [ self chofer: combi chofer ] .
 	patente = combi patente
 		ifFalse: [ (Sistema soleInstance
 				modificarCombi: combi
@@ -95,7 +99,7 @@ CombiComponent >> modificarCombi [
 				modificarCombi: combi
 				withTipo: tipo
 				andCantAsientos: cantidadAsientos
-				andChofer:chofer ].
+				andChofer: chofer ].
 	self answer
 ]
 
@@ -171,7 +175,9 @@ CombiComponent >> renderContentOn: aCanvas [
 			aCanvas paragraph: 'Ingrese la cantidad de asientos'.
 			aCanvas textArea on: #cantidadAsientos of: self.
 			objetivo = 'modificar'
-				ifTrue: [ aCanvas paragraph: 'Chofer actual: ' , chofer nombre ].
+				ifTrue: [ aCanvas paragraph: [aCanvas paragraph:'Chofer actual: ' , chofer nombre.aCanvas submitButton
+						callback: [ self usarChoferActual];
+						with: 'Seleccionar chofer actual' ] ].
 			self renderChoferesOn: aCanvas.
 			aCanvas horizontalRule.
 			aCanvas break.
@@ -186,4 +192,9 @@ CombiComponent >> tipo [
 { #category : #accessing }
 CombiComponent >> tipo: unTipo [
 	 tipo:=unTipo
+]
+
+{ #category : #accessing }
+CombiComponent >> usarChoferActual [
+usarChoferActual:=true 
 ]

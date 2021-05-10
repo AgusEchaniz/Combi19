@@ -40,7 +40,9 @@ LugarComponent >> initializeWithObjetivo: unObjetivo andLugar: unLugar [
 	super initialize.
 	mensaje := ' '.
 	objetivo := unObjetivo.
-	lugar:=unLugar 
+	lugar := unLugar.
+	localidad:= unLugar localidad.
+	provincia:= unLugar provincia.
 ]
 
 { #category : #accessing }

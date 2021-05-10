@@ -84,6 +84,7 @@ Viaje >> modificarWithCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
 { #category : #accessing }
 Viaje >> nombre [
 	^ ruta nombre , ' - ' , fecha asString
+		, ' - Cantidad de pasajes vendidos: ' , cantidadVendidos asString
 ]
 
 { #category : #'as yet unclassified' }

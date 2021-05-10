@@ -45,7 +45,8 @@ Combi >> initializeWithPatente: unaPatente andTipo: unTipo andCantAsientos: unaC
 	tipo := unTipo.
 	cantidadAsientos := unaCantidad.
 	chofer := unChofer.
-	chofer asignar
+	chofer asignar.
+
 ]
 
 { #category : #'as yet unclassified' }
