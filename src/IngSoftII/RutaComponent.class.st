@@ -28,9 +28,7 @@ RutaComponent >> agregarRuta [
 	lugarDestino ifNil: [ ^ self ].
 	hora ifNil: [ ^ self ].
 	minuto ifNil: [ ^ self ].
-	combi
-		ifNil: [ 
-			^ self ].
+	combi ifNil: [ ^ self ].
 	distancia ifEmpty: [ ^ self ].
 	lugarDestino = lugarOrigen
 		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales'.
@@ -42,7 +40,7 @@ RutaComponent >> agregarRuta [
 		andHorario: horario
 		andDistancia: distancia)
 		ifNil:
-			[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de origen y mismo horario'.
+			[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de llegada y mismo horario'.
 			^ self ].
 	self answer
 ]
@@ -151,7 +149,7 @@ RutaComponent >> modificarRuta [
 	minuto ifNil: [ ^ self ].
 	(Sistema soleInstance combisDisponiblesEnHorario: horario)
 		ifEmpty: [ combi := ruta combi ].
-	 usarCombiActual
+	usarCombiActual
 		ifTrue: [ self combi: ruta combi ].
 	combi ifNil: [ ^ self ].
 	distancia ifEmpty: [ ^ self ].
@@ -167,7 +165,7 @@ RutaComponent >> modificarRuta [
 				andHorario: horario
 				andDistancia: distancia)
 				ifNil:
-					[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de origen, misma combi y mismo horario'.
+					[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de llegada, misma combi y mismo horario'.
 					^ self ] ]
 		ifTrue: [ Sistema soleInstance
 				modificarRuta: ruta
