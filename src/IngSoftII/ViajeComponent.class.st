@@ -66,7 +66,8 @@ ViajeComponent >> fecha: anObject [
 ViajeComponent >> initialize [
 	super initialize.
 	fecha := Date today.
-	mensaje:=' '.
+	mensaje := ' '.
+	objetivo:='agregar'.
 ]
 
 { #category : #initialization }
@@ -75,7 +76,9 @@ ViajeComponent >> initializeWithObjetivo: unObjetivo andViaje: unViaje [
 	objetivo := unObjetivo.
 	viaje := unViaje.
 	mensaje := ' '.
-	fecha:= unViaje fecha
+	fecha := unViaje fecha.
+	ruta := unViaje ruta.
+	cantidadAsientos :=unViaje cantidadAsientos 
 ]
 
 { #category : #rendering }
@@ -94,13 +97,18 @@ ViajeComponent >> modificarViaje [
 	cantidadAsientos
 		ifEmpty: [ mensaje := 'Por favor ingrese una cantidad'.
 			^ self ].
-	ruta
+	"ruta
 		ifNil: [ mensaje := 'Por favor seleccione una ruta'.
-			^ self ].
+			^ self ]."
 	cantidadAsientos > ruta cantidadAsientosDeLaCombi
 		ifTrue:
 			[ mensaje := 'La cantidad de asientos ingresada es mayor a la capacidad máxima de la combi, como máximo ingrese: '
-				, ruta cantidadAsientosDeLaCombi asString. ^self ].
+				, ruta cantidadAsientosDeLaCombi asString.
+			^ self ].
+	(Sistema soleInstance rutas
+		select: [ :unaRuta | self model canBeRuta: unaRuta enFecha: fecha ])
+		ifEmpty: [ ruta := viaje ruta ].
+	
 	ruta = viaje ruta & (fecha = viaje fecha)
 		ifFalse: [ (Sistema soleInstance
 				modificarViaje: viaje
@@ -118,12 +126,16 @@ ViajeComponent >> modificarViaje [
 
 { #category : #rendering }
 ViajeComponent >> renderButtonsOn: aCanvas [
-	aCanvas submitButton 
-		callback: [ self agregarViaje ];
-		with: 'Agregar viaje' .
-	aCanvas submitButton 
+	objetivo = 'agregar'
+		ifTrue: [ aCanvas submitButton
+				callback: [ self agregarViaje ];
+				with: 'Agregar viaje' ]
+		ifFalse: [ aCanvas submitButton
+				callback: [ self modificarViaje ];
+				with: 'Modificar viaje' ].
+	aCanvas submitButton
 		callback: [ self answer ];
-		with:'Cancelar' 
+		with: 'Cancelar'
 ]
 
 { #category : #rendering }
@@ -157,17 +169,25 @@ ViajeComponent >> renderFecha: aCanvas [
 
 { #category : #rendering }
 ViajeComponent >> renderRutasDisponibles: rutas on: aCanvas [
-	 aCanvas
-		unorderedList: [ rutas
+	| rutasDisponibles |
+	rutasDisponibles := rutas
+		select: [ :unaRuta | self model canBeRuta: unaRuta enFecha: fecha ].
+	rutasDisponibles
+		ifEmpty: [ aCanvas
+				paragraph: 'No hay rutas disponibles para la fecha seleccionada.'.
+			objetivo = 'modificar'
+				ifTrue: [ aCanvas paragraph: 'Ruta actual: ' , viaje obtenerNombreRuta  ] ].
+	aCanvas
+		unorderedList: [ rutasDisponibles
 				do: [ :each | 
-					(self model canBeRuta: each enFecha: fecha)
-						ifTrue: [ aCanvas
-								listItem: [ aCanvas text: each nombre.	"aCanvas anchor
-										callback: [ self call: (RutaComponent newWithRuta: each) ];
-										with: each nombre."
-									aCanvas submitButton 
-										callback: [ self ruta: each ];
-										with: 'Agregar ruta' ] ] ]  ]
+					"					(self model canBeRuta: each enFecha: fecha)"
+					"						ifTrue: ["
+					aCanvas
+						listItem: [ aCanvas text: each nombre.
+							aCanvas space.
+							aCanvas submitButton
+								callback: [ self ruta: each ];
+								with: 'Agregar ruta' ] ] ]
 ]
 
 { #category : #rendering }
@@ -176,7 +196,8 @@ ViajeComponent >> renderRutasOn: aCanvas [
 	aCanvas paragraph: 'RUTAS DISPONIBLES: '.
 	rutas := Sistema soleInstance rutas.
 	rutas
-		ifEmpty: [ aCanvas paragraph: 'Lo sentimos.. No hay rutas disponibles' ]
+		ifEmpty: [ aCanvas paragraph: 'Lo sentimos.. No hay rutas disponibles'. objetivo = 'modificar'
+						ifTrue: [ aCanvas paragraph: 'Ruta actual: ' , viaje ruta nombre ] ]
 		ifNotEmpty: [ self renderRutasDisponibles: rutas on: aCanvas ]
 ]
 

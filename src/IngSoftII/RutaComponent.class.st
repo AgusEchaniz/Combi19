@@ -11,7 +11,8 @@ Class {
 		'minuto',
 		'combi',
 		'distancia',
-		'horario'
+		'horario',
+		'usarCombiActual'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -148,20 +149,22 @@ RutaComponent >> modificarRuta [
 	lugarDestino ifNil: [ ^ self ].
 	hora ifNil: [ ^ self ].
 	minuto ifNil: [ ^ self ].
+	(Sistema soleInstance combisDisponiblesEnHorario: horario)
+		ifEmpty: [ combi := ruta combi ].
+	 usarCombiActual
+		ifTrue: [ self combi: ruta combi ].
 	combi ifNil: [ ^ self ].
-	(Sistema soleInstance combisDisponiblesEnHorario: horario) ifEmpty:[combi:=ruta combi].distancia
-		ifEmpty: [ ^ self ].
+	distancia ifEmpty: [ ^ self ].
 	lugarDestino = lugarOrigen
-		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales' ].
-	(ruta nombre
-		includesSubstring: lugarOrigen nombre , ' - ' , lugarDestino nombre
-		caseSensitive: false)
+		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales'.
+			^ self ].
+	ruta lugarOrigen = lugarOrigen & (ruta lugarDestino = lugarDestino)
 		ifFalse: [ (Sistema soleInstance
 				modificarRuta: ruta
 				withLugarOrigen: lugarOrigen
 				andLugarDestino: lugarDestino
 				andCombi: combi
-				andHorario: (hora asString , ':' , minuto asString) asTime
+				andHorario: horario
 				andDistancia: distancia)
 				ifNil:
 					[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de origen, misma combi y mismo horario'.
@@ -169,7 +172,7 @@ RutaComponent >> modificarRuta [
 		ifTrue: [ Sistema soleInstance
 				modificarRuta: ruta
 				withCombi: combi
-				andHorario: (hora asString , ':' , minuto asString) asTime
+				andHorario: horario
 				andDistancia: distancia ].
 	self answer
 ]
@@ -232,12 +235,16 @@ RutaComponent >> renderContentOn: aCanvas [
 			aCanvas paragraph: 'Seleccione los minutos'.
 			(aCanvas select list: (0 to: 59)) on: #minuto of: self."
 			aCanvas horizontalRule.
-			aCanvas paragraph: 'Seleccione la combi'.
+			objetivo = 'modificar'
+				ifTrue: [ aCanvas
+						paragraph: [ aCanvas paragraph: 'Combi actual: ' , ruta combi nombre.
+							aCanvas submitButton
+								callback: [ self usarCombiActual ];
+								with: 'Seleccionar combi actual' ] ].
+			aCanvas paragraph: 'Seleccione la combi nueva'.
 			combisDisponibles
 				ifEmpty: [ aCanvas
-						paragraph: 'No hay combis disponibles para el horario seleccionado'.
-					objetivo = 'modificar'
-						ifTrue: [ aCanvas paragraph: 'Combi actual: ' , ruta combi nombre ] ]
+						paragraph: 'No hay combis disponibles para el horario seleccionado' ]
 				ifNotEmpty: [ (aCanvas select
 						list: (Sistema soleInstance combisDisponiblesEnHorario: horario);
 						labels: [ :each | each nombre ]) on: #combi of: self ].
@@ -247,6 +254,10 @@ RutaComponent >> renderContentOn: aCanvas [
 			aCanvas textArea on: #distancia of: self.
 			aCanvas break.
 			aCanvas horizontalRule.
-
 			self renderButtonsOn: aCanvas para: objetivo ]
+]
+
+{ #category : #accessing }
+RutaComponent >> usarCombiActual [
+usarCombiActual:=true
 ]

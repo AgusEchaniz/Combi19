@@ -18,12 +18,17 @@ VerRutaComponent >> chequearVacio [
 
 { #category : #ruta }
 VerRutaComponent >> eliminarRuta: unaRuta [
-	viajes := (Sistema soleInstance eliminarRuta: unaRuta)
+	viajes := Sistema soleInstance eliminarRuta: unaRuta.
+	viajes
 		ifNil: [ mensaje := 'La ruta: ' , unaRuta nombre
 				, ' ha sido eliminada con éxito' ]
-		ifNotNil: [ mensaje := 'No se puede eliminar la ruta' , unaRuta nombre
-				, ' porque esta asignada a 1 o más viajes'.
-			eliminar := false ]
+		ifNotNil: [ mensaje := 'No se puede eliminar la ruta ' , unaRuta nombre
+				, ' porque esta asignada a 1 o más viajes']
+			"(self
+				confirm:
+					'La ruta que intenta borrar tiene uno o mas viajes asignados, desea ver estos viajes?')
+				ifTrue: [ self call: (VerViajesComponent newWithViajes: viajes).
+					eliminar := false ] ]"
 ]
 
 { #category : #initialization }
@@ -37,15 +42,18 @@ VerRutaComponent >> initialize [
 { #category : #rendering }
 VerRutaComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas heading
+		level: 2;
+		with: 'Rutas: '.
 	self chequearVacio.
 	aCanvas heading
 		level: 4;
 		with: mensaje.
-	eliminar
+	"eliminar
 		ifFalse: [ (self
 				confirm:
 					'La ruta que intenta borrar tiene uno o mas viajes asignados, desea ver estos viajes?')
-				ifTrue: [ self call: (VerViajesComponent newWithViajes: viajes) ] ].
+				ifTrue: [ self call: (VerViajesComponent newWithViajes: viajes)]]."
 	self renderRutasOn: aCanvas
 ]
 

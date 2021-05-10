@@ -21,8 +21,15 @@ VerViajesComponent >> chequearVacio [
 { #category : #'as yet unclassified' }
 VerViajesComponent >> eliminarViaje: unViaje [
 	(Sistema soleInstance sePuedeEliminarViaje: unViaje)
-		ifTrue: [ Sistema soleInstance eliminarViaje: unViaje ]
-		ifFalse:[mensaje:= 'No se pudo eliminar el viaje porque esta en curso']
+		ifTrue: [ 
+			unViaje cantidadVendidos = 0
+				ifTrue: [ Sistema soleInstance eliminarViaje: unViaje ]
+				ifFalse: [ (self
+						confirm:
+							'El viaje seleccionado tiene: ' , unViaje cantidadVendidos asString
+								, ' pasajes vendidos, desea eliminarlo? ')
+						ifTrue: [ Sistema soleInstance eliminarViaje: unViaje ] ] ]
+		ifFalse: [ mensaje := 'No se pudo eliminar el viaje porque esta en curso' ]
 ]
 
 { #category : #initialization }
@@ -40,7 +47,12 @@ VerViajesComponent >> initializeWithViajes: unosViajes [
 { #category : #rendering }
 VerViajesComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas heading
+		level: 2;
+		with: 'Viajes: '.
+	"aCanvas big: 'Viajes: '."
 	self chequearVacio.
+
 	aCanvas heading
 		level: 4;
 		with: mensaje.

@@ -63,10 +63,11 @@ VerChoferComponent >> renderChoferesOn: aCanvas [
 
 { #category : #rendering }
 VerChoferComponent >> renderContentOn: aCanvas [
-	
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas heading
+		level: 2;
+		with: 'Choferes: '.
 	self chequearVacio.
-	
 	aCanvas heading
 		level: 4;
 		with: mensaje.

@@ -29,6 +29,9 @@ mensaje:=' '.
 { #category : #rendering }
 VerInsumoComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas heading
+		level: 2;
+		with: 'Insumos: '.
 	self chequearVacio.
 	aCanvas heading
 		level: 4;

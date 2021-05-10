@@ -16,6 +16,11 @@ Viaje class >> newWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaC
 	^ self new initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos
 ]
 
+{ #category : #accessing }
+Viaje >> cantidadAsientos [
+^cantidadAsientos
+]
+
 { #category : #'as yet unclassified' }
 Viaje >> cantidadVendidos [
 	^cantidadVendidos 
@@ -38,6 +43,13 @@ Viaje >> incluyeRuta: unaRuta [
 { #category : #'as yet unclassified' }
 Viaje >> incluyenPasajero: unUsuario [
 	^pasajeros includes: unUsuario
+]
+
+{ #category : #initialization }
+Viaje >> initialize [ 
+super initialize.
+cantidadVendidos :=0.
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -71,6 +83,11 @@ Viaje >> nombre [
 { #category : #'as yet unclassified' }
 Viaje >> obtenerNombreRuta [
 ^ruta nombre
+]
+
+{ #category : #accessing }
+Viaje >> ruta [
+^ruta
 ]
 
 { #category : #'as yet unclassified' }

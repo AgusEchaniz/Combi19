@@ -30,8 +30,8 @@ localidad:=unaLocalidad
 ]
 
 { #category : #'as yet unclassified' }
-Lugar >> localidadEs:unaLocalidad [
-	^localidad = unaLocalidad 
+Lugar >> localidadEs: unaLocalidad [
+	^ localidad asUppercase  = unaLocalidad asUppercase 
 ]
 
 { #category : #'as yet unclassified' }

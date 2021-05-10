@@ -27,7 +27,9 @@ VerLugaresComponent >> eliminarLugar: unLugar [
 { #category : #rendering }
 VerLugaresComponent >> renderContentOn: aCanvas [
 	aCanvas paragraph: (BasicComponent newWithParent: self).
-	self chequearVacio.
+	aCanvas heading
+		level: 2;
+		with: 'Lugares: ' .self chequearVacio.
 	aCanvas heading
 		level: 4;
 		with: mensaje.
