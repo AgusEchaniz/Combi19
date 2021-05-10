@@ -25,14 +25,15 @@ BasicComponent >> parent [
 { #category : #rendering }
 BasicComponent >> renderContentOn: aCanvas [
 	aCanvas
-		paragraph: [ aCanvas image
-				url: 'https://i.imgur.com/QbQap9R.png';
-				height: 100;
-				width: 100 ].
+		form: [ aCanvas
+				paragraph: [ aCanvas imageButton
+						callback: [ self parent call: HomeComponentAdmin new ];
+						url: 'https://i.imgur.com/QbQap9R.png';
+						height: 100;
+						width: 100 ] ].
 	aCanvas
 		paragraph: [ aCanvas emphasis: 'Bienvenido ' , self session user nombre.
-			aCanvas break.
-			aCanvas break.
+			aCanvas space.
 			aCanvas anchor
 				callback: [ self parent call: LoginComponent new ];
 				with: [ aCanvas button: 'Cerrar sesión' ] ].

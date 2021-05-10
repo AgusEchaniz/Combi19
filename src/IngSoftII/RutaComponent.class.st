@@ -108,7 +108,8 @@ RutaComponent >> initializeWithObjetivo: unObjetivo andRuta: unaRuta [
 	hora := unaRuta horario hour24.
 	minuto := unaRuta horario minute.
 	combi := unaRuta combi nombre.
-	distancia:=unaRuta distancia
+	distancia := unaRuta distancia.
+	usarCombiActual :=false.
 ]
 
 { #category : #initialization }

@@ -7,7 +7,10 @@ Class {
 		'cantidadAsientos',
 		'objetivo',
 		'viaje',
-		'mensaje'
+		'mensaje',
+		'cantidadMaximaAsientos',
+		'precio',
+		'usarRutaActual'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -19,10 +22,11 @@ ViajeComponent class >> newWithObjetivo:unObjetivo andViaje: unViaje [
 
 { #category : #rendering }
 ViajeComponent >> agregarViaje [
+	precio ifNil:[mensaje:='Por favor ingrese un precio'. ^self].
 	fecha
 		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
 			^ self ].
-	fecha = Date today
+	(fecha isBefore: Date today)
 		ifTrue: [ mensaje := 'Por favor ingrese una fecha'.
 			^ self ].
 	cantidadAsientos
@@ -31,13 +35,18 @@ ViajeComponent >> agregarViaje [
 	ruta
 		ifNil: [ mensaje := 'Por favor seleccione una ruta'.
 			^ self ].
-	cantidadAsientos > ruta cantidadAsientosDeLaCombi
+	cantidadAsientos > cantidadMaximaAsientos
 		ifTrue: [ "FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
 			mensaje := 'La cantidad de asientos ingresada es mayor a la capacidad máxima de la combi, como máximo ingrese: '
-				, ruta cantidadAsientosDeLaCombi asString ].
-			(Sistema soleInstance
-		crearViajeWithRuta: ruta andFecha: fecha andCantidadAsientos: cantidadAsientos )
-		ifNil: [ mensaje := 'Ya existe un viaje en esa fecha con esa ruta registrado'.
+				, ruta cantidadAsientosDeLaCombi asString.
+			^ self ].
+	(Sistema soleInstance
+		crearViajeWithRuta: ruta
+		andFecha: fecha
+		andCantidadAsientos: cantidadAsientos
+		andPrecio: precio)
+		ifNil:
+			[ mensaje := 'Ya existe un viaje en esa fecha con esa ruta registrado'.
 			^ self ].
 	self answer
 ]
@@ -67,7 +76,8 @@ ViajeComponent >> initialize [
 	super initialize.
 	fecha := Date today.
 	mensaje := ' '.
-	objetivo:='agregar'.
+	objetivo := 'agregar'.
+	
 ]
 
 { #category : #initialization }
@@ -78,7 +88,9 @@ ViajeComponent >> initializeWithObjetivo: unObjetivo andViaje: unViaje [
 	mensaje := ' '.
 	fecha := unViaje fecha.
 	ruta := unViaje ruta.
-	cantidadAsientos :=unViaje cantidadAsientos 
+	cantidadAsientos := unViaje cantidadAsientos.
+	precio := unViaje precio.
+	usarRutaActual :=false.
 ]
 
 { #category : #rendering }
@@ -91,37 +103,50 @@ ViajeComponent >> modificarViaje [
 	fecha
 		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
 			^ self ].
-	fecha = Date today
-		ifTrue: [ mensaje := 'Por favor ingrese una fecha'.
+	(fecha isBefore: Date today)
+		ifTrue: [ mensaje := 'Por favor ingrese una fecha válida'.
 			^ self ].
 	cantidadAsientos
 		ifEmpty: [ mensaje := 'Por favor ingrese una cantidad'.
 			^ self ].
-	"ruta
+	ruta
 		ifNil: [ mensaje := 'Por favor seleccione una ruta'.
-			^ self ]."
+			^ self ].
 	cantidadAsientos > ruta cantidadAsientosDeLaCombi
 		ifTrue:
 			[ mensaje := 'La cantidad de asientos ingresada es mayor a la capacidad máxima de la combi, como máximo ingrese: '
 				, ruta cantidadAsientosDeLaCombi asString.
 			^ self ].
-	(Sistema soleInstance rutas
+	usarRutaActual
+		ifTrue: [ self ruta: viaje ruta ].
+	"(Sistema soleInstance rutas
 		select: [ :unaRuta | self model canBeRuta: unaRuta enFecha: fecha ])
-		ifEmpty: [ ruta := viaje ruta ].
-	
+		ifEmpty: [ ruta := viaje ruta ]."
 	ruta = viaje ruta & (fecha = viaje fecha)
 		ifFalse: [ (Sistema soleInstance
 				modificarViaje: viaje
 				withRuta: ruta
 				andFecha: fecha
-				andCantidadAsientos: cantidadAsientos)
+				andCantidadAsientos: cantidadAsientos
+				andPrecio: precio)
 				ifNil:
 					[ mensaje := 'Ya existe un viaje en esa fecha con esa ruta registrado'.
 					^ self ] ]
 		ifTrue: [ Sistema soleInstance
 				modificarViaje: viaje
-				withCantidadAsientos: cantidadAsientos ].
+				withCantidadAsientos: cantidadAsientos
+				andPrecio: precio ].
 	self answer
+]
+
+{ #category : #accessing }
+ViajeComponent >> precio [
+	^ precio
+]
+
+{ #category : #accessing }
+ViajeComponent >> precio: anObject [
+	precio := anObject
 ]
 
 { #category : #rendering }
@@ -156,7 +181,9 @@ ViajeComponent >> renderContentOn: aCanvas [
 			self renderRutasOn: aCanvas.
 			aCanvas horizontalRule.
 			self renderCantAsientos: aCanvas.
-						aCanvas horizontalRule.
+			aCanvas horizontalRule.
+			self renderPrecioOn:aCanvas.
+			aCanvas horizontalRule.
 			self renderButtonsOn: aCanvas ]
 ]
 
@@ -168,15 +195,24 @@ ViajeComponent >> renderFecha: aCanvas [
 ]
 
 { #category : #rendering }
+ViajeComponent >> renderPrecioOn: aCanvas [
+		aCanvas paragraph: 'Ingrese el precio'.
+	aCanvas
+		paragraph: [ aCanvas textInput on: #precio of: self ]
+]
+
+{ #category : #rendering }
 ViajeComponent >> renderRutasDisponibles: rutas on: aCanvas [
 	| rutasDisponibles |
 	rutasDisponibles := rutas
 		select: [ :unaRuta | self model canBeRuta: unaRuta enFecha: fecha ].
 	rutasDisponibles
 		ifEmpty: [ aCanvas
-				paragraph: 'No hay rutas disponibles para la fecha seleccionada.'.
+				paragraph: 'No hay rutas disponibles para la fecha seleccionada.'].
 			objetivo = 'modificar'
-				ifTrue: [ aCanvas paragraph: 'Ruta actual: ' , viaje obtenerNombreRuta  ] ].
+				ifTrue: [ aCanvas paragraph: [aCanvas paragraph:'Ruta actual: ' , viaje obtenerNombreRuta .aCanvas submitButton
+								callback: [ self usarRutaActual];
+								with: 'Seleccionar ruta actual' ]]. 
 	aCanvas
 		unorderedList: [ rutasDisponibles
 				do: [ :each | 
@@ -208,5 +244,16 @@ ViajeComponent >> ruta [
 
 { #category : #accessing }
 ViajeComponent >> ruta: anObject [
-	ruta := anObject
+	ruta := anObject.
+	cantidadMaximaAsientos :=anObject cantidadAsientosDeLaCombi 
+]
+
+{ #category : #'as yet unclassified' }
+ViajeComponent >> setearMaximoAsientos: unaRuta [
+cantidadMaximaAsientos:= unaRuta cantidadAsientosDeLaCombi .
+]
+
+{ #category : #accessing }
+ViajeComponent >> usarRutaActual [
+usarRutaActual:=true.
 ]
