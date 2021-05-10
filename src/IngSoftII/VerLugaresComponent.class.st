@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'localidad',
 		'provincia',
-		'mensaje'
+		'mensaje',
+		'rutas'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -17,8 +18,10 @@ VerLugaresComponent >> chequearVacio [
 ]
 
 { #category : #lugar }
-VerLugaresComponent >> eliminarLugar:unLugar [
-Sistema soleInstance eliminarLugar: unLugar
+VerLugaresComponent >> eliminarLugar: unLugar [
+	(Sistema soleInstance eliminarLugar: unLugar)
+		ifFalse:
+			[ mensaje := 'No se pudo eliminar el lugar porque esta asignado a una ruta' ]
 ]
 
 { #category : #rendering }

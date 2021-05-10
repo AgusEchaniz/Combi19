@@ -261,7 +261,11 @@ insumos remove:unInsumo
 
 { #category : #lugar }
 Sistema >> eliminarLugar: unLugar [
-	lugares remove: unLugar
+	(rutas
+		select: [ :ruta | ruta incluyeLugar: unLugar ])
+		ifEmpty: [ lugares remove: unLugar.
+			^ true ]
+		ifNotEmpty: [ ^ false ]
 ]
 
 { #category : #ruta }
