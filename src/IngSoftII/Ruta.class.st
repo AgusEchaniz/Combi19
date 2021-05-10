@@ -41,6 +41,13 @@ Ruta >> horario [
 	^ horario
 ]
 
+{ #category : #'as yet unclassified' }
+Ruta >> incluyeLugar: unLugar [
+	lugarOrigen = unLugar
+		ifFalse: [ lugarDestino = unLugar
+				ifFalse: [ ^ false ] ].^true
+]
+
 { #category : #initialization }
 Ruta >> initializeWithLugarOrigen: unLugarOrigen andLugarDestino: unLugarDestino andCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	lugarOrigen := unLugarOrigen.
