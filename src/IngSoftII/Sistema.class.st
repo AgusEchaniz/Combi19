@@ -425,9 +425,11 @@ Sistema >> modificarLugar: unLugar withLocalidad: unaLocalidad andProvincia:unaP
 
 { #category : #lugar }
 Sistema >> modificarLugar: unLugar withProvincia: unaProvincia [
- unLugar modificarWithProvincia: unaProvincia.
-
-
+	| lugar |
+	(self existeLocalidad: unLugar localidad paraProv: unaProvincia)
+		ifFalse: [ lugar := unLugar modificarWithProvincia: unaProvincia.
+			^ lugar ].
+	^ nil
 ]
 
 { #category : #ruta }

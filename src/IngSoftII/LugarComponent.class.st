@@ -66,9 +66,10 @@ LugarComponent >> modificarLugar [
 				ifNil:
 					[ mensaje := 'Ya existe un lugar con esa localidad registrada para esa provincia'.
 					^ self ] ]
-		ifTrue: [ Sistema soleInstance
-				modificarLugar: lugar
-				withProvincia: provincia ].
+		ifTrue:
+			[ (Sistema soleInstance modificarLugar: lugar withProvincia: provincia)ifNil:
+					[ mensaje := 'Ya existe un lugar con esa localidad registrada para esa provincia'.
+					^ self ]  ].
 	self answer
 ]
 
