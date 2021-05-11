@@ -244,8 +244,8 @@ Sistema >> eliminarChofer: unChofer [
 
 { #category : #combi }
 Sistema >> eliminarCombi: unaCombi [
-		(self sePuedeEliminarCombi: unaCombi)
-		ifTrue: [ combis remove: unaCombi.
+	(self sePuedeEliminarCombi: unaCombi)
+		ifTrue: [ combis remove: unaCombi. unaCombi desasignarChofer.
 			^ true ].
 	^ false
 ]
