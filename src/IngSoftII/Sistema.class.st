@@ -128,11 +128,12 @@ Sistema >> combisDisponiblesEnHorario: unHorario [
 { #category : #utility }
 Sistema >> crearAdmin [
 	usuarios
-		add: (Administrador
-		newWithNombreUsuario: 'admin@admin.com'
-		andContraseña: 'admin'
-		andNombre: 'Matias'
-		andApellido: 'Ocares')
+		add:
+			(Administrador
+				newWithNombreUsuario: 'admin@admin.com'
+				andContraseña: 'admin'
+				andNombre: 'Franco'
+				andApellido: 'Ocares')
 ]
 
 { #category : #ruta }
@@ -299,7 +300,7 @@ Sistema >> esValidaContraseña: unaContraseña [
 { #category : #combi }
 Sistema >> existeCombi: unaPatente [
 	combis
-		detect: [ :combi | combi patente = unaPatente]
+		detect: [ :combi | combi patente asUppercase  = unaPatente asUppercase  ]
 		ifFound: [ ^ true ]
 		ifNone: [ ^ false ]
 ]

@@ -109,5 +109,5 @@ Viaje >> tieneFecha:unaFecha [
 
 { #category : #'as yet unclassified' }
 Viaje >> tieneRuta: unaRuta enFecha: unaFecha [
-^ruta=unaRuta & fecha=unaFecha
+	^ ((ruta = unaRuta )& (fecha = unaFecha))
 ]
