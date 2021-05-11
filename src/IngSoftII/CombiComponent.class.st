@@ -175,9 +175,11 @@ CombiComponent >> renderContentOn: aCanvas [
 			aCanvas paragraph: 'Ingrese la cantidad de asientos'.
 			aCanvas textArea on: #cantidadAsientos of: self.
 			objetivo = 'modificar'
-				ifTrue: [ aCanvas paragraph: [aCanvas paragraph:'Chofer actual: ' , chofer nombre.aCanvas submitButton
-						callback: [ self usarChoferActual];
-						with: 'Seleccionar chofer actual' ] ].
+				ifTrue: [ aCanvas
+						paragraph: [ aCanvas paragraph: 'Chofer actual: ' , combi chofer nombre.
+							aCanvas submitButton
+								callback: [ self usarChoferActual ];
+								with: 'Seleccionar chofer actual' ] ].
 			self renderChoferesOn: aCanvas.
 			aCanvas horizontalRule.
 			aCanvas break.
