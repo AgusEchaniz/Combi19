@@ -22,12 +22,14 @@ ViajeComponent class >> newWithObjetivo:unObjetivo andViaje: unViaje [
 
 { #category : #rendering }
 ViajeComponent >> agregarViaje [
-	precio ifNil:[mensaje:='Por favor ingrese un precio'. ^self].
+	precio
+		ifNil: [ mensaje := 'Por favor ingrese un precio'.
+			^ self ].
 	fecha
 		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
 			^ self ].
 	(fecha isBefore: Date today)
-		ifTrue: [ mensaje := 'Por favor ingrese una fecha'.
+		ifTrue: [ mensaje := 'Por favor ingrese una fecha actual o posterior'.
 			^ self ].
 	cantidadAsientos
 		ifEmpty: [ mensaje := 'Por favor ingrese una cantidad'.
@@ -35,7 +37,7 @@ ViajeComponent >> agregarViaje [
 	ruta
 		ifNil: [ mensaje := 'Por favor seleccione una ruta'.
 			^ self ].
-	cantidadAsientos > cantidadMaximaAsientos
+	cantidadAsientos asInteger > cantidadMaximaAsientos asInteger
 		ifTrue: [ "FALTA MÉTODO DEL SISTEMA CREAR VIAJE"
 			mensaje := 'La cantidad de asientos ingresada es mayor a la capacidad máxima de la combi, como máximo ingrese: '
 				, ruta cantidadAsientosDeLaCombi asString.
@@ -112,7 +114,7 @@ ViajeComponent >> modificarViaje [
 	ruta
 		ifNil: [ mensaje := 'Por favor seleccione una ruta'.
 			^ self ].
-	cantidadAsientos > ruta cantidadAsientosDeLaCombi
+	cantidadAsientos asInteger > ruta cantidadAsientosDeLaCombi asInteger
 		ifTrue:
 			[ mensaje := 'La cantidad de asientos ingresada es mayor a la capacidad máxima de la combi, como máximo ingrese: '
 				, ruta cantidadAsientosDeLaCombi asString.
@@ -245,7 +247,7 @@ ViajeComponent >> ruta [
 { #category : #accessing }
 ViajeComponent >> ruta: anObject [
 	ruta := anObject.
-	cantidadMaximaAsientos :=anObject cantidadAsientosDeLaCombi 
+	self setearMaximoAsientos: anObject 
 ]
 
 { #category : #'as yet unclassified' }
