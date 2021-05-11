@@ -96,8 +96,8 @@ RegisterComponent >> renderInputElementsOn: aCanvas [
 	aCanvas paragraph: [ aCanvas textInput on: #unApellido of: self ].
 	aCanvas paragraph: 'DNI'.
 	aCanvas paragraph: [ aCanvas textInput on: #unDni of: self ].
-	aCanvas paragraph: 'Ingrese fecha de nacimiento mes/día/año'.
-	aCanvas paragraph: [ aCanvas textInput on: #unaFecha of: self ].
+	aCanvas paragraph: 'Ingrese fecha de nacimiento día/mes/año'.
+	aCanvas paragraph: [ (aCanvas dateInput options: #(day month year)) on: #unaFecha of: self ].
 	aCanvas paragraph: 'Elegi tu membresia: '.
 	aCanvas submitButton
 		callback: [ self membresia: 'basica' ];
@@ -151,7 +151,7 @@ RegisterComponent >> unaFecha [
 
 { #category : #accessing }
 RegisterComponent >> unaFecha: anObject [
-	unaFecha := anObject  asDate 
+	unaFecha := anObject
 ]
 
 { #category : #'as yet unclassified' }

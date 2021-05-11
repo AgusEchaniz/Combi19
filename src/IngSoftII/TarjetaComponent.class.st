@@ -93,7 +93,7 @@ TarjetaComponent >> renderContentOn: aCanvas [
 				paragraph: [ aCanvas textInput on: #nombreDeTarjeta of: self ].
 			aCanvas paragraph: 'Código de seguridad'.
 			aCanvas paragraph: [ aCanvas textInput on: #codSeg of: self ].
-			aCanvas paragraph: 'Ingrese fecha de vencimiento mes/día/año'.
+			aCanvas paragraph: 'Ingrese fecha de vencimiento mes/año'.
 			(aCanvas dateInput options: #(month year))
 				on: #unaFechaVencimiento
 				of: self.
