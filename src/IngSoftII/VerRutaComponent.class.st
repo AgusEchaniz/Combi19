@@ -74,12 +74,11 @@ VerRutaComponent >> renderRutasOn: aCanvas [
 											aCanvas submitButton
 												callback: [ self eliminarRuta: each ];
 												with: 'Eliminar'.
-											aCanvas submitButton
+											"aCanvas submitButton
 												callback: [ self
 														call: (RutaComponent newWithObjetivo: 'modificar' andRuta: each) ];
-												with: 'Modificar' ].
-									aCanvas break.
-									 ] ] ].
+												with: 'Modificar' "].
+									aCanvas break ] ] ].
 			aCanvas horizontalRule.
 			aCanvas submitButton
 				callback: [ self answer ];

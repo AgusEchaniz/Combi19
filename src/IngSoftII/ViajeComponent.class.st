@@ -106,7 +106,7 @@ ViajeComponent >> modificarViaje [
 		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
 			^ self ].
 	(fecha isBefore: Date today)
-		ifTrue: [ mensaje := 'Por favor ingrese una fecha válida'.
+		ifTrue: [ mensaje := 'Por favor ingrese una fecha actual o posterior'.
 			^ self ].
 	cantidadAsientos
 		ifEmpty: [ mensaje := 'Por favor ingrese una cantidad'.
@@ -215,7 +215,7 @@ ViajeComponent >> renderRutasDisponibles: rutas on: aCanvas [
 		ifTrue: [ aCanvas
 				paragraph: [ aCanvas paragraph: 'Ruta actual: ' , viaje obtenerNombreRuta.
 					aCanvas submitButton
-						callback: [ usarRutaActual :=true ];
+						callback: [ usarRutaActual := true];
 						with: 'Seleccionar ruta actual' ] ].
 	aCanvas
 		unorderedList: [ rutasDisponibles
