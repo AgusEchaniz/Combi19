@@ -26,6 +26,11 @@ Viaje >> cantidadAsientos [
 ]
 
 { #category : #'as yet unclassified' }
+Viaje >> cantidadAsientosDisponibles [
+	^cantidadAsientos -cantidadVendidos 
+]
+
+{ #category : #'as yet unclassified' }
 Viaje >> cantidadVendidos [
 	^cantidadVendidos 
 ]
@@ -110,4 +115,10 @@ Viaje >> tieneFecha:unaFecha [
 { #category : #'as yet unclassified' }
 Viaje >> tieneRuta: unaRuta enFecha: unaFecha [
 	^ ((ruta = unaRuta )& (fecha = unaFecha))
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> venderPasaje: unaCantidadAsientos [
+
+	cantidadVendidos :=cantidadVendidos +unaCantidadAsientos 
 ]
