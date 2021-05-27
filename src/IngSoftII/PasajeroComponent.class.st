@@ -60,7 +60,7 @@ PasajeroComponent >> mostrarPasajeros: users on: aCanvas [
 PasajeroComponent >> renderContentOn: aCanvas [
 	| users |
 	users := Sistema soleInstance usuarios.
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas heading
 		level: 2;
 		with: 'Usuarios: '.

@@ -203,7 +203,7 @@ RutaComponent >> renderCombisOn: aCanvas [
 { #category : #initialization }
 RutaComponent >> renderContentOn: aCanvas [
 	| combisDisponibles |
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas heading
 		level: 4;
 		with: mensaje.

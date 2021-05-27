@@ -173,7 +173,7 @@ ViajeComponent >> renderCantAsientos: aCanvas [
 
 { #category : #rendering }
 ViajeComponent >> renderContentOn: aCanvas [
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas heading
 		level: 4;
 		with: mensaje.
@@ -184,7 +184,7 @@ ViajeComponent >> renderContentOn: aCanvas [
 			aCanvas horizontalRule.
 			self renderCantAsientos: aCanvas.
 			aCanvas horizontalRule.
-			self renderPrecioOn:aCanvas.
+			self renderPrecioOn: aCanvas.
 			aCanvas horizontalRule.
 			self renderButtonsOn: aCanvas ]
 ]

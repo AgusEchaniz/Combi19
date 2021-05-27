@@ -41,7 +41,7 @@ VerRutaComponent >> initialize [
 
 { #category : #rendering }
 VerRutaComponent >> renderContentOn: aCanvas [
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas heading
 		level: 2;
 		with: 'Rutas: '.

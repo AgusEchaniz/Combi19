@@ -55,12 +55,13 @@ VerCombisComponent >> renderCombisOn: aCanvas [
 
 { #category : #rendering }
 VerCombisComponent >> renderContentOn: aCanvas [
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas heading
 		level: 2;
 		with: 'Combis: '.
 	self chquearVacio.
-aCanvas heading
+	aCanvas heading
 		level: 4;
-		with: mensaje.	self renderCombisOn: aCanvas
+		with: mensaje.
+	self renderCombisOn: aCanvas
 ]

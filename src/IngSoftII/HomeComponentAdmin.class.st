@@ -6,7 +6,9 @@ Class {
 
 { #category : #rendering }
 HomeComponentAdmin >> renderContentOn: aCanvas [
-	super renderContentOn: aCanvas.
+	"super renderContentOn: aCanvas."
+
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas
 		paragraph: [ aCanvas anchor
 				callback: [ self call: InsumoComponent new ];

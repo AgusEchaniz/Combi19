@@ -109,7 +109,7 @@ LugarComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 
 { #category : #rendering }
 LugarComponent >> renderContentOn: aCanvas [
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas heading
 		level: 4;
 		with: mensaje.

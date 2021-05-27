@@ -111,7 +111,7 @@ InsumoComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 
 { #category : #rendering }
 InsumoComponent >> renderContentOn: aCanvas [
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome:HomeComponentAdmin  new ).
 	aCanvas heading
 		level: 4;
 		with: mensaje.
@@ -124,7 +124,7 @@ InsumoComponent >> renderContentOn: aCanvas [
 			aCanvas textArea on: #precio of: self.
 			aCanvas horizontalRule.
 			aCanvas break.
-			self renderButtonsOn: aCanvas para:objetivo]
+			self renderButtonsOn: aCanvas para: objetivo ]
 ]
 
 { #category : #accessing }

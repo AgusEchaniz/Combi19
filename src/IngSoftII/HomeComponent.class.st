@@ -13,7 +13,7 @@ HomeComponent >> model [
 HomeComponent >> renderContentOn: aCanvas [
 	"aCanvas paragraph: (BasicComponent newWithParent: self)."
 
-	aCanvas paragraph: (BasicComponent newWithParent: self).
+	aCanvas paragraph: (BasicComponent newWithParent: self andHome: self)
 
 	"self renderPostsOn: aCanvas.
 	aCanvas horizontalRule.
