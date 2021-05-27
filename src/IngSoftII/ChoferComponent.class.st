@@ -11,7 +11,7 @@ Class {
 		'chofer',
 		'mensaje'
 	],
-	#category : #'IngSoftII-ui'
+	#category : #'IngSoftII-ui-Admin'
 }
 
 { #category : #'instance creation' }

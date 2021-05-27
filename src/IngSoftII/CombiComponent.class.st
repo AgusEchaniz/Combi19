@@ -11,7 +11,7 @@ Class {
 		'combi',
 		'usarChoferActual'
 	],
-	#category : #'IngSoftII-ui'
+	#category : #'IngSoftII-ui-Admin'
 }
 
 { #category : #'instance creation' }

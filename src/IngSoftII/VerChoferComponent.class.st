@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'mensaje'
 	],
-	#category : #'IngSoftII-ui'
+	#category : #'IngSoftII-ui-Admin'
 }
 
 { #category : #'as yet unclassified' }

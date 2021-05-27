@@ -8,7 +8,7 @@ Class {
 		'mensaje',
 		'objetivo'
 	],
-	#category : #'IngSoftII-ui'
+	#category : #'IngSoftII-ui-Admin'
 }
 
 { #category : #'instance creation' }

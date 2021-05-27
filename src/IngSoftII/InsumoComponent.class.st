@@ -9,7 +9,7 @@ Class {
 		'objetivo',
 		'insumo'
 	],
-	#category : #'IngSoftII-ui'
+	#category : #'IngSoftII-ui-Admin'
 }
 
 { #category : #'instance creation' }

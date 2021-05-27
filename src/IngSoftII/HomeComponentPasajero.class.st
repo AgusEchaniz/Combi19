@@ -12,9 +12,22 @@ Class {
 
 { #category : #utility }
 HomeComponentPasajero >> buscarViajes: aCanvas [
-	self validarFecha .
-	self validarLugares .
-	self renderListaViajes: self obtenerViajesFiltrados on: aCanvas
+	" validarFecha."
+
+	fechaFilt
+		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
+			^ self ].
+	(fechaFilt isBefore: Date today)
+		ifTrue: [ mensaje := 'Por favor ingrese una fecha actual o posterior'.
+			^ self ].
+	"	 validarLugares."
+	origenFilt = destinoFilt
+		ifTrue: [ mensaje := 'Los lugares deben ser distintos'.
+			^ self ].
+	"nuevo componente para mostrar viajes al pasajero"
+	self
+		call: (VerViajesComponent newWithViajes: self obtenerViajesFiltrados).
+	mensaje := ''
 ]
 
 { #category : #accessing }
@@ -41,11 +54,11 @@ HomeComponentPasajero >> fechaFilt: unaFecha [
 HomeComponentPasajero >> obtenerViajesFiltrados [
 	| viajes |
 	viajes := Sistema soleInstance viajes.
-	viajes
+	^ (viajes
 		select: [ :each | 
-			each lugarOrigen = origenFilt & (each lugarDestino = destinoFilt)
-				& (fechaFilt < each fecha) ].
-	^ viajes
+			each ruta lugarOrigen = origenFilt
+				& (each ruta lugarDestino = destinoFilt)
+				& (fechaFilt <= each fecha) ])
 		asSortedCollection: [ :viaje1 :viaje2 | viaje1 fecha < viaje2 fecha ]
 ]
 
@@ -80,13 +93,41 @@ aCanvas paragraph: 'Ingrese fecha del viaje  dia/mes/año'.
 HomeComponentPasajero >> renderFormualrio: aCanvas [
 	aCanvas
 		form: [ self renderFechaOn: aCanvas.
-			self renderLugaresOn:aCanvas ]
+			self renderLugaresOn: aCanvas .
+			aCanvas break.
+				aCanvas submitButton 
+		callback: [ self buscarViajes: aCanvas ];
+		with:  'Buscar Viajes' .]
 ]
 
 { #category : #rendering }
 HomeComponentPasajero >> renderListaViajes: listado on: aCanvas [
-	listado ifEmpty: [ ^self ].
-	listado do: [ :each | self renderViaje: each on: aCanvas ]
+	listado ifEmpty: [ ^ self ].
+	"listado do: [ :each | self renderViaje: each on: aCanvas ]"
+	^ aCanvas
+		form: [ aCanvas
+				unorderedList: [ listado
+						do: [ :each | 
+							aCanvas
+								listItem: [ aCanvas
+										paragraph: [ aCanvas
+												text: each ruta lugarOrigen nombre , ' a ' , each ruta lugarDestino nombre.
+											aCanvas break.
+											aCanvas strong: 'El dia' , each fecha printString.
+											aCanvas break.
+											aCanvas
+												strong: 'Asientos disponibles:' , each cantidadAsientosDisponibles printString.
+											aCanvas submitButton
+												callback: [ self call:ComprarPasajeComponent  ];
+												with: 'Comprar pasaje'.
+
+									aCanvas break.
+aCanvas horizontalRule.
+									aCanvas break ] ] ].
+			aCanvas horizontalRule.
+			aCanvas submitButton
+				callback: [ self answer ];
+				with: 'Volver' ]]
 ]
 
 { #category : #rendering }
@@ -136,11 +177,11 @@ HomeComponentPasajero >> renderViajesOn: aCanvas [
 	aCanvas heading
 		level: 4;
 		with: mensaje.
-	 self renderFormualrio: aCanvas.
+	self renderFormualrio: aCanvas.
 	aCanvas break.
-	aCanvas anchor
+"	aCanvas anchor
 		callback: [ self buscarViajes: aCanvas ];
-		with: [ aCanvas button: 'Buscar Viajes' ].
+		with: [ aCanvas button: 'Buscar Viajes' ]."
 	aCanvas horizontalRule
 ]
 
@@ -150,9 +191,8 @@ HomeComponentPasajero >> validarFecha [
 		ifNil: [ mensaje := 'Por favor ingrese una fecha'.
 			^ self ].
 	(fechaFilt isBefore: Date today)
-		ifFalse: [ ^ self ].
-	mensaje := 'Por favor ingrese una fecha actual o posterior'.
-	^ self
+		ifTrue: [ 
+	mensaje := 'Por favor ingrese una fecha actual o posterior'.^ self .]
 ]
 
 { #category : #utility }

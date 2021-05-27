@@ -6,7 +6,7 @@ Class {
 		'eliminar',
 		'viajes'
 	],
-	#category : #'IngSoftII-ui'
+	#category : #'IngSoftII-ui-Admin'
 }
 
 { #category : #'as yet unclassified' }
