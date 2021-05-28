@@ -7,7 +7,8 @@ Class {
 		'unaFechaVencimiento',
 		'nombreDeTarjeta',
 		'user',
-		'mensaje'
+		'mensaje',
+		'return'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -15,6 +16,11 @@ Class {
 { #category : #'instance creation' }
 TarjetaComponent class >> newWithUser:user [ 
 ^ self new initializeWithUser:user
+]
+
+{ #category : #'instance creation' }
+TarjetaComponent class >> newWithUser: user andReturn:aReturn [
+	^ self new initializeWithUser: user andReturn:aReturn
 ]
 
 { #category : #'as yet unclassified' }
@@ -39,7 +45,9 @@ TarjetaComponent >> cargarTarjeta [
 				ifTrue: [ (user estaVigente: unaFechaVencimiento)
 						ifFalse: [ mensaje := 'La tarjeta ingresada se encuentra vencida' ] ].
 			^ self ].
-	self call: LoginComponent new
+	return
+		ifNil: [ self call: LoginComponent new ]
+		ifNotNil: [ self answer:true ]
 ]
 
 { #category : #accessing }
@@ -57,6 +65,13 @@ TarjetaComponent >> initializeWithUser: aUser [
 	self initialize.
 	user := aUser.
 	mensaje := ' '.
+	return:=nil
+]
+
+{ #category : #initialization }
+TarjetaComponent >> initializeWithUser: aUser andReturn: aReturn [
+	self initializeWithUser: aUser.
+	return:=aReturn 
 ]
 
 { #category : #accessing }
@@ -81,6 +96,10 @@ TarjetaComponent >> numeroTarjeta: anObject [
 
 { #category : #rendering }
 TarjetaComponent >> renderContentOn: aCanvas [
+	return
+		ifNotNil: [ aCanvas
+				paragraph:
+					(BasicComponent newWithParent: self andHome: HomeComponentPasajero new) ].
 	aCanvas heading
 		level: 4;
 		with: mensaje.
@@ -101,17 +120,14 @@ TarjetaComponent >> renderContentOn: aCanvas [
 			aCanvas submitButton
 				callback: [ self cargarTarjeta ];
 				with: 'Cargar'.
-			"aCanvas
-				paragraph: [ aCanvas textInput on: #unaFechaVencimiento of: self ]."
-			"aCanvas anchor
-		callback: [ self cargarTarjeta ];
-		with: [ aCanvas button: 'Cargar' ].
-	aCanvas anchor
-		callback: [ self answer ];
-		with: [ aCanvas button: 'Cancelar' ]"
-			aCanvas submitButton
-				callback: [ self answer ];
-				with: 'Cancelar' ]
+		
+			return
+				ifNotNil: [ aCanvas submitButton
+						callback: [ self answer: false ];
+						with: 'Cancelar' ]
+				ifNil: [ aCanvas submitButton
+						callback: [ self answer ];
+						with: 'Cancelar' ] ]
 ]
 
 { #category : #accessing }

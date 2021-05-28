@@ -27,7 +27,7 @@ Viaje >> cantidadAsientos [
 
 { #category : #'as yet unclassified' }
 Viaje >> cantidadAsientosDisponibles [
-	^cantidadAsientos -cantidadVendidos 
+	^ cantidadAsientos asInteger - cantidadVendidos asInteger
 ]
 
 { #category : #'as yet unclassified' }

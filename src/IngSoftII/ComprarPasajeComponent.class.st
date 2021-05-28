@@ -6,7 +6,8 @@ Class {
 		'cantidadAsientos',
 		'insumos',
 		'cantidadInsumo',
-		'total'
+		'total',
+		'conTarjetaCargada'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -17,8 +18,18 @@ ComprarPasajeComponent class >> newWithViaje:unViaje [
 ]
 
 { #category : #accessing }
+ComprarPasajeComponent >> cantidadAsientos [
+^	cantidadAsientos
+]
+
+{ #category : #accessing }
 ComprarPasajeComponent >> cantidadAsientos:unaCantidad [
 cantidadAsientos :=unaCantidad
+]
+
+{ #category : #accessing }
+ComprarPasajeComponent >> cantidadInsumo [
+^	cantidadInsumo
 ]
 
 { #category : #accessing }
@@ -28,51 +39,82 @@ ComprarPasajeComponent >> cantidadInsumo:unaCantidad [
 
 { #category : #'as yet unclassified' }
 ComprarPasajeComponent >> comprarPasaje [
-	viaje venderPasaje: cantidadAsientos
+	| pago |
+	pago := true.
+	conTarjetaCargada
+		ifFalse: [ pago := self
+				call:
+					(TarjetaComponent
+						newWithUser: self session user
+						andReturn: HomeComponentPasajero) ].
+	pago
+		ifFalse: [ ^ self ].
+	viaje venderPasaje: cantidadAsientos.
+	self answer
 ]
 
 { #category : #initialization }
 ComprarPasajeComponent >> initializeWithViaje: unViaje [
-viaje:=unViaje.
-insumos:=OrderedCollection new
+	viaje := unViaje.
+	insumos := OrderedCollection new.
+	conTarjetaCargada := false.
+	cantidadAsientos := 0.
+	cantidadInsumo := 0.
+	total:=0.
 ]
 
 { #category : #'as yet unclassified' }
 ComprarPasajeComponent >> insumo: unInsumo [
 	insumos add: unInsumo.
-	total:= unInsumo precio *cantidadInsumo
+	total := unInsumo precio asInteger * cantidadInsumo asInteger
 ]
 
 { #category : #rendering }
 ComprarPasajeComponent >> renderButtonsOn: aCanvas [
 	self session user membresia nombre = 'gold'
 		ifTrue: [ aCanvas submitButton
-				callback: [ self comprarPasaje ];
-				with: 'Pagar con tarjeta cargada' ].
+				callback: [ conTarjetaCargada := true ];
+				with: 'Pagar con tarjeta cargada'.
+			aCanvas break.
+			aCanvas break ].
 	aCanvas submitButton
-		callback: [ self call: (TarjetaComponent newWithUser: self session user).
-			self comprarPasaje ];
+		callback: [ self comprarPasaje ];
 		with: 'Comprar pasaje'.
-		
-
- aCanvas submitButton
-				callback: [ self answer ];
-				with: 'Cancelar' .
+		aCanvas space.
+	aCanvas submitButton
+		callback: [ self answer ];
+		with: 'Cancelar'
 ]
 
 { #category : #rendering }
 ComprarPasajeComponent >> renderContentOn: aCanvas [
+aCanvas
+		paragraph:
+			(BasicComponent newWithParent: self andHome: HomeComponentPasajero new).
 	aCanvas
-		form: [ (aCanvas select list: (1 to: viaje cantidadAsientosDisponibles))
+		form: [ aCanvas paragraph: 'Ingrese la cantidad de pasajes a comprar'.
+			(aCanvas select list: (1 to: viaje cantidadAsientosDisponibles))
 				on: #cantidadAsientos
 				of: self.
+			aCanvas space.
+			aCanvas submitButton
+				callback: [ self cantidadAsientos ];
+				with: 'Seleccionar'.
 			self renderInsumosOn: aCanvas.
 			self session user membresia nombre = 'basico'
-				ifTrue: [ aCanvas paragraph: 'Total: ' , viaje precio * cantidadAsientos+total ]
+				ifTrue: [ aCanvas
+						paragraph:
+							'Total: '
+								,
+									(viaje precio asInteger * cantidadAsientos asInteger + total asInteger)
+										printString ]
 				ifFalse: [ aCanvas
-						paragraph:(
-							('Total: ' , (viaje precio * cantidadAsientos))
-								- (10 * viaje precio * cantidadAsientos / 100) )+total].
+						paragraph:
+							'Total: '
+								,
+									(viaje precio asInteger * cantidadAsientos + total
+										- (10 * (viaje precio asInteger * cantidadAsientos + total) / 100))
+										printString ].
 			self renderButtonsOn: aCanvas ]
 ]
 
@@ -92,7 +134,10 @@ ComprarPasajeComponent >> renderInsumosOn: aCanvas [
 						listItem: [ aCanvas
 								paragraph: [ aCanvas text: each nombre.
 									aCanvas space.
-									aCanvas textInput on: #cantidadInsumo of: self.
+									aCanvas textInput
+										size: 1;
+										on: #cantidadInsumo of: self.
+									aCanvas space.
 									aCanvas submitButton
 										callback: [ self insumo: each ];
 										with: 'Seleccionar'.

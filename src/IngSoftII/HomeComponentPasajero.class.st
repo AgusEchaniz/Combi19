@@ -87,11 +87,12 @@ aCanvas paragraph: 'Ingrese fecha del viaje  dia/mes/año'.
 HomeComponentPasajero >> renderFormualrio: aCanvas [
 	aCanvas
 		form: [ self renderFechaOn: aCanvas.
-			self renderLugaresOn: aCanvas .
+			self renderLugaresOn: aCanvas.
 			aCanvas break.
-				aCanvas submitButton 
-		callback: [ self buscarViajes: aCanvas ];
-		with:  'Buscar Viajes' .]
+			aCanvas break.
+			aCanvas submitButton
+				callback: [ self buscarViajes: aCanvas ];
+				with: 'Buscar Viajes' ]
 ]
 
 { #category : #rendering }

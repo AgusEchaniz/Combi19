@@ -49,19 +49,24 @@ VerViajesPasajeroComponent >> renderViajesOn: aCanvas [
 							aCanvas
 								listItem: [ aCanvas
 										paragraph: [ aCanvas
-												text: each ruta lugarOrigen nombre , ' a ' , each ruta lugarDestino nombre.
+												strong: each ruta lugarOrigen nombre , ' a ' , each ruta lugarDestino nombre.
 											aCanvas break.
-											aCanvas strong: 'El dia' , each fecha printString.
+											aCanvas text: 'El dia: ' , each fecha printString.
 											aCanvas break.
 											aCanvas
-												strong: 'Asientos disponibles:' , each cantidadAsientosDisponibles printString.
+												text:
+													'Asientos disponibles: '
+														, each cantidadAsientosDisponibles printString.
+											aCanvas break.
+											aCanvas text: 'Precio: $' , each precio.
+											aCanvas space.
 											aCanvas submitButton
-												callback: [ self call: ComprarPasajeComponent ];
+												callback: [ self call: (ComprarPasajeComponent newWithViaje: each) ];
 												with: 'Comprar pasaje'.
 											aCanvas break.
 											aCanvas horizontalRule.
 											aCanvas break ] ] ].
-					aCanvas horizontalRule.
+"					aCanvas horizontalRule."
 					aCanvas submitButton
 						callback: [ self answer ];
 						with: 'Volver' ] ]
