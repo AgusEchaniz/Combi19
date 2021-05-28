@@ -52,7 +52,7 @@ HomeComponentPasajero >> obtenerViajesFiltrados [
 		select: [ :each | 
 			each ruta lugarOrigen = origenFilt
 				& (each ruta lugarDestino = destinoFilt)
-				& (fechaFilt <= each fecha) ])
+				& (fechaFilt <= each fecha) & (each cantidadAsientosDisponibles > 0) ])
 		asSortedCollection: [ :viaje1 :viaje2 | viaje1 fecha < viaje2 fecha ]
 ]
 
