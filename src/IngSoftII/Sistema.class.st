@@ -40,7 +40,8 @@ Class {
 		'insumos',
 		'usuarios',
 		'combis',
-		'provincias'
+		'provincias',
+		'comentarios'
 	],
 	#classInstVars : [
 		'soleInstance'
@@ -74,6 +75,15 @@ Sistema >> agregarCombiWithPatente: unaPatente andTipo: unTipo andCantAsientos: 
 	^ nil
 
 	"patente tipo chofer cantidadAsientos"
+]
+
+{ #category : #comentario }
+Sistema >> agregarComentarioWithContenido: unContenido andUsuario: unUsuario [
+	comentarios
+		add:
+			(Comentario
+				newWithUsuario: unUsuario
+				andContenido: unContenido)
 ]
 
 { #category : #insumo }
@@ -123,6 +133,11 @@ Sistema >> combisDisponiblesEnHorario: unHorario [
 		collect: [ :ruta | ruta combi ].
 
 	 ^combis	reject: [:combi | combisNoDisponibles includes: combi]
+]
+
+{ #category : #comentario }
+Sistema >> comentarios [
+	^ comentarios
 ]
 
 { #category : #utility }
@@ -337,6 +352,7 @@ Sistema >> initialize [
 	insumos := OrderedCollection new.
 	combis := OrderedCollection new.
 	provincias := OrderedCollection new.
+	comentarios := OrderedCollection new.
 	self crearProvincias
 
 ]
