@@ -16,7 +16,12 @@ VerComentarioComponent class >> newWithObjetivo: unObjetivo andComentario: unCom
 { #category : #utility }
 VerComentarioComponent >> chequearVacio [
 	comentarios
-		ifEmpty: [ mensaje := 'No existen comentarios cargados en el sistema.' ]
+		ifEmpty: [ mensaje := 'No existen comentarios cargados en el sistema.' ] ifNotEmpty:[mensaje:=' ']
+]
+
+{ #category : #'as yet unclassified' }
+VerComentarioComponent >> eliminarComentario:unComentario [
+Sistema soleInstance eliminarComentario:unComentario
 ]
 
 { #category : #initialization }
@@ -38,7 +43,13 @@ VerComentarioComponent >> renderComentariosOn: aCanvas [
 												strong: 'El usuario ' , each usuario nombreCompleto printString.
 											aCanvas break.
 											aCanvas text: 'Dice: ' , each contenido.
-											aCanvas break. aCanvas horizontalRule ] ] ] ] ]
+											
+											each usuario = self session user
+												ifTrue: [ aCanvas break.aCanvas submitButton
+														callback: [ self eliminarComentario: each ];
+														with: 'Eliminar comentario' ].
+											aCanvas break.
+											aCanvas horizontalRule ] ] ] ] ]
 ]
 
 { #category : #rendering }
@@ -52,10 +63,10 @@ VerComentarioComponent >> renderContentOn: aCanvas [
 	aCanvas heading
 		level: 2;
 		with: 'Comentarios: '.
+	self chequearVacio.
 	aCanvas heading
 		level: 4;
 		with: mensaje.
-		self chequearVacio.
-	self renderComentariosOn: aCanvas.
-	
+
+	self renderComentariosOn: aCanvas
 ]

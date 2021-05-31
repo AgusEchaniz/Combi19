@@ -69,12 +69,11 @@ HomeComponentPasajero >> origenFilt:unOrigen [
 { #category : #rendering }
 HomeComponentPasajero >> renderContentOn: aCanvas [
 	aCanvas
-		paragraph: (BasicComponent
-				newWithParent: self
-				andHome: HomeComponentPasajero new) .
+		paragraph:
+			(BasicComponent newWithParent: self andHome: HomeComponentPasajero new).
 	aCanvas anchor
 		callback: [ self call: VerComentarioComponent new ];
-		with: [ aCanvas button: 'Comentarios' ].
+		with: [ aCanvas button: 'Ver Comentarios' ].
 	self renderViajesOn: aCanvas
 ]
 

@@ -266,6 +266,11 @@ Sistema >> eliminarCombi: unaCombi [
 	^ false
 ]
 
+{ #category : #comentario }
+Sistema >> eliminarComentario: unComentario [
+comentarios remove:unComentario
+]
+
 { #category : #insumo }
 Sistema >> eliminarInsumo:unInsumo [
 insumos remove:unInsumo

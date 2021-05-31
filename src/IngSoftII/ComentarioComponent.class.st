@@ -13,7 +13,9 @@ Class {
 
 { #category : #rendering }
 ComentarioComponent >> agregarComentario [
-	contenido ifEmpty: [ mensaje:='Complete el campo para agregar un comentario.'.^ self ].
+	contenido
+		ifNil: [ mensaje := 'Complete el campo para agregar un comentario.'.
+			^ self ].
 	Sistema soleInstance
 		agregarComentarioWithContenido: contenido
 		andUsuario: self session user.
