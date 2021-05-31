@@ -60,7 +60,7 @@ ComprarPasajeComponent >> initializeWithViaje: unViaje [
 	conTarjetaCargada := false.
 	cantidadAsientos := 0.
 	cantidadInsumo := 0.
-	total:=0.
+	total := 0
 ]
 
 { #category : #'as yet unclassified' }

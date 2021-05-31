@@ -106,7 +106,7 @@ TarjetaComponent >> renderContentOn: aCanvas [
 	aCanvas
 		form: [ aCanvas paragraph: 'Numero de tarjeta'.
 			aCanvas
-				paragraph: [ aCanvas textInput on: #numeroTarjeta of: self ].
+				paragraph: [ aCanvas textInput maxLength:16; on: #numeroTarjeta of: self ].
 			aCanvas paragraph: 'Nombre en la tarjeta'.
 			aCanvas
 				paragraph: [ aCanvas textInput on: #nombreDeTarjeta of: self ].
@@ -120,7 +120,6 @@ TarjetaComponent >> renderContentOn: aCanvas [
 			aCanvas submitButton
 				callback: [ self cargarTarjeta ];
 				with: 'Cargar'.
-		
 			return
 				ifNotNil: [ aCanvas submitButton
 						callback: [ self answer: false ];
