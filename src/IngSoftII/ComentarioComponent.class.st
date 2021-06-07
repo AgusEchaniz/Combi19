@@ -19,7 +19,7 @@ ComentarioComponent class >> newWithObjetivo: unObjetivo andComentario: unComent
 { #category : #rendering }
 ComentarioComponent >> agregarComentario [
 	contenido
-		ifNil: [ mensaje := 'Complete el campo para agregar un comentario.'.
+		ifEmpty: [ mensaje := 'Complete el campo para agregar un comentario.'.
 			^ self ].
 	Sistema soleInstance
 		agregarComentarioWithContenido: contenido
