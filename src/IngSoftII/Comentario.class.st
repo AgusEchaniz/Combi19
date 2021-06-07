@@ -26,6 +26,11 @@ contenido:=unContenido
 
 ]
 
+{ #category : #initialization }
+Comentario >> modificarWithContenido: unContenido [
+	contenido := unContenido
+]
+
 { #category : #usuario }
 Comentario >> usuario [
 	^ usuario
