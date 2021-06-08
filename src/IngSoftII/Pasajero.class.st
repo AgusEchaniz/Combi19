@@ -6,7 +6,8 @@ Class {
 		'dni',
 		'membresia',
 		'tarjeta',
-		'nombreCompleto'
+		'nombreCompleto',
+		'pasajes'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -20,6 +21,11 @@ Pasajero class >> newWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaC
 		andNombre: unNombre
 		andApellido: unApellido
 		andDni: unDni andMembresia:unaMembresia
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> agregarPasaje:unPasaje [
+pasajes add:unPasaje
 ]
 
 { #category : #'as yet unclassified' }
@@ -56,7 +62,7 @@ Pasajero >> fechaNac [
 ]
 
 { #category : #initialization }
-Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia:unaMembresia [
+Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia: unaMembresia [
 	self initialize
 		initializeWithNombreDeUsuario: unNombreDeUsuario
 		andContraseña: unaContraseña
@@ -64,7 +70,8 @@ Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: una
 		andApellido: unApellido.
 	fechaNac := unaFecha.
 	dni := unDni.
-	membresia:=unaMembresia 
+	membresia := unaMembresia.
+	pasajes:=OrderedCollection new.
 ]
 
 { #category : #accessing }

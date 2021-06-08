@@ -50,6 +50,7 @@ ComprarPasajeComponent >> comprarPasaje [
 	pago
 		ifFalse: [ ^ self ].
 	viaje venderPasaje: cantidadAsientos.
+	self session user agregarPasaje: (Pasaje newWithViaje: viaje andCantidad: cantidadAsientos).
 	self answer
 ]
 
