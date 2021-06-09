@@ -165,8 +165,7 @@ RutaComponent >> modificarRuta [
 				andCombi: combi
 				andHorario: horario
 				andDistancia: distancia)
-				ifNil:
-					[ mensaje := 'Ya existe Ruta con el mismo lugar de partida, de llegada, misma combi y mismo horario'.
+				ifNil: [ mensaje := 'Ya existe una Ruta con misma combi y mismo horario'.
 					^ self ] ]
 		ifTrue: [ Sistema soleInstance
 				modificarRuta: ruta
