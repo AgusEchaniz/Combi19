@@ -107,9 +107,10 @@ RutaComponent >> initializeWithObjetivo: unObjetivo andRuta: unaRuta [
 	horario := unaRuta horario.
 	hora := unaRuta horario hour24.
 	minuto := unaRuta horario minute.
-	combi := unaRuta combi nombre.
+	"	combi := unaRuta combi nombre."
 	distancia := unaRuta distancia.
-	usarCombiActual :=false.
+	usarCombiActual := false.
+	combi:=nil.
 ]
 
 { #category : #initialization }
@@ -149,9 +150,13 @@ RutaComponent >> modificarRuta [
 	hora ifNil: [ ^ self ].
 	minuto ifNil: [ ^ self ].
 	(Sistema soleInstance combisDisponiblesEnHorario: horario)
-		ifEmpty: [ combi := ruta combi ].
+		ifEmpty: [ combi := nil ].
 	usarCombiActual
 		ifTrue: [ self combi: ruta combi ].
+	usarCombiActual
+		ifFalse: [ combi
+				ifNil: [ mensaje := 'Por favor seleccione una combi'.
+					^ self ] ].
 	combi ifNil: [ ^ self ].
 	distancia ifEmpty: [ ^ self ].
 	lugarDestino = lugarOrigen
@@ -172,7 +177,7 @@ RutaComponent >> modificarRuta [
 				withCombi: combi
 				andHorario: horario
 				andDistancia: distancia ].
-	self answer
+	self answer 
 ]
 
 { #category : #initialization }
@@ -191,18 +196,29 @@ RutaComponent >> renderButtonsOn: aCanvas para: unObjetivo [
 
 { #category : #initialization }
 RutaComponent >> renderCombisOn: aCanvas [
+	| combisAMostrar |
 	aCanvas paragraph: 'Seleccione la combi'.
+	combisAMostrar := Sistema soleInstance
+		combisDisponiblesEnHorario: (hora asString , ':' , minuto asString) asTime.
+
+	objetivo = 'modificar'
+		ifTrue: [ combisAMostrar := combisAMostrar reject: [ :c | c = ruta combi ] ].
+	(aCanvas select
+		list: combisAMostrar;
+		labels: [ :each | each nombre ]) on: #combi of: self
+	"
 	(aCanvas select
 		list:
 			(Sistema soleInstance
 				combisDisponiblesEnHorario: (hora asString , ':' , minuto asString) asTime);
-		labels: [ :each | each nombre ]) on: #combi of: self.
+		labels: [ :each | each nombre ]) on: #combi of: self"
 ]
 
 { #category : #initialization }
 RutaComponent >> renderContentOn: aCanvas [
 	| combisDisponibles |
-	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
+	aCanvas
+		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentAdmin new).
 	aCanvas heading
 		level: 4;
 		with: mensaje.
@@ -236,14 +252,20 @@ RutaComponent >> renderContentOn: aCanvas [
 			objetivo = 'modificar'
 				ifTrue: [ aCanvas
 						paragraph: [ aCanvas paragraph: 'Combi actual: ' , ruta combi nombre.
-							aCanvas submitButton
-								callback: [ self usarCombiActual ];
-								with: 'Seleccionar combi actual' ] ].
+							(Sistema soleInstance
+								puedeSerCombi: ruta combi
+								enHorario: horario
+								enRuta: ruta)
+								ifTrue: [ aCanvas submitButton
+										callback: [ self usarCombiActual ];
+										with: 'Seleccionar combi actual' ]
+								ifFalse: [ usarCombiActual := false ] ] ].
 			aCanvas paragraph: 'Seleccione la combi nueva'.
 			combisDisponibles
 				ifEmpty: [ aCanvas
 						paragraph: 'No hay combis disponibles para el horario seleccionado' ]
-				ifNotEmpty: [ (aCanvas select
+				ifNotEmpty: [ 
+					(aCanvas select
 						list: (Sistema soleInstance combisDisponiblesEnHorario: horario);
 						labels: [ :each | each nombre ]) on: #combi of: self ].
 			aCanvas break.
