@@ -475,7 +475,7 @@ Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino
 		andUnDestino: unLugarDestino
 		andHorario: unHorario
 		andCombi: unaCombi)
-		ifTrue: [ (self puedeSerCombi: unaCombi enHorario: unHorario)
+		ifFalse: [ (self puedeSerCombi: unaCombi enHorario: unHorario)
 				ifTrue: [ ruta := unaRuta
 						modificarRutaWithLugarOrigen: unLugarOrigen
 						andLugarDestino: unLugarDestino
