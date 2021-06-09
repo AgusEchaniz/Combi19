@@ -468,7 +468,7 @@ Sistema >> modificarRuta: unaRuta withLugarOrigen: unLugarOrigen andLugarDestino
 		andUnDestino: unLugarDestino
 		andHorario: unHorario
 		andCombi: unaCombi)
-		ifTrue: [ (self puedeSerCombi: unaCombi enHorario: unHorario)
+		ifFalse: [ (self puedeSerCombi: unaCombi enHorario: unHorario enRuta:unaRuta)
 				ifTrue: [ ruta := unaRuta
 						modificarRutaWithLugarOrigen: unLugarOrigen
 						andLugarDestino: unLugarDestino
@@ -523,6 +523,13 @@ Sistema >> puedeSerChofer: unNombreDeUsuario conContraseña: unaContraseña [
 { #category : #combi }
 Sistema >> puedeSerCombi: unaCombi enHorario: unHorario [
 	^(self combisDisponiblesEnHorario: unHorario) includes: unaCombi
+]
+
+{ #category : #combi }
+Sistema >> puedeSerCombi: unaCombi enHorario: unHorario enRuta: unaRuta [
+	((unaRuta combi = unaCombi) & (unaRuta horario = unHorario))
+		ifTrue: [ ^ true ].
+	^ (self combisDisponiblesEnHorario: unHorario) includes: unaCombi
 ]
 
 { #category : #usuario }
