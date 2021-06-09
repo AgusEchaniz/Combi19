@@ -414,6 +414,13 @@ Sistema >> modificarCombi: unaCombi withTipo: unTipo andCantAsientos: unaCantida
 	unaCombi modificarWithTipo: unTipo andCantAsientos: unaCantidad andChofer:unChofer
 ]
 
+{ #category : #comentario }
+Sistema >> modificarComentario: unComentario withContenido: unContenido [
+	unContenido isEmpty
+		ifTrue: [ ^ nil ]
+		ifFalse: [ unComentario modificarWithContenido: unContenido ]
+]
+
 { #category : #insumo }
 Sistema >> modificarInsumo: unInsumo withNombre: unNombre andTipo: unTipo andPrecio: unPrecio [
 	| insumo |

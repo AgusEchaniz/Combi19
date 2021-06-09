@@ -11,10 +11,15 @@ Class {
 	#category : #'IngSoftII-ui'
 }
 
+{ #category : #'instance creation' }
+ComentarioComponent class >> newWithObjetivo: unObjetivo andComentario: unComentario [
+	^self new initializeWithObjetivo: unObjetivo andComentario: unComentario
+]
+
 { #category : #rendering }
 ComentarioComponent >> agregarComentario [
 	contenido
-		ifNil: [ mensaje := 'Complete el campo para agregar un comentario.'.
+		ifEmpty: [ mensaje := 'Complete el campo para agregar un comentario.'.
 			^ self ].
 	Sistema soleInstance
 		agregarComentarioWithContenido: contenido
@@ -51,6 +56,11 @@ ComentarioComponent >> initializeWithObjetivo: unObjetivo andComentario: unComen
 
 { #category : #'as yet unclassified' }
 ComentarioComponent >> modificarComentario [
+	(Sistema soleInstance
+		modificarComentario: comentario
+		withContenido: contenido)
+		ifNil: [ mensaje := 'complete el campo para modificar el comentario' ]
+		ifNotNil: [ self answer ]
 ]
 
 { #category : #rendering }

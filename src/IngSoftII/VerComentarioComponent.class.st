@@ -43,11 +43,18 @@ VerComentarioComponent >> renderComentariosOn: aCanvas [
 												strong: 'El usuario ' , each usuario nombreCompleto printString.
 											aCanvas break.
 											aCanvas text: 'Dice: ' , each contenido.
-											
 											each usuario = self session user
-												ifTrue: [ aCanvas break.aCanvas submitButton
+												ifTrue: [ aCanvas break.
+													aCanvas submitButton
 														callback: [ self eliminarComentario: each ];
-														with: 'Eliminar comentario' ].
+														with: 'Eliminar comentario'.
+													aCanvas submitButton
+														callback: [ self
+																call:
+																	(ComentarioComponent
+																		newWithObjetivo: 'modificar'
+																		andComentario: each) ];
+														with: 'Modificar' ].
 											aCanvas break.
 											aCanvas horizontalRule ] ] ] ] ]
 ]
