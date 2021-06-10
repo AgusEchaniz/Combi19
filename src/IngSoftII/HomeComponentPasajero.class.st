@@ -44,6 +44,14 @@ HomeComponentPasajero >> fechaFilt: unaFecha [
 	fechaFilt := unaFecha
 ]
 
+{ #category : #'as yet unclassified' }
+HomeComponentPasajero >> obtenerPasajesFiltrados [
+	| pasajes |
+	pasajes := self session user pasajes.
+	^ pasajes
+		sort: [ :pasajeA :pasajeB | pasajeA estado > pasajeB estado ]
+]
+
 { #category : #utility }
 HomeComponentPasajero >> obtenerViajesFiltrados [
 	| viajes |
@@ -74,6 +82,9 @@ HomeComponentPasajero >> renderContentOn: aCanvas [
 	aCanvas anchor
 		callback: [ self call: VerComentarioComponent new ];
 		with: [ aCanvas button: 'Ver Comentarios' ].
+	aCanvas anchor
+		callback: [ self call: (VerPasajesPasajeroComponent newWithPasajes: self obtenerPasajesFiltrados)];
+		with: [ aCanvas button: 'Historial de Viajes' ].
 	self renderViajesOn: aCanvas
 ]
 
