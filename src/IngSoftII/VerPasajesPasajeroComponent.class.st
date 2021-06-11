@@ -13,6 +13,15 @@ VerPasajesPasajeroComponent class >> newWithPasajes: pasajes [
 	^ self new initializeWithPasajes: pasajes
 ]
 
+{ #category : #'as yet unclassified' }
+VerPasajesPasajeroComponent >> cancelarPasaje: unPasaje [
+	unPasaje viaje devolverPasaje: unPasaje cantidad.
+	unPasaje cancelarPasaje.
+	(( unPasaje viaje fecha-Date today) ) asDays >= 2
+		ifTrue: [ mensaje := 'Se ha devuelto el 100% del valor del pasaje' ]
+		ifFalse: [ mensaje := 'Se ha devuelto el 50% del valor del pasaje' ]
+]
+
 { #category : #utility }
 VerPasajesPasajeroComponent >> chequearVacio [
 	pasajes
@@ -21,8 +30,9 @@ VerPasajesPasajeroComponent >> chequearVacio [
 
 { #category : #initialization }
 VerPasajesPasajeroComponent >> initializeWithPasajes: unosPasajes [
-super initialize.
-	pasajes  := unosPasajes
+	super initialize.
+	pasajes := unosPasajes.
+	mensaje:=''
 ]
 
 { #category : #rendering }
@@ -59,6 +69,11 @@ VerPasajesPasajeroComponent >> renderPasajesOn: aCanvas [
 											aCanvas text: 'El dia: ' , each fecha printString.
 											aCanvas break.
 											aCanvas text: 'Precio: $' , each precio asString.
+											aCanvas space.
+											each estado = 'pendiente'
+												ifTrue: [ aCanvas submitButton
+														callback: [ self cancelarPasaje: each ];
+														with: 'Cancelar pasaje' ].
 											aCanvas break.
 											aCanvas horizontalRule.
 											aCanvas break ] ] ].

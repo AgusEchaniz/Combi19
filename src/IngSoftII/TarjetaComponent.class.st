@@ -8,7 +8,8 @@ Class {
 		'nombreDeTarjeta',
 		'user',
 		'mensaje',
-		'return'
+		'return',
+		'objetivo'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -65,13 +66,15 @@ TarjetaComponent >> initializeWithUser: aUser [
 	self initialize.
 	user := aUser.
 	mensaje := ' '.
-	return:=nil
+	return := nil.
+	objetivo := 'cargar'
 ]
 
 { #category : #initialization }
 TarjetaComponent >> initializeWithUser: aUser andReturn: aReturn [
 	self initializeWithUser: aUser.
-	return:=aReturn 
+	return := aReturn.
+	objetivo := 'pagar'
 ]
 
 { #category : #accessing }
@@ -106,7 +109,9 @@ TarjetaComponent >> renderContentOn: aCanvas [
 	aCanvas
 		form: [ aCanvas paragraph: 'Numero de tarjeta'.
 			aCanvas
-				paragraph: [ aCanvas textInput maxLength:16; on: #numeroTarjeta of: self ].
+				paragraph: [ aCanvas textInput
+						maxLength: 16;
+						on: #numeroTarjeta of: self ].
 			aCanvas paragraph: 'Nombre en la tarjeta'.
 			aCanvas
 				paragraph: [ aCanvas textInput on: #nombreDeTarjeta of: self ].
@@ -117,9 +122,12 @@ TarjetaComponent >> renderContentOn: aCanvas [
 				on: #unaFechaVencimiento
 				of: self.
 			aCanvas break.
+			objetivo='pagar' ifTrue:[			aCanvas submitButton
+				callback: [ self answer:true ];
+				with: 'Pagar']ifFalse:[
 			aCanvas submitButton
 				callback: [ self cargarTarjeta ];
-				with: 'Cargar'.
+				with: 'Cargar'].
 			return
 				ifNotNil: [ aCanvas submitButton
 						callback: [ self answer: false ];

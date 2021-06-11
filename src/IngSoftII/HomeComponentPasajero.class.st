@@ -88,9 +88,9 @@ HomeComponentPasajero >> renderContentOn: aCanvas [
 					(VerPasajesPasajeroComponent
 						newWithPasajes: self obtenerPasajesFiltrados) ];
 		with: [ aCanvas button: 'Historial de Viajes' ].
-		aCanvas anchor
+	aCanvas anchor
 		callback: [ self call: DatosPasajeroComponent new ];
-		with: [ aCanvas button: 'modificar datos personales' ].
+		with: [ aCanvas button: 'Modificar datos personales' ].
 	self renderViajesOn: aCanvas
 ]
 

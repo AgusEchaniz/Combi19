@@ -51,12 +51,12 @@ VerComentarioComponent >> renderComentariosOn: aCanvas [
 													aCanvas submitButton
 														callback: [ self
 																call:
-																	(ComentarioComponent
-																		newWithObjetivo: 'modificar'
-																		andComentario: each) ];
+																	(ComentarioComponent newWithObjetivo: 'modificar' andComentario: each) ];
 														with: 'Modificar' ].
 											aCanvas break.
-											aCanvas horizontalRule ] ] ] ] ]
+											aCanvas horizontalRule ] ] ] ] .	aCanvas submitButton
+						callback: [ self answer ];
+						with: 'Volver' ]
 ]
 
 { #category : #rendering }
@@ -74,6 +74,6 @@ VerComentarioComponent >> renderContentOn: aCanvas [
 	aCanvas heading
 		level: 4;
 		with: mensaje.
-
-	self renderComentariosOn: aCanvas
+	self renderComentariosOn: aCanvas.
+	
 ]

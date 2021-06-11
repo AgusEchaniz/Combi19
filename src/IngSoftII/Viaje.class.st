@@ -35,6 +35,11 @@ Viaje >> cantidadVendidos [
 	^cantidadVendidos 
 ]
 
+{ #category : #'as yet unclassified' }
+Viaje >> devolverPasaje: unaCantidadAsientos [
+	cantidadVendidos := cantidadVendidos - unaCantidadAsientos
+]
+
 { #category : #rendering }
 Viaje >> eliminarPasajero: unUsuario [ 
 pasajeros remove:unUsuario ifAbsent:[]

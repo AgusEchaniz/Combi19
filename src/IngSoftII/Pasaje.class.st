@@ -20,6 +20,10 @@ estado:='cancelado'
 ]
 
 { #category : #accessing }
+Pasaje >> cantidad [ ^cantidad
+]
+
+{ #category : #accessing }
 Pasaje >> estado [
  ^estado
 ]
