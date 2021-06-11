@@ -106,7 +106,7 @@ DatosPasajeroComponent >> membresia: unaMembresia [
 ]
 
 { #category : #rendering }
-DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [
+DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [ "solo sale el mensaje de la contraseña corta"
 	nombre ifEmpty: [ ^ self ].
 	apellido ifEmpty: [ ^ self ].
 	nombreUsuario ifEmpty: [ ^ self ].
@@ -129,8 +129,8 @@ DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [
 						ifFalse: [ (Sistema soleInstance esValidaContraseña: contraseña)
 								ifFalse: [ mensaje := 'Contraseña muy corta, mínimo 6 caracteres' ]
 								ifTrue: [ (Sistema soleInstance esMayorDeEdad: fechaNac)
-										ifFalse: [ mensaje := 'Debe ser mayor para registrarse en el sistema' ] ] ]
-					 ]. ^ self ] ]
+										ifFalse: [ mensaje := 'Debe ser mayor para registrarse en el sistema' ] ] ] ].
+					^ self ] ]
 		ifTrue: [ (Sistema soleInstance
 				modificarPasajero: self session user
 				withNombre: nombre
