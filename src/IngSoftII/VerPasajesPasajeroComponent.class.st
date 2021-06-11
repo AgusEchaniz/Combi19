@@ -52,11 +52,13 @@ VerPasajesPasajeroComponent >> renderPasajesOn: aCanvas [
 										paragraph: [ aCanvas strong: each estado.
 											aCanvas space.
 											aCanvas
-												text: each ruta lugarOrigen nombre , ' a ' , each ruta lugarDestino nombre.
+												text:
+													each viaje ruta lugarOrigen nombre , ' a '
+														, each viaje ruta lugarDestino nombre.
 											aCanvas break.
 											aCanvas text: 'El dia: ' , each fecha printString.
 											aCanvas break.
-											aCanvas text: 'Precio: $' , each precio.
+											aCanvas text: 'Precio: $' , each precio asString.
 											aCanvas break.
 											aCanvas horizontalRule.
 											aCanvas break ] ] ].

@@ -24,9 +24,24 @@ Pasaje >> estado [
  ^estado
 ]
 
+{ #category : #accessing }
+Pasaje >> fecha [
+	^viaje fecha
+]
+
 { #category : #initialization }
 Pasaje >> initializeWithViaje: unViaje andCantidad: unaCantidad [
 viaje:=unViaje .
 cantidad:=unaCantidad .
 estado:='pendiente'.
+]
+
+{ #category : #accessing }
+Pasaje >> precio [
+	^ cantidad * viaje precio asInteger
+]
+
+{ #category : #accessing }
+Pasaje >> viaje [
+	^viaje
 ]
