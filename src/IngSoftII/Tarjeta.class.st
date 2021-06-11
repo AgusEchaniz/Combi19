@@ -37,6 +37,11 @@ Tarjeta >> initializeWithNumero: unNumero andCodigoSeguridad: unCodigo andFechaV
 ]
 
 { #category : #'as yet unclassified' }
+Tarjeta >> numero [
+^numero
+]
+
+{ #category : #'as yet unclassified' }
 Tarjeta >> puedeSerTarjetaWithNumero: unNumero andFechaVencimiento: unaFecha [
 	(self esNumeroValido: unNumero)
 		ifTrue: [ (self estaVigente: unaFecha) ifTrue: [ ^ true ] ].

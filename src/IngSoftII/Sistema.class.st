@@ -461,6 +461,38 @@ Sistema >> modificarLugar: unLugar withProvincia: unaProvincia [
 	^ nil
 ]
 
+{ #category : #usuario }
+Sistema >> modificarPasajero: unUsuarioPasajero withNombre: unNombre andApellido: unApellido andContraseña: unaContraseña andFechaNacimiento: unaFechaNac andDNI: unDNI [
+	| pasajero |
+	(self puedeSerContraseña: unaContraseña conFechaNac: unaFechaNac)
+				ifTrue: [ pasajero := unUsuarioPasajero
+						modificarWithNombre: unNombre
+						andApellido: unApellido
+						andContraseña: unaContraseña
+						andFechaNacimiento: unaFechaNac
+						andDNI: unDNI.
+					^ pasajero ].
+	^ nil
+]
+
+{ #category : #usuario }
+Sistema >> modificarPasajero: unUsuarioPasajero withNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andContraseña: unaContraseña andFechaNacimiento: unaFechaNac andDNI: unDNI [
+	| pasajero |
+	(self
+		puedeSerUsuario: unNombreUsuario
+		conContraseña: unaContraseña
+		conFechaNac: unaFechaNac)
+		ifTrue: [ pasajero := unUsuarioPasajero
+				modificarWithNombreUsuario: unNombreUsuario
+				andNombre: unNombre
+				andApellido: unApellido
+				andContraseña: unaContraseña
+				andFechaNacimiento: unaFechaNac
+				andDNI: unDNI.
+				^pasajero ].
+			^nil
+]
+
 { #category : #ruta }
 Sistema >> modificarRuta: unaRuta withCombi: unaCombi andHorario: unHorario andDistancia: unaDistancia [
 	unaRuta modificarCombi: unaCombi andHorario: unHorario  andDistancia: unaDistancia
@@ -537,6 +569,14 @@ Sistema >> puedeSerCombi: unaCombi enHorario: unHorario enRuta: unaRuta [
 	((unaRuta combi = unaCombi) & (unaRuta horario = unHorario))
 		ifTrue: [ ^ true ].
 	^ (self combisDisponiblesEnHorario: unHorario) includes: unaCombi
+]
+
+{ #category : #usuario }
+Sistema >> puedeSerContraseña: unaContraseña conFechaNac: unaFecha [
+	(self esValidaContraseña: unaContraseña)
+		ifTrue: [ (self esMayorDeEdad: unaFecha)
+				ifTrue: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #usuario }

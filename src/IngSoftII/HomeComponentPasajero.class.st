@@ -74,6 +74,9 @@ HomeComponentPasajero >> renderContentOn: aCanvas [
 	aCanvas anchor
 		callback: [ self call: VerComentarioComponent new ];
 		with: [ aCanvas button: 'Ver Comentarios' ].
+	aCanvas anchor
+		callback: [ self call: DatosPasajeroComponent new ];
+		with: [ aCanvas button: 'modificar datos personales' ].
 	self renderViajesOn: aCanvas
 ]
 

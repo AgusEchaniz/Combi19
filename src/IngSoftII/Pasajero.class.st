@@ -80,6 +80,34 @@ Pasajero >> membresia [
 ]
 
 { #category : #accessing }
+Pasajero >> membresia: unaMembresia [
+membresia := unaMembresia 
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> modificarWithNombre: unNombre
+				andApellido: unApellido
+				andContraseña: unaContraseña
+				andFechaNacimiento: unaFechaNac
+				andDNI: unDNI [
+	nombre := unNombre.
+	apellido := unApellido.
+	contraseña := unaContraseña.
+	fechaNac := unaFechaNac.
+	dni := unDNI
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> modificarWithNombreUsuario: unNombreUsuario andNombre: unNombre andApellido: unApellido andContraseña: unaContraseña andFechaNacimiento: unaFechaNac andDNI: unDNI [
+	nombreUsuario := unNombreUsuario.
+	nombre := unNombre.
+	apellido:= unApellido.
+	contraseña := unaContraseña .
+	fechaNac := unaFechaNac .
+	dni := unDNI
+]
+
+{ #category : #accessing }
 Pasajero >> nombreCompleto [
 ^nombre,' ',apellido
 ]
