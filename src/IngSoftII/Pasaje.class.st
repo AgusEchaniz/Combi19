@@ -19,6 +19,11 @@ Pasaje >> cancelarPasaje [
 estado:='cancelado'
 ]
 
+{ #category : #accessing }
+Pasaje >> estado [
+ ^estado
+]
+
 { #category : #initialization }
 Pasaje >> initializeWithViaje: unViaje andCantidad: unaCantidad [
 viaje:=unViaje .

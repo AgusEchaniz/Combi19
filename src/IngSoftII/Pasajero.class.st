@@ -112,6 +112,11 @@ Pasajero >> nombreCompleto [
 ^nombre,' ',apellido
 ]
 
+{ #category : #accessing }
+Pasajero >> pasajes [
+ ^pasajes 
+]
+
 { #category : #'as yet unclassified' }
 Pasajero >> puedeSerTarjetaWithNumero: unNumero andFechaVencimiento: unaFecha [
 	(self esNumeroValido: unNumero)
