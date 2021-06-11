@@ -106,7 +106,9 @@ DatosPasajeroComponent >> membresia: unaMembresia [
 ]
 
 { #category : #rendering }
-DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [ "solo sale el mensaje de la contraseña corta"
+DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [
+	"solo sale el mensaje de la contraseña corta"
+
 	nombre ifEmpty: [ ^ self ].
 	apellido ifEmpty: [ ^ self ].
 	nombreUsuario ifEmpty: [ ^ self ].
@@ -124,12 +126,12 @@ DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [ "solo sale el mensaj
 				andContraseña: contraseña
 				andFechaNacimiento: fechaNac
 				andDNI: dni)
-				ifNil: [ [ (Sistema soleInstance existeUsuario: nombreUsuario)
-						ifTrue: [ mensaje := 'El email ya se encuentra registrado en el sistema' ]
-						ifFalse: [ (Sistema soleInstance esValidaContraseña: contraseña)
-								ifFalse: [ mensaje := 'Contraseña muy corta, mínimo 6 caracteres' ]
-								ifTrue: [ (Sistema soleInstance esMayorDeEdad: fechaNac)
-										ifFalse: [ mensaje := 'Debe ser mayor para registrarse en el sistema' ] ] ] ].
+				ifNil: [ (Sistema soleInstance esValidaContraseña: contraseña)
+						ifFalse: [ mensaje := 'Contraseña muy corta, mínimo 6 caracteres' ]
+						ifTrue: [ (Sistema soleInstance existeUsuario: nombreUsuario)
+								ifTrue: [ mensaje := 'El email ya se encuentra registrado en el sistema' ]
+								ifFalse: [ (Sistema soleInstance esMayorDeEdad: fechaNac)
+										ifFalse: [ mensaje := 'Debe ser mayor para registrarse en el sistema' ] ] ].
 					^ self ] ]
 		ifTrue: [ (Sistema soleInstance
 				modificarPasajero: self session user
@@ -195,10 +197,7 @@ DatosPasajeroComponent >> renderContentOn: aCanvas [
 
 { #category : #rendering }
 DatosPasajeroComponent >> renderInputElementsOn: aCanvas [
-	| nuevaMembresia |
-	aCanvas heading
-		level: 4;
-		with: mensaje.
+	|nuevaMembresia|
 	self session user membresia nombre = 'gold'
 		ifTrue: [ nuevaMembresia := 'basica' ]
 		ifFalse: [ nuevaMembresia := 'gold ($250 al mes)' ].
@@ -221,7 +220,6 @@ DatosPasajeroComponent >> renderInputElementsOn: aCanvas [
 	aCanvas text: ' Cambiar tu membresia a ' , nuevaMembresia.
 	aCanvas break.
 	aCanvas break
-
 ]
 
 { #category : #rendering }
