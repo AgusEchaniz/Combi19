@@ -28,6 +28,11 @@ Pasajero >> agregarPasaje:unPasaje [
 pasajes add:unPasaje
 ]
 
+{ #category : #accessing }
+Pasajero >> borrarTarjeta [
+	tarjeta:= nil
+]
+
 { #category : #'as yet unclassified' }
 Pasajero >> cargarTarjetaWithNumero: unNumero andCodigoSeguridad: unCodigo andFechaVencimiento: unaFecha andNombre: unNombre [
 	(self

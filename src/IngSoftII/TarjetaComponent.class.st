@@ -24,6 +24,11 @@ TarjetaComponent class >> newWithUser: user andReturn:aReturn [
 	^ self new initializeWithUser: user andReturn:aReturn
 ]
 
+{ #category : #'instance creation' }
+TarjetaComponent class >> newWithUser: user andReturnGold: aReturn [
+	^ self new initializeWithUser: user andReturnGold: aReturn
+]
+
 { #category : #'as yet unclassified' }
 TarjetaComponent >> cargarTarjeta [
 	numeroTarjeta ifEmpty: [ ^ self ].
@@ -75,6 +80,13 @@ TarjetaComponent >> initializeWithUser: aUser andReturn: aReturn [
 	self initializeWithUser: aUser.
 	return := aReturn.
 	objetivo := 'pagar'
+]
+
+{ #category : #initialization }
+TarjetaComponent >> initializeWithUser: aUser andReturnGold: aReturn [
+	self initializeWithUser: aUser.
+	return := aReturn.
+	objetivo := 'cargarGold'
 ]
 
 { #category : #accessing }

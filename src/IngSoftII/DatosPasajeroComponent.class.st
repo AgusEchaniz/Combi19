@@ -40,13 +40,14 @@ DatosPasajeroComponent >> cambiarMembresia: unValor [
 { #category : #accessing }
 DatosPasajeroComponent >> cambiarMembresiaPasajero [
 	self session user membresia nombre = 'gold'
-		ifTrue: [ self session user membresia: MembresiaBasica new ]
+		ifTrue: [ self session user membresia: MembresiaBasica new.
+			self session user borrarTarjeta ]
 		ifFalse: [ self session user membresia: MembresiaGold new.
 			(self
 				call:
 					(TarjetaComponent
 						newWithUser: self session user
-						andReturn: DatosPasajeroComponent))
+						andReturnGold: DatosPasajeroComponent))
 				ifFalse: [ self session user membresia: MembresiaBasica new ] ]
 ]
 
@@ -234,8 +235,10 @@ DatosPasajeroComponent >> renderUsuarioGold: aCanvas [
 					'tarjeta de credito terminada en: '
 						, (self session user tarjeta numero last: 4) ].
 	aCanvas submitButton
-		callback: [ self call: (TarjetaComponent
-				newWithUser: self session user
-				andReturn: DatosPasajeroComponent) ];
+		callback: [ self
+				call:
+					(TarjetaComponent
+						newWithUser: self session user
+						andReturnGold: DatosPasajeroComponent) ];
 		with: 'cambiar metodo de pago'
 ]
