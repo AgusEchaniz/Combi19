@@ -109,6 +109,29 @@ TarjetaComponent >> numeroTarjeta: anObject [
 	numeroTarjeta := anObject
 ]
 
+{ #category : #'as yet unclassified' }
+TarjetaComponent >> pagarConTarjeta [
+	numeroTarjeta ifEmpty: [ ^ self ].
+	codSeg ifEmpty: [ ^ self ].
+	unaFechaVencimiento ifNil: [ ^ self ].
+	"unaFechaVencimiento = Date today
+		ifTrue: [ ^ self ]."
+	nombreDeTarjeta ifEmpty: [ ^ self ].
+	(user
+		puedeSerTarjetaWithNumero: numeroTarjeta
+		andFechaVencimiento: unaFechaVencimiento)
+		ifTrue: [ self answer: true ]
+		ifFalse: [ (user esNumeroValido: numeroTarjeta)
+				ifFalse:
+					[ mensaje := 'Número de tarjeta inválido, recuerde que son 16 caracteres numéricos' ]
+				ifTrue: [ (user estaVigente: unaFechaVencimiento)
+						ifFalse: [ mensaje := 'La tarjeta ingresada se encuentra vencida' ] ].
+			^ self ].
+	return
+		ifNil: [ self call: LoginComponent new ]
+		ifNotNil: [ self answer: true ]
+]
+
 { #category : #rendering }
 TarjetaComponent >> renderContentOn: aCanvas [
 	return
@@ -134,12 +157,13 @@ TarjetaComponent >> renderContentOn: aCanvas [
 				on: #unaFechaVencimiento
 				of: self.
 			aCanvas break.
-			objetivo='pagar' ifTrue:[			aCanvas submitButton
-				callback: [ self answer:true ];
-				with: 'Pagar']ifFalse:[
-			aCanvas submitButton
-				callback: [ self cargarTarjeta ];
-				with: 'Cargar'].
+			objetivo = 'pagar'
+				ifTrue: [ aCanvas submitButton
+						callback: [ self pagarConTarjeta  ];
+						with: 'Pagar' ]
+				ifFalse: [ aCanvas submitButton
+						callback: [ self cargarTarjeta ];
+						with: 'Cargar' ].
 			return
 				ifNotNil: [ aCanvas submitButton
 						callback: [ self answer: false ];
