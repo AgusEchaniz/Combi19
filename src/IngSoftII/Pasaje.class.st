@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'viaje',
 		'cantidad',
-		'estado'
+		'estado',
+		'precio',
+		'insumos'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -12,6 +14,20 @@ Class {
 { #category : #'instance creation' }
 Pasaje class >> newWithViaje:unViaje andCantidad:unaCantidad [
 ^self new initializeWithViaje:unViaje andCantidad:unaCantidad
+]
+
+{ #category : #'instance creation' }
+Pasaje class >> newWithViaje: unViaje andCantidad: unaCantidad  andPrecio: unPrecio [
+	^ self new initializeWithViaje: unViaje andCantidad: unaCantidad  andPrecio: unPrecio
+]
+
+{ #category : #'instance creation' }
+Pasaje class >> newWithViaje: unViaje andCantidad: unaCantidad andPrecio: unPrecio andInsumos:unosInsumos [
+	^ self new
+		initializeWithViaje: unViaje
+		andCantidad: unaCantidad
+		andPrecio: unPrecio
+		andInsumos:unosInsumos
 ]
 
 { #category : #initialization }
@@ -40,9 +56,31 @@ cantidad:=unaCantidad .
 estado:='pendiente'.
 ]
 
+{ #category : #initialization }
+Pasaje >> initializeWithViaje: unViaje andCantidad: unaCantidad andPrecio:unPrecio [
+	viaje := unViaje.
+	cantidad := unaCantidad.
+	estado := 'pendiente'.
+	precio:=unPrecio
+]
+
+{ #category : #initialization }
+Pasaje >> initializeWithViaje: unViaje andCantidad: unaCantidad andPrecio: unPrecio andInsumos:unosInsumos [
+	viaje := unViaje.
+	cantidad := unaCantidad.
+	estado := 'pendiente'.
+	precio := unPrecio.
+	insumos :=unosInsumos
+]
+
+{ #category : #'as yet unclassified' }
+Pasaje >> insumos [
+^insumos
+]
+
 { #category : #accessing }
 Pasaje >> precio [
-	^ cantidad * viaje precio asInteger
+	^ precio
 ]
 
 { #category : #accessing }

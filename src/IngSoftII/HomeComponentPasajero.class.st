@@ -76,6 +76,7 @@ HomeComponentPasajero >> origenFilt:unOrigen [
 
 { #category : #rendering }
 HomeComponentPasajero >> renderContentOn: aCanvas [
+self session user cambiarMembresia .
 	aCanvas
 		paragraph:
 			(BasicComponent newWithParent: self andHome: HomeComponentPasajero new).

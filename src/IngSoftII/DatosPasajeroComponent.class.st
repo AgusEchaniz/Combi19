@@ -12,7 +12,8 @@ Class {
 		'membresia',
 		'mensaje',
 		'tarjeta',
-		'cambiarMembresia'
+		'cambiarMembresia',
+		'reanudarMembresia'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -40,8 +41,10 @@ DatosPasajeroComponent >> cambiarMembresia: unValor [
 { #category : #accessing }
 DatosPasajeroComponent >> cambiarMembresiaPasajero [
 	self session user membresia nombre = 'gold'
-		ifTrue: [ self session user membresia: MembresiaBasica new.
-			self session user borrarTarjeta ]
+		ifTrue: [ self session user setearCambiarMembresia.
+			self session user cambiarMembresia
+			"self session user membresia: MembresiaBasica new.
+			self session user borrarTarjeta" ]
 		ifFalse: [ self session user membresia: MembresiaGold new.
 			(self
 				call:
@@ -93,7 +96,8 @@ DatosPasajeroComponent >> initialize [
 	membresia := self session user membresia nombre.
 	cambiarMembresia := false.
 	self session user membresia = 'gold'
-		ifTrue: [ tarjeta := self session user tarjeta ]
+		ifTrue: [ tarjeta := self session user tarjeta ].
+		reanudarMembresia :=false.
 ]
 
 { #category : #accessing }
@@ -132,7 +136,7 @@ DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [
 						ifTrue: [ (Sistema soleInstance existeUsuario: nombreUsuario)
 								ifTrue: [ mensaje := 'El email ya se encuentra registrado en el sistema' ]
 								ifFalse: [ (Sistema soleInstance esMayorDeEdad: fechaNac)
-										ifFalse: [ mensaje := 'Debe ser mayor para registrarse en el sistema' ] ] ].
+										ifFalse: [ mensaje := 'Debe ser mayor de edad para registrarse en el sistema' ] ] ].
 					^ self ] ]
 		ifTrue: [ (Sistema soleInstance
 				modificarPasajero: self session user
@@ -144,11 +148,12 @@ DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [
 				ifNil: [ (Sistema soleInstance esValidaContraseña: contraseña)
 						ifFalse: [ mensaje := 'Contraseña muy corta, mínimo 6 caracteres' ]
 						ifTrue: [ (Sistema soleInstance esMayorDeEdad: fechaNac)
-								ifFalse: [ mensaje := 'Debe ser mayor para registrarse en el sistema' ] ].
+								ifFalse: [ mensaje := 'Debe ser mayor de edad para registrarse en el sistema' ] ].
 					^ self ] ].
 	cambiarMembresia
 		ifTrue: [ self cambiarMembresiaPasajero ].
-	self answer
+	reanudarMembresia
+		ifTrue: [ self session user reanudarMembresia ] .self answer
 ]
 
 { #category : #accessing }
@@ -169,6 +174,16 @@ DatosPasajeroComponent >> nombreUsuario [
 { #category : #accessing }
 DatosPasajeroComponent >> nombreUsuario: unNombreDeUsuario [ 
 nombreUsuario := unNombreDeUsuario 
+]
+
+{ #category : #accessing }
+DatosPasajeroComponent >> reanudarMembresia [
+	^reanudarMembresia 
+]
+
+{ #category : #accessing }
+DatosPasajeroComponent >> reanudarMembresia:unValue [
+reanudarMembresia:=unValue
 ]
 
 { #category : #rendering }
@@ -198,7 +213,7 @@ DatosPasajeroComponent >> renderContentOn: aCanvas [
 
 { #category : #rendering }
 DatosPasajeroComponent >> renderInputElementsOn: aCanvas [
-	|nuevaMembresia|
+	| nuevaMembresia |
 	self session user membresia nombre = 'gold'
 		ifTrue: [ nuevaMembresia := 'basica' ]
 		ifFalse: [ nuevaMembresia := 'gold ($250 al mes)' ].
@@ -217,8 +232,17 @@ DatosPasajeroComponent >> renderInputElementsOn: aCanvas [
 		paragraph: [ (aCanvas dateInput options: #(day month year))
 				on: #fechaNac
 				of: self ].
-	aCanvas checkbox on: #cambiarMembresia of: self.
-	aCanvas text: ' Cambiar tu membresia a ' , nuevaMembresia.
+	self session user cambioMembresia
+		ifFalse: [ aCanvas checkbox on: #cambiarMembresia of: self.
+			aCanvas text: ' Cambiar tu membresia a ' , nuevaMembresia ]
+	
+		ifTrue: [ aCanvas checkbox on: #reanudarMembresia  of: self.
+			aCanvas text: ' Reanudar membresia gold ' .
+			aCanvas break.
+			aCanvas
+				small:
+					'Su membresia cambiará a básica a partir del: '
+						, self session user fechaCambio printString ].
 	aCanvas break.
 	aCanvas break
 ]
@@ -228,17 +252,18 @@ DatosPasajeroComponent >> renderUsuarioGold: aCanvas [
 	aCanvas horizontalRule.
 	aCanvas heading
 		level: 3;
-		with: 'método de pago membresía gold'.
+		with: 'Método de pago membresía gold'.
 	aCanvas
 		paragraph: [ aCanvas
 				text:
-					'tarjeta de credito terminada en: '
+					'Tarjeta de crédito terminada en: '
 						, (self session user tarjeta numero last: 4) ].
-	aCanvas submitButton
-		callback: [ self
-				call:
-					(TarjetaComponent
-						newWithUser: self session user
-						andReturnGold: DatosPasajeroComponent) ];
-		with: 'cambiar metodo de pago'
+	self session user cambioMembresia
+		ifFalse: [ aCanvas submitButton
+				callback: [ self
+						call:
+							(TarjetaComponent
+								newWithUser: self session user
+								andReturnGold: DatosPasajeroComponent) ];
+				with: 'Cambiar metodo de pago' ] ifTrue:[aCanvas break.]
 ]

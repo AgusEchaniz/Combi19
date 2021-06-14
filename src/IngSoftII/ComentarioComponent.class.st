@@ -59,7 +59,7 @@ ComentarioComponent >> modificarComentario [
 	(Sistema soleInstance
 		modificarComentario: comentario
 		withContenido: contenido)
-		ifNil: [ mensaje := 'complete el campo para modificar el comentario' ]
+		ifNil: [ mensaje := 'Complete el campo para modificar el comentario' ]
 		ifNotNil: [ self answer ]
 ]
 

@@ -48,15 +48,16 @@ VerComentarioComponent >> renderComentariosOn: aCanvas [
 													aCanvas submitButton
 														callback: [ self eliminarComentario: each ];
 														with: 'Eliminar comentario'.
+													aCanvas space.
 													aCanvas submitButton
 														callback: [ self
-																call:
-																	(ComentarioComponent newWithObjetivo: 'modificar' andComentario: each) ];
-														with: 'Modificar' ].
+																call: (ComentarioComponent newWithObjetivo: 'modificar' andComentario: each) ];
+														with: 'Modificar comentario' ].
 											aCanvas break.
-											aCanvas horizontalRule ] ] ] ] .	aCanvas submitButton
-						callback: [ self answer ];
-						with: 'Volver' ]
+											aCanvas horizontalRule ] ] ] ].
+			aCanvas submitButton
+				callback: [ self answer ];
+				with: 'Volver' ]
 ]
 
 { #category : #rendering }

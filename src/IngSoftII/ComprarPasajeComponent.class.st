@@ -39,7 +39,7 @@ ComprarPasajeComponent >> cantidadInsumo:unaCantidad [
 
 { #category : #'as yet unclassified' }
 ComprarPasajeComponent >> comprarPasaje [
-	| pago |
+	| pago totalPasaje |
 	pago := true.
 	conTarjetaCargada
 		ifFalse: [ pago := self
@@ -50,7 +50,13 @@ ComprarPasajeComponent >> comprarPasaje [
 	pago
 		ifFalse: [ ^ self ].
 	viaje venderPasaje: cantidadAsientos.
-	self session user agregarPasaje: (Pasaje newWithViaje: viaje andCantidad: cantidadAsientos).
+	totalPasaje := self setearTotalPasaje.
+	self session user
+		agregarPasaje:
+			(Pasaje
+				newWithViaje: viaje
+				andCantidad: cantidadAsientos
+				andPrecio: totalPasaje andInsumos:insumos).
 	self answer
 ]
 
@@ -61,12 +67,13 @@ ComprarPasajeComponent >> initializeWithViaje: unViaje [
 	conTarjetaCargada := false.
 	cantidadAsientos := 0.
 	cantidadInsumo := 0.
-	total := 0
+	total := 0.
+"	self session user cambiarMembresia"
 ]
 
 { #category : #'as yet unclassified' }
 ComprarPasajeComponent >> insumo: unInsumo [
-	insumos add: unInsumo.
+	insumos add: unInsumo withOccurrences: cantidadInsumo asInteger.
 	total := unInsumo precio asInteger * cantidadInsumo asInteger
 ]
 
@@ -143,4 +150,13 @@ ComprarPasajeComponent >> renderInsumosOn: aCanvas [
 										callback: [ self insumo: each ];
 										with: 'Seleccionar'.
 									aCanvas break ] ] ] ]
+]
+
+{ #category : #'as yet unclassified' }
+ComprarPasajeComponent >> setearTotalPasaje [
+	self session user membresia nombre = 'basico'
+		ifTrue: [ ^ viaje precio asInteger * cantidadAsientos asInteger
+				+ total asInteger ]
+		ifFalse: [ ^ viaje precio asInteger * cantidadAsientos + total
+				- (10 * (viaje precio asInteger * cantidadAsientos + total) / 100) ]
 ]

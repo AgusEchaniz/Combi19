@@ -7,7 +7,9 @@ Class {
 		'membresia',
 		'tarjeta',
 		'nombreCompleto',
-		'pasajes'
+		'pasajes',
+		'cambioMembresia',
+		'fechaCambio'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -31,6 +33,19 @@ pasajes add:unPasaje
 { #category : #accessing }
 Pasajero >> borrarTarjeta [
 	tarjeta:= nil
+]
+
+{ #category : #accessing }
+Pasajero >> cambiarMembresia [
+	cambioMembresia
+		ifTrue: [ fechaCambio < Date today
+				ifTrue: [ membresia := MembresiaBasica new.
+					self borrarTarjeta . cambioMembresia :=false] ]
+]
+
+{ #category : #accessing }
+Pasajero >> cambioMembresia [
+^cambioMembresia 
 ]
 
 { #category : #'as yet unclassified' }
@@ -62,6 +77,11 @@ Pasajero >> estaVigente: unaFecha [
 ]
 
 { #category : #accessing }
+Pasajero >> fechaCambio [
+^fechaCambio 
+]
+
+{ #category : #accessing }
 Pasajero >> fechaNac [
 	^ fechaNac
 ]
@@ -76,7 +96,8 @@ Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: una
 	fechaNac := unaFecha.
 	dni := unDni.
 	membresia := unaMembresia.
-	pasajes:=OrderedCollection new.
+	pasajes := OrderedCollection new.
+	cambioMembresia :=false.
 ]
 
 { #category : #accessing }
@@ -119,7 +140,8 @@ Pasajero >> nombreCompleto [
 
 { #category : #accessing }
 Pasajero >> pasajes [
- ^pasajes 
+	^ pasajes
+		sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -138,6 +160,24 @@ Pasajero >> puedeSerUsuario: unNombreDeUsuario conContraseña: unaContraseña co
 				esValidaContraseña: unaContraseña
 				ifTrue: [ self esMayorDeEdad: unaFecha ifTrue: [ ^ true ] ] ].
 	^ false
+]
+
+{ #category : #accessing }
+Pasajero >> reanudarMembresia [
+
+	cambioMembresia := false.
+
+]
+
+{ #category : #accessing }
+Pasajero >> setearCambiarMembresia [
+	| año mesSig primerDia |
+	cambioMembresia := true.
+	año := Date today year.
+	mesSig := Date today monthIndex.
+	primerDia := membresia fechaInicio dayOfMonth .
+	fechaCambio := Date year: año month: mesSig day: primerDia.
+	fechaCambio := fechaCambio addMonths: 1
 ]
 
 { #category : #'as yet unclassified' }
