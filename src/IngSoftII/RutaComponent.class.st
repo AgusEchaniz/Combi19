@@ -177,7 +177,7 @@ RutaComponent >> modificarRuta [
 				withCombi: combi
 				andHorario: horario
 				andDistancia: distancia ].
-	self answer 
+	self answer
 ]
 
 { #category : #initialization }
