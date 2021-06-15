@@ -91,7 +91,7 @@ ComprarPasajeComponent >> insumo: unInsumo cantidad: unaCant [
 		ifFound: [ :i | i agregar: unaCant ]
 		ifNone: [ insumos
 				add: (InsumoConCant newWithInsumo: unInsumo andUnaCantidad: unaCant) ].	"unInsumo withOccurrences: unaCant asInteger."
-	total := total+unInsumo precio asInteger * unaCant asInteger
+	total := total + (unInsumo precio asInteger * unaCant asInteger)
 ]
 
 { #category : #rendering }
