@@ -16,7 +16,7 @@ HomeComponentPasajero >> buscarViajes: aCanvas [
 		ifTrue: [ mensaje := 'Por favor ingrese una fecha actual o posterior'.
 			^ self ].
 	origenFilt = destinoFilt
-		ifTrue: [ mensaje := 'Los lugares deben ser distintos'.
+		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales'.
 			^ self ].
 	self
 		call:

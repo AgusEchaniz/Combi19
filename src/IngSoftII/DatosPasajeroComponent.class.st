@@ -136,7 +136,7 @@ DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [
 						ifTrue: [ (Sistema soleInstance existeUsuario: nombreUsuario)
 								ifTrue: [ mensaje := 'El email ya se encuentra registrado en el sistema' ]
 								ifFalse: [ (Sistema soleInstance esMayorDeEdad: fechaNac)
-										ifFalse: [ mensaje := 'Debe ser mayor de edad para registrarse en el sistema' ] ] ].
+										ifFalse: [ mensaje := 'Debe ser mayor de edad para usar el sistema' ] ] ].
 					^ self ] ]
 		ifTrue: [ (Sistema soleInstance
 				modificarPasajero: self session user
@@ -148,12 +148,13 @@ DatosPasajeroComponent >> modificarDatosPasajero: aCanvas [
 				ifNil: [ (Sistema soleInstance esValidaContraseña: contraseña)
 						ifFalse: [ mensaje := 'Contraseña muy corta, mínimo 6 caracteres' ]
 						ifTrue: [ (Sistema soleInstance esMayorDeEdad: fechaNac)
-								ifFalse: [ mensaje := 'Debe ser mayor de edad para registrarse en el sistema' ] ].
+								ifFalse: [ mensaje := 'Debe ser mayor de edad para usar el sistema' ] ].
 					^ self ] ].
 	cambiarMembresia
 		ifTrue: [ self cambiarMembresiaPasajero ].
 	reanudarMembresia
-		ifTrue: [ self session user reanudarMembresia ] .self answer
+		ifTrue: [ self session user reanudarMembresia ].
+	self answer
 ]
 
 { #category : #accessing }
