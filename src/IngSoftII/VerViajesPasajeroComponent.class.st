@@ -16,7 +16,7 @@ VerViajesPasajeroComponent class >> newWithViajes: viajes [
 { #category : #'as yet unclassified' }
 VerViajesPasajeroComponent >> chequearVacio [
 	viajes
-		ifEmpty: [ mensaje := 'No existen viajes cargados en el sistema.' ]
+		ifEmpty: [ mensaje := 'No hay viajes disponibles para la ruta seleccionada en esa fecha.' ]
 ]
 
 { #category : #initialization }
