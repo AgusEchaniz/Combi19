@@ -256,18 +256,21 @@ RutaComponent >> renderContentOn: aCanvas [
 								puedeSerCombi: ruta combi
 								enHorario: horario
 								enRuta: ruta)
-								ifTrue: [ aCanvas submitButton
+								ifTrue: [ aCanvas checkbox on: #usarCombiActual of: self.
+									aCanvas text: ' Usar combi actual '	"aCanvas submitButton
 										callback: [ self usarCombiActual ];
-										with: 'Seleccionar combi actual' ]
+										with: 'Seleccionar combi actual'" ]
 								ifFalse: [ usarCombiActual := false ] ] ].
 			aCanvas paragraph: 'Seleccione la combi nueva'.
 			combisDisponibles
 				ifEmpty: [ aCanvas
 						paragraph: 'No hay combis disponibles para el horario seleccionado' ]
-				ifNotEmpty: [ 
-					(aCanvas select
+				ifNotEmpty: [ (aCanvas select
 						list: (Sistema soleInstance combisDisponiblesEnHorario: horario);
-						labels: [ :each | each nombre ]) on: #combi of: self ].
+						labels: [ :each | each nombre ]) on: #combi of: self.
+					aCanvas submitButton
+						callback: [ combi := self combi ];
+						with: 'Seleccionar' ].
 			aCanvas break.
 			aCanvas horizontalRule.
 			aCanvas paragraph: 'Ingrese la distancia del viaje'.
@@ -278,6 +281,11 @@ RutaComponent >> renderContentOn: aCanvas [
 ]
 
 { #category : #accessing }
-RutaComponent >> usarCombiActual [
-usarCombiActual:=true
+RutaComponent >> usarCombiActual [ 
+^usarCombiActual 
+]
+
+{ #category : #accessing }
+RutaComponent >> usarCombiActual: aValue [
+	usarCombiActual := aValue
 ]

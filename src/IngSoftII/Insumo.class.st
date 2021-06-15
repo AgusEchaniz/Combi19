@@ -50,6 +50,11 @@ Insumo >> nombre [
 ]
 
 { #category : #accessing }
+Insumo >> nombreCompleto [
+	^ nombre , ' | ' , tipo , ' | $' , precio asString
+]
+
+{ #category : #accessing }
 Insumo >> precio [ ^precio
 ]
 

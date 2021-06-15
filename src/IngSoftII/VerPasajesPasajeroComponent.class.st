@@ -116,15 +116,15 @@ VerPasajesPasajeroComponent >> renderOn: aCanvas pasajes: unosPasajes [
 												ifEmpty: [ insumosSinRepetir := OrderedCollection new.
 													aCanvas text: 'No se compraron insumos'.
 													aCanvas break ]
-												ifNotEmpty: [ insumosSinRepetir := each insumos asSet.
+												ifNotEmpty: [" insumosSinRepetir := each insumos asSet."
 													aCanvas
-														unorderedList: [ insumosSinRepetir
+														unorderedList: [ each insumos
 																do: [ :insumo | 
 																	aCanvas
 																		listItem: [ aCanvas
 																				text:
 																					insumo nombre , ' x'
-																						, (each insumos occurrencesOf: insumo) printString ].
+																						, insumo cantidad asString ].
 																	aCanvas break ] ] ].
 											aCanvas text: 'Precio total: $' , each precio asString.
 											aCanvas space.

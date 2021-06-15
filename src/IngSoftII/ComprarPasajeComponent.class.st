@@ -7,7 +7,8 @@ Class {
 		'insumos',
 		'cantidadInsumo',
 		'total',
-		'conTarjetaCargada'
+		'conTarjetaCargada',
+		'insumo'
 	],
 	#category : #'IngSoftII-ui'
 }
@@ -67,14 +68,30 @@ ComprarPasajeComponent >> initializeWithViaje: unViaje [
 	conTarjetaCargada := false.
 	cantidadAsientos := 0.
 	cantidadInsumo := 0.
-	total := 0.
-"	self session user cambiarMembresia"
+	total := 0
+	"	self session user cambiarMembresia"
+]
+
+{ #category : #'as yet unclassified' }
+ComprarPasajeComponent >> insumo [
+^	insumo 	"s add: unInsumo.
+	total := unInsumo precio asInteger * unInsumo cantidad asInteger"
 ]
 
 { #category : #'as yet unclassified' }
 ComprarPasajeComponent >> insumo: unInsumo [
-	insumos add: unInsumo withOccurrences: cantidadInsumo asInteger.
-	total := unInsumo precio asInteger * cantidadInsumo asInteger
+	insumo:=unInsumo"s add: unInsumo.
+	total := unInsumo precio asInteger * unInsumo cantidad asInteger"
+]
+
+{ #category : #'as yet unclassified' }
+ComprarPasajeComponent >> insumo: unInsumo cantidad: unaCant [
+	insumos
+		detect: [ :i | i nombre = unInsumo nombre ]
+		ifFound: [ :i | i agregar: unaCant ]
+		ifNone: [ insumos
+				add: (InsumoConCant newWithInsumo: unInsumo andUnaCantidad: unaCant) ].	"unInsumo withOccurrences: unaCant asInteger."
+	total := total+unInsumo precio asInteger * unaCant asInteger
 ]
 
 { #category : #rendering }
@@ -96,7 +113,7 @@ ComprarPasajeComponent >> renderButtonsOn: aCanvas [
 
 { #category : #rendering }
 ComprarPasajeComponent >> renderContentOn: aCanvas [
-aCanvas
+	aCanvas
 		paragraph:
 			(BasicComponent newWithParent: self andHome: HomeComponentPasajero new).
 	aCanvas
@@ -108,6 +125,8 @@ aCanvas
 			aCanvas submitButton
 				callback: [ self cantidadAsientos ];
 				with: 'Seleccionar'.
+			aCanvas space.
+			aCanvas small: '$' , viaje precio asString , ' por pasaje'.
 			self renderInsumosOn: aCanvas.
 			self session user membresia nombre = 'basico'
 				ifTrue: [ aCanvas
@@ -134,22 +153,36 @@ ComprarPasajeComponent >> renderInsumosOn: aCanvas [
 	insumosAMostrar
 		ifEmpty: [ aCanvas heading
 				level: 4;
-				with: 'No hay insumos disponibles' ].
-	aCanvas
+				with: 'No hay insumos disponibles' ]
+		ifNotEmpty: [ "	aCanvas
 		unorderedList: [ insumosAMostrar
 				do: [ :each | 
 					aCanvas
 						listItem: [ aCanvas
 								paragraph: [ aCanvas text: each nombre.
 									aCanvas space.
+									self insumo: each cantidad: (aCanvas textInput size: 1).
+									aCanvas space.
 									aCanvas textInput
 										size: 1;
 										on: #cantidadInsumo of: self.
-									aCanvas space.
+											on: (self insumo: each cantidad: self).
+
 									aCanvas submitButton
-										callback: [ self insumo: each ];
+										callback: [ self insumo: insumo ];
 										with: 'Seleccionar'.
-									aCanvas break ] ] ] ]
+									aCanvas break ] ] ] ]"
+			(aCanvas select
+				list: insumosAMostrar;
+				labels: [ :each | each nombreCompleto ]) on: #insumo of: self.
+			aCanvas space.
+			aCanvas textInput
+				size: 1;
+				on: #cantidadInsumo of: self.
+			aCanvas space.
+			aCanvas submitButton
+				callback: [ self insumo: insumo cantidad: cantidadInsumo ];
+				with: 'Agregar' ]
 ]
 
 { #category : #'as yet unclassified' }
