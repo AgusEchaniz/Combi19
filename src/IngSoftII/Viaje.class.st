@@ -49,6 +49,11 @@ pasajeros remove:unUsuario ifAbsent:[]
 Viaje >> fecha [ ^fecha
 ]
 
+{ #category : #accessing }
+Viaje >> horario [
+	^ruta horario
+]
+
 { #category : #'as yet unclassified' }
 Viaje >> incluyeRuta: unaRuta [
 	^(ruta = unaRuta)

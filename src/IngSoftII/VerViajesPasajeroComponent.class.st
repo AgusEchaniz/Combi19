@@ -51,7 +51,8 @@ VerViajesPasajeroComponent >> renderViajesOn: aCanvas [
 										paragraph: [ aCanvas
 												strong: each ruta lugarOrigen nombre , ' a ' , each ruta lugarDestino nombre.
 											aCanvas break.
-											aCanvas text: 'El dia: ' , each fecha printString.
+											aCanvas
+												text: 'El dia: ' , each fecha printString , ', ' , each horario printString.
 											aCanvas break.
 											aCanvas
 												text:
@@ -66,7 +67,7 @@ VerViajesPasajeroComponent >> renderViajesOn: aCanvas [
 											aCanvas break.
 											aCanvas horizontalRule.
 											aCanvas break ] ] ].
-"					aCanvas horizontalRule."
+					"					aCanvas horizontalRule."
 					aCanvas submitButton
 						callback: [ self answer ];
 						with: 'Volver' ] ]

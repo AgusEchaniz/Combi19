@@ -76,7 +76,7 @@ HomeComponentPasajero >> origenFilt:unOrigen [
 
 { #category : #rendering }
 HomeComponentPasajero >> renderContentOn: aCanvas [
-self session user cambiarMembresia .
+	self session user cambiarMembresia.
 	aCanvas
 		paragraph:
 			(BasicComponent newWithParent: self andHome: HomeComponentPasajero new).
@@ -91,7 +91,7 @@ self session user cambiarMembresia .
 		with: [ aCanvas button: 'Historial de Viajes' ].
 	aCanvas anchor
 		callback: [ self call: DatosPasajeroComponent new ];
-		with: [ aCanvas button: 'Modificar datos personales' ].
+		with: [ aCanvas button: 'Modificar datos de cuenta' ].
 	self renderViajesOn: aCanvas
 ]
 
