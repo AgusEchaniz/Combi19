@@ -8,5 +8,9 @@ Class {
 HomeComponentChofer >> renderContentOn: aCanvas [
 	"super renderContentOn: aCanvas."
 
-	aCanvas paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new)
+	aCanvas
+		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
+	aCanvas anchor
+		callback: [ self call: (VerViajesChoferComponent newWithViajes: (Sistema soleInstance obtenerViajesChofer: self session user)) ];
+		with: [ aCanvas button: 'Ver viajes' ]
 ]

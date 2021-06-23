@@ -7,7 +7,8 @@ Class {
 		'cantidadAsientos',
 		'cantidadVendidos',
 		'pasajeros',
-		'precio'
+		'precio',
+		'estado'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -46,6 +47,11 @@ pasajeros remove:unUsuario ifAbsent:[]
 ]
 
 { #category : #accessing }
+Viaje >> estado [
+^estado
+]
+
+{ #category : #accessing }
 Viaje >> fecha [ ^fecha
 ]
 
@@ -72,13 +78,14 @@ cantidadVendidos :=0.
 ]
 
 { #category : #'as yet unclassified' }
-Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
+Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaCantidadAsientos andPrecio: unPrecio [
 	ruta := unaRuta.
 	fecha := unaFecha.
 	cantidadAsientos := unaCantidadAsientos.
 	cantidadVendidos := 0.
 	pasajeros := OrderedCollection new.
-	precio:=unPrecio 
+	precio := unPrecio.
+	estado := 'pendiente'
 ]
 
 { #category : #'as yet unclassified' }
@@ -100,6 +107,11 @@ Viaje >> modificarWithCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio [
 Viaje >> nombre [
 	^ ruta nombre , ' - ' , fecha asString
 		, ' - Cantidad de pasajes vendidos: ' , cantidadVendidos asString
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> obtenerChofer [
+	^self ruta obtenerChofer
 ]
 
 { #category : #'as yet unclassified' }
