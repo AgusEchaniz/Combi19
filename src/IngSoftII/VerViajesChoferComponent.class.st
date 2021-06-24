@@ -37,7 +37,7 @@ VerViajesChoferComponent >> initializeWithViajes: unosViajes [
 
 { #category : #initialization }
 VerViajesChoferComponent >> ordenarViajesPorFecha: unosViajes [
-	^ unosViajes sort: [ :viaje1 :viaje2 | viaje1 fecha >= viaje2 fecha ]
+	^ unosViajes sort: [ :viaje1 :viaje2 | viaje1 fecha <= viaje2 fecha ]
 ]
 
 { #category : #initialization }
