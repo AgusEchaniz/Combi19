@@ -22,6 +22,11 @@ Viaje class >> newWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaC
 		andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio
 ]
 
+{ #category : #'as yet unclassified' }
+Viaje >> cancelar [
+estado:='Cancelado'
+]
+
 { #category : #accessing }
 Viaje >> cantidadAsientos [
 ^cantidadAsientos
@@ -57,6 +62,22 @@ Viaje >> fecha [ ^fecha
 ]
 
 { #category : #accessing }
+Viaje >> fechaCompleta [
+^DateAndTime date:fecha time:self horario
+]
+
+{ #category : #initialization }
+Viaje >> finalizado [
+	^ estado='finalizado'
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> finalizar [
+
+	estado := 'finalizado'
+]
+
+{ #category : #accessing }
 Viaje >> horario [ 
 	^ruta horario 
 ]
@@ -75,7 +96,8 @@ Viaje >> incluyenPasajero: unUsuario [
 Viaje >> initialize [
 	super initialize.
 	cantidadVendidos := 0.
-	rechazados :=OrderedCollection new.
+	rechazados := OrderedCollection new.
+	
 ]
 
 { #category : #'as yet unclassified' }

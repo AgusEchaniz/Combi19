@@ -6,11 +6,13 @@ Class {
 
 { #category : #rendering }
 HomeComponentChofer >> renderContentOn: aCanvas [
-	| proxViajeChofer viajesChofer |
+	| proxViajeChofer viajesChofer viajesPendientesChofer |
+	viajesPendientesChofer := Sistema soleInstance
+		obtenerViajesPendientesChofer: self session user.
 	viajesChofer := Sistema soleInstance
 		obtenerViajesChofer: self session user.
-	viajesChofer
-		ifNotEmpty: [ proxViajeChofer := ((viajesChofer
+	viajesPendientesChofer
+		ifNotEmpty: [ proxViajeChofer := ((viajesPendientesChofer
 				select: [ :each | each estado = 'pendiente' ])
 				sort: [ :viajeA :viajeB | 
 					viajeA fecha < viajeB fecha
@@ -28,7 +30,7 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 		with: [ aCanvas button: 'Registrar sintomas' ].
 	aCanvas horizontalRule.
 	proxViajeChofer
-		ifNil: [ aCanvas text: 'No tiene viajes asignados' ]
+		ifNil: [ aCanvas strong: 'No tiene viajes pendientes asignados' ]
 		ifNotNil: [ self renderProxViajeOn: aCanvas paraViaje: proxViajeChofer ]
 ]
 
@@ -49,7 +51,10 @@ HomeComponentChofer >> renderProxViajeOn: aCanvas paraViaje: proxViajeChofer [
 			'Asientos Disponibles:'
 				, proxViajeChofer cantidadAsientosDisponibles printString.
 	aCanvas break.
-	aCanvas text: 'Horario: ' , proxViajeChofer ruta horario printString.
+	aCanvas
+		text:
+			'Fecha: ' , proxViajeChofer fecha printString , ' Horario: '
+				, proxViajeChofer ruta horario printString.
 	aCanvas break.
 	DateAndTime now minute - proxViajeChofer horario minute <= 15
 		ifTrue: [ aCanvas anchor

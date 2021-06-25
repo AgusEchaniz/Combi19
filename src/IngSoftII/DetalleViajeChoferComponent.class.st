@@ -26,7 +26,7 @@ DetalleViajeChoferComponent >> initializeWithViaje: unViaje [
 DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 	aCanvas
 		paragraph:
-			(BasicComponent newWithParent: self andHome: HomeComponentPasajero new).
+			(BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	aCanvas heading
 		level: 2;
 		with:

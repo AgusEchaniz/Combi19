@@ -553,8 +553,14 @@ Sistema >> obtenerPasajerosViaje: unViaje [
 
 { #category : #chofer }
 Sistema >> obtenerViajesChofer: unChofer [
-	^self viajes select: [:viaje | viaje obtenerChofer = unChofer  ]
-	
+	^ (viajes select: [ :viaje | viaje obtenerChofer = unChofer ])
+		
+]
+
+{ #category : #chofer }
+Sistema >> obtenerViajesPendientesChofer: unChofer [
+	^ (viajes select: [ :viaje | viaje obtenerChofer = unChofer ])
+		select: [ :viaje | viaje estado = 'pendiente' ]
 ]
 
 { #category : #lugar }
