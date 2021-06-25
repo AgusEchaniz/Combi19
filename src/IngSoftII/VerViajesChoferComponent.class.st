@@ -120,8 +120,8 @@ VerViajesChoferComponent >> renderOn: aCanvas viajes: unosViajes [
 													aCanvas space.
 													(each fechaCompleta - DateAndTime now) asHours <= 24
 														ifTrue: [ aCanvas submitButton
-																callback: [ self cancelarViaje:each ];
-																with: 'Cancelar viaje' ].
+																callback: [ self cancelarViaje: each ];
+																with: 'Cancelar viaje' ]ifFalse:[aCanvas small:'Si desea cancelar el viaje contacte al administrador'].
 													aCanvas space ].
 											aCanvas break.
 											aCanvas horizontalRule ] ] ] ] ]

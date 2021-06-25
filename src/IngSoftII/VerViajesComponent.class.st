@@ -70,20 +70,20 @@ VerViajesComponent >> renderViajesOn: aCanvas [
 											aCanvas space.	"aCanvas anchor
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
-											each finalizado
+											each finalizado | each cancelado
 												ifFalse: [ aCanvas submitButton
 														callback: [ self eliminarViaje: each ];
 														with: 'Eliminar'.
 													aCanvas submitButton
 														callback: [ self
-																call: (ViajeComponent newWithObjetivo: 'modificar' andViaje: each) ];with:'Modificar' ] 
-										ifTrue: [ aCanvas submitButton
-												callback:
-														[ self call: (VerPasajerosRechazadosComponent newWithViaje: each) ];
-												with: 'Ver pasajeros rechazados' ].
-									aCanvas break ] ] ].
-			aCanvas horizontalRule.
-			aCanvas submitButton
-				callback: [ self answer ];
-				with: 'Volver' ]]
+																call: (ViajeComponent newWithObjetivo: 'modificar' andViaje: each) ];
+														with: 'Modificar' ]
+												ifTrue: [ aCanvas submitButton
+														callback: [ self call: (VerPasajerosRechazadosComponent newWithViaje: each) ];
+														with: 'Ver pasajeros rechazados' ].
+											aCanvas break ] ] ].
+					aCanvas horizontalRule.
+					aCanvas submitButton
+						callback: [ self answer ];
+						with: 'Volver' ] ]
 ]

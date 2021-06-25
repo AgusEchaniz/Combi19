@@ -23,6 +23,11 @@ Viaje class >> newWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaC
 ]
 
 { #category : #'as yet unclassified' }
+Viaje >> cancelado [
+^estado= 'Cancelado'
+]
+
+{ #category : #'as yet unclassified' }
 Viaje >> cancelar [
 estado:='Cancelado'
 ]
