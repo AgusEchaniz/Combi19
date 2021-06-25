@@ -56,8 +56,8 @@ Viaje >> fecha [ ^fecha
 ]
 
 { #category : #accessing }
-Viaje >> horario [
-	^ruta horario
+Viaje >> horario [ 
+	^ruta horario 
 ]
 
 { #category : #'as yet unclassified' }
