@@ -46,6 +46,11 @@ Usuario >> nombreUsuario [
 ^nombreUsuario
 ]
 
+{ #category : #accessing }
+Usuario >> pertenezcoAlViaje: unViaje [
+	^ self subclassResponsibility 
+]
+
 { #category : #'as yet unclassified' }
 Usuario >> seLlama: unNombreDeUsuario [
 	^ unNombreDeUsuario asUppercase = nombreUsuario asUppercase	

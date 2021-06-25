@@ -70,6 +70,11 @@ Chofer >> nombreCompleto [
 ^nombre,' ',apellido,': ',nombreUsuario 
 ]
 
+{ #category : #accessing }
+Chofer >> pertenezcoAlViaje: unviaje [
+	^ false
+]
+
 { #category : #'as yet unclassified' }
 Chofer >> soy [
 ^'chofer'
