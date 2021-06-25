@@ -9,24 +9,27 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 	| proxViajeChofer viajesChofer |
 	viajesChofer := Sistema soleInstance
 		obtenerViajesChofer: self session user.
-	proxViajeChofer := ((viajesChofer
-		select: [ :each | each estado = 'pendiente' ])
-		sort: [ :viajeA :viajeB | 
-			viajeA fecha < viajeB fecha
-				& (viajeA ruta horario < viajeB ruta horario) ]) first.
-			
+	viajesChofer
+		ifNotEmpty: [ proxViajeChofer := ((viajesChofer
+				select: [ :each | each estado = 'pendiente' ])
+				sort: [ :viajeA :viajeB | 
+					viajeA fecha < viajeB fecha
+						& (viajeA ruta horario < viajeB ruta horario) ]) first ].
+
 	"super renderContentOn: aCanvas."
 	aCanvas
 		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	aCanvas anchor
-		callback:
-				[ self call: (VerViajesChoferComponent newWithViajes: viajesChofer) ];
+		callback: [ self call: (VerViajesChoferComponent newWithViajes: viajesChofer) ];
 		with: [ aCanvas button: 'Ver viajes' ].
+	"para probar: "
+	aCanvas anchor
+		callback: [ self call: RegistrarSintomasComponent new ];
+		with: [ aCanvas button: 'Registrar sintomas' ].
 	aCanvas horizontalRule.
-	
-	self renderProxViajeOn: aCanvas paraViaje:proxViajeChofer.
-	
-	
+	proxViajeChofer
+		ifNil: [ aCanvas text: 'No tiene viajes asignados' ]
+		ifNotNil: [ self renderProxViajeOn: aCanvas paraViaje: proxViajeChofer ]
 ]
 
 { #category : #rendering }

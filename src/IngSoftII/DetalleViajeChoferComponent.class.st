@@ -72,16 +72,14 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 						do: [ :each | 
 							aCanvas
 								listItem: [ aCanvas
-										paragraph: [ aCanvas
-												big: each nombreCompleto.
+										paragraph: [ aCanvas big: each nombreCompleto.
 											aCanvas break.
-											aCanvas
-												text: 'DNI: ' , each dni.
+											aCanvas text: 'DNI: ' , each dni.
 											aCanvas break.
 											aCanvas space.
 											aCanvas break.
 											aCanvas submitButton
-												callback: [  ];
+												callback: [ (self call: RegistrarSintomasComponent new) ];
 												with: 'Registrar síntomas'.
 											aCanvas space.
 											aCanvas submitButton

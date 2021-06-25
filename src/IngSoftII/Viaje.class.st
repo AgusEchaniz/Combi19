@@ -8,7 +8,8 @@ Class {
 		'cantidadVendidos',
 		'pasajeros',
 		'precio',
-		'estado'
+		'estado',
+		'rechazados'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -71,10 +72,10 @@ Viaje >> incluyenPasajero: unUsuario [
 ]
 
 { #category : #initialization }
-Viaje >> initialize [ 
-super initialize.
-cantidadVendidos :=0.
-
+Viaje >> initialize [
+	super initialize.
+	cantidadVendidos := 0.
+	rechazados :=OrderedCollection new.
 ]
 
 { #category : #'as yet unclassified' }
@@ -122,6 +123,17 @@ Viaje >> obtenerNombreRuta [
 { #category : #accessing }
 Viaje >> precio [ 
 ^precio
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> rechazados [
+^rechazados
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> rechazarPasajero:unPasajero [
+
+rechazados add:unPasajero
 ]
 
 { #category : #accessing }
