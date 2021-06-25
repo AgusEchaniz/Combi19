@@ -155,7 +155,7 @@ RutaComponent >> modificarRuta [
 		ifTrue: [ self combi: ruta combi ].
 	usarCombiActual
 		ifFalse: [ combi
-				ifNil: [  mensaje := 'Por favor seleccione una combi' .
+				ifNil: [ mensaje := 'Por favor seleccione una combi'.
 					^ self ] ].
 	combi ifNil: [ ^ self ].
 	distancia ifEmpty: [ ^ self ].

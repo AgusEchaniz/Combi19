@@ -106,7 +106,8 @@ VerPasajesPasajeroComponent >> renderOn: aCanvas pasajes: unosPasajes [
 													each viaje ruta lugarOrigen nombre , ' a '
 														, each viaje ruta lugarDestino nombre.
 											aCanvas break.
-											aCanvas text: 'El dia: ' , each fecha printString.
+											aCanvas
+												text: 'El dia: ' , each fecha printString , ', ' , each viaje horario printString.
 											aCanvas break.
 											aCanvas
 												text: 'Cantidad de pasajes comprados: ' , each cantidad printString.
@@ -116,15 +117,12 @@ VerPasajesPasajeroComponent >> renderOn: aCanvas pasajes: unosPasajes [
 												ifEmpty: [ insumosSinRepetir := OrderedCollection new.
 													aCanvas text: 'No se compraron insumos'.
 													aCanvas break ]
-												ifNotEmpty: [" insumosSinRepetir := each insumos asSet."
+												ifNotEmpty: [ " insumosSinRepetir := each insumos asSet."
 													aCanvas
 														unorderedList: [ each insumos
 																do: [ :insumo | 
 																	aCanvas
-																		listItem: [ aCanvas
-																				text:
-																					insumo nombre , ' x'
-																						, insumo cantidad asString ].
+																		listItem: [ aCanvas text: insumo nombre , ' x' , insumo cantidad asString ].
 																	aCanvas break ] ] ].
 											aCanvas text: 'Precio total: $' , each precio asString.
 											aCanvas space.

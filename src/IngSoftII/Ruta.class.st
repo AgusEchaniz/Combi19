@@ -89,6 +89,11 @@ Ruta >> nombre [
 		, horario asString)
 ]
 
+{ #category : #accessing }
+Ruta >> obtenerChofer [
+	^self combi chofer
+]
+
 { #category : #'as yet unclassified' }
 Ruta >> tieneCombi: unaCombi [
 ^combi=unaCombi 

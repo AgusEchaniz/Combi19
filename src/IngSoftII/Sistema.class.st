@@ -546,6 +546,17 @@ Sistema >> noPuedeSerRutaConOrigen: unLugarOrigen
 		andHorario: unHorario])anySatisfy:[:ruta| ruta tieneCombi:unaCombi]
 ]
 
+{ #category : #usuario }
+Sistema >> obtenerPasajerosViaje: unViaje [
+	^ usuarios select: [:usuario | usuario pertenezcoAlViaje: unViaje ]
+]
+
+{ #category : #chofer }
+Sistema >> obtenerViajesChofer: unChofer [
+	^self viajes select: [:viaje | viaje obtenerChofer = unChofer  ]
+	
+]
+
 { #category : #lugar }
 Sistema >> provincias [
 	^ provincias asSortedCollection: [:provincia1 :provincia2 | provincia1 <= provincia2  ]

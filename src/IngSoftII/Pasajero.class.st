@@ -144,6 +144,11 @@ Pasajero >> pasajes [
 		sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ]
 ]
 
+{ #category : #accessing }
+Pasajero >> pertenezcoAlViaje: unViaje [
+	^ self tengoEsteViaje: unViaje
+]
+
 { #category : #'as yet unclassified' }
 Pasajero >> puedeSerTarjetaWithNumero: unNumero andFechaVencimiento: unaFecha [
 	(self esNumeroValido: unNumero)
@@ -188,4 +193,9 @@ Pasajero >> soy [
 { #category : #accessing }
 Pasajero >> tarjeta [
 	^ tarjeta
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> tengoEsteViaje: unViaje [
+	pasajes detect: [:pasaje | pasaje viaje = unViaje  ] ifFound:[^true]  ifNone: [^false]
 ]
