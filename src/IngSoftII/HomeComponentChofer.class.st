@@ -31,23 +31,26 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 
 { #category : #rendering }
 HomeComponentChofer >> renderProxViajeOn: aCanvas paraViaje: proxViajeChofer [
-	aCanvas title: 'Proximo Viaje'.
+	aCanvas heading: 'Proximo Viaje'.
 	aCanvas break.
 	aCanvas
 		strong:
-			'Viaje ' , proxViajeChofer ruta lugarOrigen , ' a '
-				, proxViajeChofer ruta lugarDestino.
+			'Viaje ' , proxViajeChofer ruta lugarOrigen nombre asString , ' a '
+				, proxViajeChofer ruta lugarDestino nombre asString.
 	aCanvas break.
-	aCanvas text: 'Asientos vendidos:' , proxViajeChofer cantidadVendidos.
+	aCanvas
+		text: 'Asientos vendidos:' , proxViajeChofer cantidadVendidos printString.
 	aCanvas space.
 	aCanvas
-		text: 'Asientos Disponibles:' , proxViajeChofer cantidadAsientosDisponibles.
+		text:
+			'Asientos Disponibles:'
+				, proxViajeChofer cantidadAsientosDisponibles printString.
 	aCanvas break.
 	aCanvas text: 'Horario: ' , proxViajeChofer ruta horario printString.
 	aCanvas break.
-	"validar los 15 minutos"
-	aCanvas anchor
-		callback: [ self
-				call: (DetalleViajeChoferComponent newWithViaje: proxViajeChofer) ];
-		with: [ aCanvas button: 'Ver proximo viaje' ]
+	DateAndTime now minute - proxViajeChofer horario minute <= 15
+		ifTrue: [ aCanvas anchor
+				callback: [ self
+						call: (DetalleViajeChoferComponent newWithViaje: proxViajeChofer) ];
+				with: [ aCanvas button: 'Ver proximo viaje' ] ]
 ]
