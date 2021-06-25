@@ -66,7 +66,8 @@ VerViajesComponent >> renderViajesOn: aCanvas [
 						do: [ :each | 
 							aCanvas
 								listItem: [ aCanvas
-										paragraph: [ aCanvas text: each nombre.
+										paragraph: [ aCanvas strong: each estado , ' '.
+											aCanvas text: each nombre.
 											aCanvas space.	"aCanvas anchor
 								callback: [ self call: (self mostrarPasajero: each on: aCanvas) ];
 								with: each nombre."
@@ -78,9 +79,9 @@ VerViajesComponent >> renderViajesOn: aCanvas [
 														callback: [ self
 																call: (ViajeComponent newWithObjetivo: 'modificar' andViaje: each) ];
 														with: 'Modificar' ]
-												ifTrue: [ aCanvas submitButton
+												ifTrue: [each finalizado ifTrue:[ aCanvas submitButton
 														callback: [ self call: (VerPasajerosRechazadosComponent newWithViaje: each) ];
-														with: 'Ver pasajeros rechazados' ].
+														with: 'Ver pasajeros rechazados' ]].
 											aCanvas break ] ] ].
 					aCanvas horizontalRule.
 					aCanvas submitButton
