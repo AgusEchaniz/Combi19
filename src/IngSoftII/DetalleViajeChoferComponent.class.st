@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'viaje',
 		'mensaje',
-		'pasajeros'
+		'pasajeros',
+		'estados'
 	],
 	#category : #'IngSoftII-ui-Chofer'
 }
@@ -15,11 +16,18 @@ DetalleViajeChoferComponent class >> newWithViaje: unViaje [
 ]
 
 { #category : #initialization }
+DetalleViajeChoferComponent >> initializeVector [
+	1 to: estados size do: [ :index | estados at: index put: ' ' ]
+]
+
+{ #category : #initialization }
 DetalleViajeChoferComponent >> initializeWithViaje: unViaje [
 	super initialize.
 	viaje := unViaje.
 	pasajeros := Sistema soleInstance obtenerPasajerosViaje: unViaje.
-	mensaje := ' '
+	mensaje := ' '.
+	estados := Array new: pasajeros size.
+	self initializeVector
 ]
 
 { #category : #initialization }
@@ -73,13 +81,18 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 							aCanvas
 								listItem: [ aCanvas
 										paragraph: [ aCanvas big: each nombreCompleto.
+											aCanvas space.
+											aCanvas
+												strong: (estados at: (pasajeros indexOf: each)) asString.
 											aCanvas break.
 											aCanvas text: 'DNI: ' , each dni.
 											aCanvas break.
 											aCanvas space.
 											aCanvas break.
 											aCanvas submitButton
-												callback: [ (self call: RegistrarSintomasComponent new) ];
+												callback: [ estados
+														at: (pasajeros indexOf: each)
+														put: (self call: RegistrarSintomasComponent new) ];
 												with: 'Registrar síntomas'.
 											aCanvas space.
 											aCanvas submitButton
