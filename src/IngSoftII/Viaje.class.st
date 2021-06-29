@@ -158,9 +158,9 @@ Viaje >> rechazados [
 ]
 
 { #category : #'as yet unclassified' }
-Viaje >> rechazarPasajero:unPasajero [
-
-rechazados add:unPasajero
+Viaje >> rechazarPasajero: unPasajero [
+	rechazados add: unPasajero.
+	unPasajero rechazar
 ]
 
 { #category : #accessing }

@@ -9,7 +9,9 @@ Class {
 		'nombreCompleto',
 		'pasajes',
 		'cambioMembresia',
-		'fechaCambio'
+		'fechaCambio',
+		'rechazado',
+		'rechazadoHasta'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -97,7 +99,8 @@ Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: una
 	dni := unDni.
 	membresia := unaMembresia.
 	pasajes := OrderedCollection new.
-	cambioMembresia :=false.
+	cambioMembresia := false.
+	rechazado:=false
 ]
 
 { #category : #accessing }
@@ -172,6 +175,22 @@ Pasajero >> reanudarMembresia [
 
 	cambioMembresia := false.
 
+]
+
+{ #category : #accessing }
+Pasajero >> rechazado [
+^rechazado
+]
+
+{ #category : #accessing }
+Pasajero >> rechazadoHasta [
+^rechazadoHasta
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> rechazar [
+	rechazado:=true.
+	rechazadoHasta:=Date today addDays: 14.
 ]
 
 { #category : #accessing }
