@@ -97,7 +97,9 @@ RegistrarSintomasComponent >> registrarSintomas [
 		ifNil: [ mensaje := 'Por favor ingrese la temperatura del pasajero'.
 			^ self ]
 		ifNotNil: [ self registrarTemperatura ].
-		temperatura <36 ifTrue:[mensaje:='Por favor ingrese un pasajero vivo'].
+	temperatura asInteger < 36
+		ifTrue: [ mensaje := 'La temperatura mínima es 36°'.
+			^ self ].
 	temperatura asInteger >= 38
 		ifTrue: [ self answer: 'Rechazado por fiebre' ]
 		ifFalse: [ (sintomas count: [ :sintoma | sintoma estado ]) >= 2
@@ -130,12 +132,16 @@ RegistrarSintomasComponent >> renderContentOn: aCanvas [
 		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	"aCanvas
 		table: [ "
+	aCanvas heading
+		level: 4;
+		with: mensaje.
 	aCanvas
-		form: [ aCanvas text:mensaje.
-			aCanvas text: ' Ingrese la temperatura del pasajero '.
+		form: [ aCanvas text: ' Ingrese la temperatura del pasajero '.
 			aCanvas textInput
 				size: 1;
 				on: #temperatura of: self.
+				aCanvas space.
+			aCanvas small: 'Min. 36°'.
 			aCanvas break.
 			aCanvas break.
 			aCanvas checkbox on: #estadoTos of: self.
