@@ -106,14 +106,13 @@ RegistrarSintomasComponent >> registrarTemperatura [
 
 { #category : #rendering }
 RegistrarSintomasComponent >> renderButtonsOn: aCanvas [
-aCanvas horizontalRule.
-	aCanvas
-		form: [ aCanvas submitButton
+	aCanvas horizontalRule.
+	 aCanvas submitButton
 				callback: [ self registrarSintomas ];
 				with: 'Aceptar'.
 			aCanvas submitButton
 				callback: [ self answer: 'Cancelado' ];
-				with: 'Cancelar' ]
+				with: 'Cancelar' 
 ]
 
 { #category : #rendering }
@@ -122,7 +121,7 @@ RegistrarSintomasComponent >> renderContentOn: aCanvas [
 		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	"aCanvas
 		table: [ "
-	aCanvas text: ' Ingrese la temperatura del pasajero '.
+	aCanvas form:[aCanvas text: ' Ingrese la temperatura del pasajero '.
 	aCanvas textInput
 		size: 1;
 		on: #temperatura of: self.
@@ -170,7 +169,7 @@ RegistrarSintomasComponent >> renderContentOn: aCanvas [
 					aCanvas textInput
 						size: 1;
 						on: #temperatura of: self ] ]."
-	self renderButtonsOn: aCanvas
+	self renderButtonsOn: aCanvas]
 ]
 
 { #category : #'as yet unclassified' }
