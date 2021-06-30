@@ -31,7 +31,7 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 		with: [ aCanvas button: 'Registrar sintomas' ].
 	aCanvas horizontalRule.
 	viajesChofer
-		detect: [ :viaje | viaje estado = 'en curso' ]
+		detect: [ :viaje | viaje estado = 'En curso' ]
 		ifFound: [ :viaje | 
 			aCanvas heading: 'Viaje iniciado:'.
 			aCanvas break.

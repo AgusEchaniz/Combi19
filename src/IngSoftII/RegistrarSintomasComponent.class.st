@@ -149,7 +149,9 @@ RegistrarSintomasComponent >> renderContentOn: aCanvas [
 		with: mensaje.
 	usuario nombre
 		ifNil: [ aCanvas big: usuario nombreUsuario ]
-		ifNotNil: [ aCanvas big: usuario nombre ].
+		ifNotNil: [ aCanvas big: usuario nombreCompleto ].
+	aCanvas break.
+	aCanvas break.
 	aCanvas
 		form: [ aCanvas text: ' Ingrese la temperatura del pasajero '.
 			aCanvas textInput

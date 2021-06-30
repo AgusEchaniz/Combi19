@@ -97,6 +97,11 @@ Viaje >> incluyenPasajero: unUsuario [
 	^pasajeros includes: unUsuario
 ]
 
+{ #category : #'as yet unclassified' }
+Viaje >> iniciar [
+	estado := 'En curso'
+]
+
 { #category : #initialization }
 Viaje >> initialize [
 	super initialize.

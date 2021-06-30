@@ -16,6 +16,26 @@ DetalleViajeChoferComponent class >> newWithViaje: unViaje [
 ]
 
 { #category : #initialization }
+DetalleViajeChoferComponent >> habilitadoAViajar [
+	estados
+		detect: [ :estado | estado = ' ' or: (estado = 'Cancelado') ]
+		ifFound: [ ^ false ]
+		ifNone: [ ^ true ]
+]
+
+{ #category : #initialization }
+DetalleViajeChoferComponent >> iniciarViaje [
+	pasajeros
+		do: [ :pasajero | 
+			pasajero
+				conCondicion: (estados at: (pasajeros indexOf: pasajero))
+				viajarA: viaje ].
+	viaje iniciar.
+	self
+		call: (VerViajesChoferComponent newWithViajes: (Sistema soleInstance obtenerViajesChofer: self session user))
+]
+
+{ #category : #initialization }
 DetalleViajeChoferComponent >> initializeVector [
 	1 to: estados size do: [ :index | estados at: index put: ' ' ]
 ]
@@ -31,10 +51,15 @@ DetalleViajeChoferComponent >> initializeWithViaje: unViaje [
 ]
 
 { #category : #initialization }
+DetalleViajeChoferComponent >> registrarAusente: unPasajero [
+	estados at: (pasajeros indexOf: unPasajero) put: 'Ausente'.
+	unPasajero conCondicion: 'Ausente'  viajarA: viaje
+]
+
+{ #category : #initialization }
 DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 	aCanvas
-		paragraph:
-			(BasicComponent newWithParent: self andHome: HomeComponentChofer new).
+		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	aCanvas heading
 		level: 2;
 		with:
@@ -63,9 +88,9 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				with: 'Pasajeros: '.
 			self renderOn: aCanvas Pasajeros: pasajeros ].
 	aCanvas
-		form: [ aCanvas submitButton
-				callback: [  ];
-				with: 'Iniciar Viaje'.
+		form: [self habilitadoAViajar ifTrue:[ aCanvas submitButton
+				callback: [ self iniciarViaje ];
+				with: 'Iniciar Viaje'].
 			aCanvas space.
 			aCanvas submitButton
 				callback: [ self answer ];
@@ -82,8 +107,8 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 								listItem: [ aCanvas
 										paragraph: [ aCanvas big: each nombreCompleto.
 											aCanvas space.
-											aCanvas
-												strong: (estados at: (pasajeros indexOf: each)) asString.
+											'Cancelado' = (estados at: (pasajeros indexOf: each))
+												ifFalse: [ aCanvas strong: (estados at: (pasajeros indexOf: each)) asString ].
 											aCanvas break.
 											aCanvas text: 'DNI: ' , each dni.
 											aCanvas break.
@@ -92,11 +117,11 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 											aCanvas submitButton
 												callback: [ estados
 														at: (pasajeros indexOf: each)
-														put: (self call: RegistrarSintomasComponent new) ];
+														put: (self call: (RegistrarSintomasComponent newWithUser: each)) ];
 												with: 'Registrar síntomas'.
 											aCanvas space.
 											aCanvas submitButton
-												callback: [  ];
+												callback: [ self registrarAusente: each ];
 												with: 'Registrar ausente'.
 											aCanvas space.
 											aCanvas break.
