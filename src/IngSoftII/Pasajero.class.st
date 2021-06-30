@@ -9,7 +9,9 @@ Class {
 		'nombreCompleto',
 		'pasajes',
 		'cambioMembresia',
-		'fechaCambio'
+		'fechaCambio',
+		'rechazado',
+		'rechazadoHasta'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -49,6 +51,15 @@ Pasajero >> cambioMembresia [
 ]
 
 { #category : #'as yet unclassified' }
+Pasajero >> cancelarPasajesDelViaje: unViaje [
+	|pasajesA|
+	pasajesA :=self pasajesDelViaje: unViaje.
+	pasajesA
+		ifEmpty: [ ^ self ]
+		ifNotEmpty: [pasajesA 	do: [ :pasaje | pasaje cancelarPasaje ] ]
+]
+
+{ #category : #'as yet unclassified' }
 Pasajero >> cargarTarjetaWithNumero: unNumero andCodigoSeguridad: unCodigo andFechaVencimiento: unaFecha andNombre: unNombre [
 	(self
 		puedeSerTarjetaWithNumero: unNumero
@@ -59,6 +70,17 @@ Pasajero >> cargarTarjetaWithNumero: unNumero andCodigoSeguridad: unCodigo andFe
 				andFechaVencimiento: unaFecha
 				andNombre: unNombre. ^tarjeta].
 	^ nil
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> conCondicion: unaCondicion viajarA: unViaje [
+	(unaCondicion = 'Rechazado por fiebre'
+		or: unaCondicion = 'Rechazado por sintomas')
+		ifTrue: [ self cancelarPasajesDelViaje: unViaje.
+			unViaje rechazarPasajero: self ]
+		ifFalse: [ unaCondicion = 'Ausente'
+				ifTrue: [ self cancelarPasajesDelViaje: unViaje ]
+				ifFalse: [ self iniciarViaje: unViaje ] ]
 ]
 
 { #category : #accessing }
@@ -86,6 +108,14 @@ Pasajero >> fechaNac [
 	^ fechaNac
 ]
 
+{ #category : #'as yet unclassified' }
+Pasajero >> iniciarViaje: unViaje [
+	| pasajesA |
+	pasajesA := self pasajesDelViaje: unViaje.
+	pasajesA
+		ifNotEmpty: [ pasajesA do: [ :pasaje | pasaje iniciarPasaje ] ]
+]
+
 { #category : #initialization }
 Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia: unaMembresia [
 	self initialize
@@ -97,7 +127,8 @@ Pasajero >> initializeWithNombreDeUsuario: unNombreDeUsuario andContraseña: una
 	dni := unDni.
 	membresia := unaMembresia.
 	pasajes := OrderedCollection new.
-	cambioMembresia :=false.
+	cambioMembresia := false.
+	rechazado:=false
 ]
 
 { #category : #accessing }
@@ -144,6 +175,11 @@ Pasajero >> pasajes [
 		sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ]
 ]
 
+{ #category : #'as yet unclassified' }
+Pasajero >> pasajesDelViaje: unViaje [
+	^self pasajes select: [:pasaje | pasaje tieneViaje: unViaje  ]
+]
+
 { #category : #accessing }
 Pasajero >> pertenezcoAlViaje: unViaje [
 	^ self tengoEsteViaje: unViaje
@@ -172,6 +208,22 @@ Pasajero >> reanudarMembresia [
 
 	cambioMembresia := false.
 
+]
+
+{ #category : #accessing }
+Pasajero >> rechazado [
+^rechazado
+]
+
+{ #category : #accessing }
+Pasajero >> rechazadoHasta [
+^rechazadoHasta
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> rechazar [
+	rechazado:=true.
+	rechazadoHasta:=Date today addDays: 14.
 ]
 
 { #category : #accessing }

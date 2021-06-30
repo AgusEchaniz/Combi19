@@ -97,6 +97,11 @@ Viaje >> incluyenPasajero: unUsuario [
 	^pasajeros includes: unUsuario
 ]
 
+{ #category : #'as yet unclassified' }
+Viaje >> iniciar [
+	estado := 'En curso'
+]
+
 { #category : #initialization }
 Viaje >> initialize [
 	super initialize.
@@ -158,9 +163,9 @@ Viaje >> rechazados [
 ]
 
 { #category : #'as yet unclassified' }
-Viaje >> rechazarPasajero:unPasajero [
+Viaje >> rechazarPasajero: unPasajero [
+	rechazados add: unPasajero.
 
-rechazados add:unPasajero
 ]
 
 { #category : #accessing }

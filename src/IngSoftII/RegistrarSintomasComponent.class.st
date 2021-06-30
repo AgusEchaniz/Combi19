@@ -3,10 +3,17 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'sintomas',
-		'temperatura'
+		'temperatura',
+		'mensaje',
+		'usuario'
 	],
 	#category : #'IngSoftII-ui-Chofer'
 }
+
+{ #category : #'instance creation' }
+RegistrarSintomasComponent class >> newWithUser:unUsuario [
+^self new initializeWithUser: unUsuario
+]
 
 { #category : #'as yet unclassified' }
 RegistrarSintomasComponent >> estadoGarganta [
@@ -86,14 +93,30 @@ RegistrarSintomasComponent >> initialize [
 	sintomas add: (Sintoma newWithNombre: 'Dolor de garganta').
 	sintomas add: (Sintoma newWithNombre: 'Dificultad respiratoria').
 	sintomas add: (Sintoma newWithNombre: 'Fiebre').
+	mensaje:=''
 	"temperatura := ' '"
+]
+
+{ #category : #initialization }
+RegistrarSintomasComponent >> initializeWithUser: unUsuario [
+	self initialize.
+	usuario:=unUsuario
 ]
 
 { #category : #'as yet unclassified' }
 RegistrarSintomasComponent >> registrarSintomas [
-	temperatura ifNil: [ ^ self ] ifNotNil: [ self registrarTemperatura ].
+	temperatura
+		ifNil: [ mensaje := 'Por favor ingrese la temperatura del pasajero'.
+			^ self ]
+		ifNotNil: [ self registrarTemperatura ].
+	temperatura asInteger < 36
+		ifTrue: [ mensaje := 'La temperatura mínima es 36°'.
+			^ self ].
 	temperatura asInteger >= 38
-		ifTrue: [ self answer:'Rechazado por fiebre'] ifFalse:[(sintomas count:[:sintoma| sintoma estado])>=2 ifTrue:[self answer:'Rechazado por sintomas'] ifFalse:[self answer:'Aceptado']]
+		ifTrue: [ usuario rechazar. self answer: 'Rechazado por fiebre' ]
+		ifFalse: [ (sintomas count: [ :sintoma | sintoma estado ]) >= 2
+				ifTrue: [ usuario rechazar. self answer: 'Rechazado por sintomas' ]
+				ifFalse: [ self answer: 'Aceptado' ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -106,14 +129,13 @@ RegistrarSintomasComponent >> registrarTemperatura [
 
 { #category : #rendering }
 RegistrarSintomasComponent >> renderButtonsOn: aCanvas [
-aCanvas horizontalRule.
-	aCanvas
-		form: [ aCanvas submitButton
+	aCanvas horizontalRule.
+	 aCanvas submitButton
 				callback: [ self registrarSintomas ];
 				with: 'Aceptar'.
 			aCanvas submitButton
 				callback: [ self answer: 'Cancelado' ];
-				with: 'Cancelar' ]
+				with: 'Cancelar' 
 ]
 
 { #category : #rendering }
@@ -122,29 +144,40 @@ RegistrarSintomasComponent >> renderContentOn: aCanvas [
 		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	"aCanvas
 		table: [ "
-	aCanvas text: ' Ingrese la temperatura del pasajero '.
-	aCanvas textInput
-		size: 1;
-		on: #temperatura of: self.
+	aCanvas heading
+		level: 4;
+		with: mensaje.
+	usuario nombre
+		ifNil: [ aCanvas big: usuario nombreUsuario ]
+		ifNotNil: [ aCanvas big: usuario nombreCompleto ].
 	aCanvas break.
 	aCanvas break.
-	aCanvas checkbox on: #estadoTos of: self.
-	aCanvas text: ' El pasajero presenta tos '.
-	aCanvas break.
-	aCanvas checkbox on: #estadoOlfato of: self.
-	aCanvas text: ' El pasajero presenta pérdida de olfato '.
-	aCanvas break.
-	aCanvas checkbox on: #estadoGusto of: self.
-	aCanvas text: ' El pasajero presenta pérdida de gusto'.
-	aCanvas break.
-	aCanvas checkbox on: #estadoGarganta of: self.
-	aCanvas text: ' El pasajero presenta dolor de garganta '.
-	aCanvas break.
-	aCanvas checkbox on: #estadoRespiratorio of: self.
-	aCanvas text: ' El pasajero presenta dificultad respiratoria '.
-	aCanvas break.
+	aCanvas
+		form: [ aCanvas text: ' Ingrese la temperatura del pasajero '.
+			aCanvas textInput
+				size: 1;
+				on: #temperatura of: self.
+			aCanvas space.
+			aCanvas small: 'Min. 36°'.
+			aCanvas break.
+			aCanvas break.
+			aCanvas checkbox on: #estadoTos of: self.
+			aCanvas text: ' El pasajero presenta tos '.
+			aCanvas break.
+			aCanvas checkbox on: #estadoOlfato of: self.
+			aCanvas text: ' El pasajero presenta pérdida de olfato '.
+			aCanvas break.
+			aCanvas checkbox on: #estadoGusto of: self.
+			aCanvas text: ' El pasajero presenta pérdida de gusto'.
+			aCanvas break.
+			aCanvas checkbox on: #estadoGarganta of: self.
+			aCanvas text: ' El pasajero presenta dolor de garganta '.
+			aCanvas break.
+			aCanvas checkbox on: #estadoRespiratorio of: self.
+			aCanvas text: ' El pasajero presenta dificultad respiratoria '.
+			aCanvas break.
 
-	"			aCanvas
+			"			aCanvas
 				tableData: [ aCanvas text: ' El pasajero presenta tos '.
 					aCanvas break.
 					aCanvas text: ' El pasajero presenta pérdida de olfato '.
@@ -170,7 +203,7 @@ RegistrarSintomasComponent >> renderContentOn: aCanvas [
 					aCanvas textInput
 						size: 1;
 						on: #temperatura of: self ] ]."
-	self renderButtonsOn: aCanvas
+			self renderButtonsOn: aCanvas ]
 ]
 
 { #category : #'as yet unclassified' }

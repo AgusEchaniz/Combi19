@@ -34,7 +34,7 @@ VerViajesChoferComponent >> initializeWithViajes: unosViajes [
 	viajes := unosViajes.
 	pendientes := unosViajes
 		select: [ :viaje | viaje estado = 'pendiente' ].
-	enCurso := unosViajes select: [ :viaje | viaje estado = 'en curso' ].
+	enCurso := unosViajes select: [ :viaje | viaje estado = 'En curso' ].
 	cancelados := unosViajes
 		select: [ :viaje | viaje estado = 'Cancelado' ].
 	finalizados := unosViajes
@@ -49,8 +49,7 @@ VerViajesChoferComponent >> ordenarViajesPorFecha: unosViajes [
 { #category : #initialization }
 VerViajesChoferComponent >> renderContentOn: aCanvas [
 	aCanvas
-		paragraph:
-			(BasicComponent newWithParent: self andHome: HomeComponentChofer new).
+		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	aCanvas heading
 		level: 2;
 		with: 'Viajes: '.
@@ -61,7 +60,7 @@ VerViajesChoferComponent >> renderContentOn: aCanvas [
 	viajes
 		ifNotEmpty: [ aCanvas heading
 				level: 4;
-				with: 'En Curso: '.
+				with: 'En curso: '.
 			enCurso ifEmpty: [ aCanvas text: 'No hay viajes en curso.' ].
 			self
 				renderOn: aCanvas
@@ -112,6 +111,15 @@ VerViajesChoferComponent >> renderOn: aCanvas viajes: unosViajes [
 												text: 'Cantidad de pasajeros: ' , each cantidadVendidos printString.
 											aCanvas break.
 											aCanvas space.
+											each estado = 'En curso'
+												ifTrue: [ aCanvas break.
+													aCanvas submitButton
+														callback: [ each finalizar.
+															self
+																call:
+																	(VerViajesChoferComponent
+																		newWithViajes: (Sistema soleInstance obtenerViajesChofer: self session user)) ];
+														with: 'Finalizar viaje' ].
 											each estado = 'pendiente'
 												ifTrue: [ aCanvas break.
 													aCanvas submitButton
@@ -121,7 +129,9 @@ VerViajesChoferComponent >> renderOn: aCanvas viajes: unosViajes [
 													(each fechaCompleta - DateAndTime now) asHours <= 24
 														ifTrue: [ aCanvas submitButton
 																callback: [ self cancelarViaje: each ];
-																with: 'Cancelar viaje' ]ifFalse:[aCanvas small:'Si desea cancelar el viaje contacte al administrador'].
+																with: 'Cancelar viaje' ]
+														ifFalse: [ aCanvas
+																small: 'Si desea cancelar el viaje contacte al administrador' ].
 													aCanvas space ].
 											aCanvas break.
 											aCanvas horizontalRule ] ] ] ] ]

@@ -50,6 +50,11 @@ Pasaje >> fecha [
 ]
 
 { #category : #initialization }
+Pasaje >> iniciarPasaje [
+	estado := 'En curso'
+]
+
+{ #category : #initialization }
 Pasaje >> initializeWithViaje: unViaje andCantidad: unaCantidad [
 viaje:=unViaje .
 cantidad:=unaCantidad .
@@ -81,6 +86,11 @@ Pasaje >> insumos [
 { #category : #accessing }
 Pasaje >> precio [
 	^ precio
+]
+
+{ #category : #accessing }
+Pasaje >> tieneViaje: unViaje [
+	^self viaje = unViaje
 ]
 
 { #category : #accessing }
