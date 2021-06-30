@@ -74,7 +74,14 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 			'Total pasajeros: ' , viaje cantidadVendidos asString
 				, ' pasajes disponibles: '
 				, viaje cantidadAsientosDisponibles asString.
-	viaje cantidadAsientosDisponibles > 0
+	viaje cantidadAsientosDisponibles > 0 & (viaje estado = 'pendiente')&
+													((DateAndTime now - viaje fechaCompleta) abs
+														<=
+															(Duration
+																days: 0
+																hours: 0
+																minutes: 15
+																seconds: 0))
 		ifTrue: [ aCanvas
 				form: [ aCanvas submitButton
 						callback: [  ];
@@ -91,9 +98,10 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				with: 'Pasajeros: '.
 			self renderOn: aCanvas Pasajeros: pasajeros ].
 	aCanvas
-		form: [self habilitadoAViajar ifTrue:[ aCanvas submitButton
-				callback: [ self iniciarViaje ];
-				with: 'Iniciar Viaje'].
+		form: [ self habilitadoAViajar
+				ifTrue: [ aCanvas submitButton
+						callback: [ self iniciarViaje ];
+						with: 'Iniciar Viaje' ].
 			aCanvas space.
 			aCanvas submitButton
 				callback: [ self answer ];
@@ -111,20 +119,28 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 										paragraph: [ aCanvas big: each nombreCompleto.
 											aCanvas space.
 											'Cancelado' = (estados at: (pasajeros indexOf: each))
-												ifFalse: [ aCanvas strong: (estados at: (pasajeros indexOf: each)) asString ].
+												ifFalse: [ aCanvas space.aCanvas strong: (estados at: (pasajeros indexOf: each)) asString.
+													((estados at: (pasajeros indexOf: each))
+														includesSubstring: 'Rechazado'
+														caseSensitive: false)
+														ifTrue: [ aCanvas space.
+															aCanvas
+																small: 'Se le devolvera el 100% del valor del pasaje' ] ].
 											aCanvas break.
 											aCanvas text: 'DNI: ' , each dni.
-											aCanvas break.
 											aCanvas space.
-											aCanvas break.
-											viaje estado = 'pendiente' &(DateAndTime now - viaje fechaCompleta) abs
-		<=
-			(Duration
-				days: 0
-				hours: 0
-				minutes: 15
-				seconds: 0)
-												ifTrue: [ aCanvas submitButton
+											"aCanvas break."
+											viaje estado = 'pendiente'
+												&
+													((DateAndTime now - viaje fechaCompleta) abs
+														<=
+															(Duration
+																days: 0
+																hours: 0
+																minutes: 15
+																seconds: 0))
+												ifTrue: [ aCanvas break.
+													aCanvas submitButton
 														callback: [ estados
 																at: (pasajeros indexOf: each)
 																put: (self call: (RegistrarSintomasComponent newWithUser: each)) ];
@@ -132,8 +148,8 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 													aCanvas space.
 													aCanvas submitButton
 														callback: [ self registrarAusente: each ];
-														with: 'Registrar ausente' ].
+														with: 'Registrar ausente'.
+													aCanvas break ].
 											aCanvas space.
-											aCanvas break.
 											aCanvas horizontalRule ] ] ] ] ]
 ]

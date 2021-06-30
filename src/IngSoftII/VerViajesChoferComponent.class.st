@@ -115,16 +115,13 @@ VerViajesChoferComponent >> renderOn: aCanvas viajes: unosViajes [
 												ifTrue: [ aCanvas break.
 													aCanvas submitButton
 														callback: [ each finalizar.
-															self
-																call:
-																	(VerViajesChoferComponent
-																		newWithViajes: (Sistema soleInstance obtenerViajesChofer: self session user)) ];
+															];
 														with: 'Finalizar viaje' ].
-											each estado = 'pendiente'
-												ifTrue: [ aCanvas break.
+											 aCanvas break.
 													aCanvas submitButton
 														callback: [ self call: (DetalleViajeChoferComponent newWithViaje: each) ];
-														with: 'ver viaje'.
+														with: 'ver viaje'.each estado = 'pendiente'
+												ifTrue: [
 													aCanvas space.
 													(each fechaCompleta - DateAndTime now) asHours <= 24
 														ifTrue: [ aCanvas submitButton
