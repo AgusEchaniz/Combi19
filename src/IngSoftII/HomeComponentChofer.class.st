@@ -16,8 +16,8 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 		ifNotEmpty: [ proxViajeChofer := ((viajesPendientesChofer
 				select: [ :each | each estado = 'pendiente' ])
 				sort: [ :viajeA :viajeB | 
-					viajeA fecha < viajeB fecha
-						& (viajeA ruta horario < viajeB ruta horario) ]) first	"viajesPendientesChofer" ].
+					viajeA fechaCompleta < viajeB fechaCompleta
+						"& (viajeA ruta horario < viajeB ruta horario)" ]) first	"viajesPendientesChofer" ].
 
 	"super renderContentOn: aCanvas."
 	aCanvas
@@ -64,7 +64,11 @@ HomeComponentChofer >> renderProxViajeOn: aCanvas paraViaje: proxViajeChofer [
 			'Fecha: ' , proxViajeChofer fecha printString , ' Horario: '
 				, proxViajeChofer ruta horario printString.
 	aCanvas break.
-	(DateAndTime now - proxViajeChofer fechaCompleta)abs
+	proxViajeChofer estado = 'En curso'
+		ifTrue: [ aCanvas anchor
+				callback: [proxViajeChofer finalizar];
+				with: [ aCanvas button: 'Finalizar viaje' ] ].
+	(DateAndTime now - proxViajeChofer fechaCompleta) abs
 		<=
 			(Duration
 				days: 0

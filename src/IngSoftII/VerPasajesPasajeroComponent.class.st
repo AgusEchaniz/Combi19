@@ -66,7 +66,7 @@ VerPasajesPasajeroComponent >> renderContentOn: aCanvas [
 				level: 4;
 				with: 'En curso: '.
 			enCurso := (pasajes
-				reject: [ :pasaje | pasaje estado = 'En curso' ])
+				select: [ :pasaje | pasaje estado = 'En curso' ])
 				sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ].
 			enCurso ifEmpty: [ aCanvas text: 'No hay viajes en curso.' ].
 			self renderOn: aCanvas pasajes: enCurso.
@@ -74,7 +74,7 @@ VerPasajesPasajeroComponent >> renderContentOn: aCanvas [
 				level: 4;
 				with: 'Pendientes: '.
 			pendientes := (pasajes
-				reject: [ :pasaje | pasaje estado = 'pendiente' ])
+				select: [ :pasaje | pasaje estado = 'pendiente' ])
 				sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ].
 			pendientes ifEmpty: [ aCanvas text: 'No hay pasajes pendientes.' ].
 			self renderOn: aCanvas pasajes: pendientes.
@@ -82,7 +82,7 @@ VerPasajesPasajeroComponent >> renderContentOn: aCanvas [
 				level: 4;
 				with: 'Finalizados: '.
 			finalizados := (pasajes
-				reject: [ :pasaje | pasaje estado = 'finalizado' ])
+				select: [ :pasaje | pasaje estado = 'finalizado' ])
 				sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ].
 			finalizados ifEmpty: [ aCanvas text: 'No hay viajes finalizados.' ].
 			self renderOn: aCanvas pasajes: finalizados.
@@ -90,7 +90,7 @@ VerPasajesPasajeroComponent >> renderContentOn: aCanvas [
 				level: 4;
 				with: 'Cancelados: '.
 			cancelados := (pasajes
-				reject: [ :pasaje | pasaje estado = 'cancelado' ])
+				select: [ :pasaje | pasaje estado = 'cancelado' ])
 				sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ].
 			cancelados ifEmpty: [ aCanvas text: 'No hay pasajes cancelados.' ].
 			self renderOn: aCanvas pasajes: cancelados ].

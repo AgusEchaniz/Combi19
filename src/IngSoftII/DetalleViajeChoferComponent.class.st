@@ -31,8 +31,11 @@ DetalleViajeChoferComponent >> iniciarViaje [
 				conCondicion: (estados at: (pasajeros indexOf: pasajero))
 				viajarA: viaje ].
 	viaje iniciar.
+	self answer."
 	self
-		call: (VerViajesChoferComponent newWithViajes: (Sistema soleInstance obtenerViajesChofer: self session user))
+		call:
+			(VerViajesChoferComponent
+				newWithViajes: (Sistema soleInstance obtenerViajesChofer: self session user))"
 ]
 
 { #category : #initialization }
@@ -114,15 +117,22 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 											aCanvas break.
 											aCanvas space.
 											aCanvas break.
-											aCanvas submitButton
-												callback: [ estados
-														at: (pasajeros indexOf: each)
-														put: (self call: (RegistrarSintomasComponent newWithUser: each)) ];
-												with: 'Registrar síntomas'.
-											aCanvas space.
-											aCanvas submitButton
-												callback: [ self registrarAusente: each ];
-												with: 'Registrar ausente'.
+											viaje estado = 'pendiente' &(DateAndTime now - viaje fechaCompleta) abs
+		<=
+			(Duration
+				days: 0
+				hours: 0
+				minutes: 15
+				seconds: 0)
+												ifTrue: [ aCanvas submitButton
+														callback: [ estados
+																at: (pasajeros indexOf: each)
+																put: (self call: (RegistrarSintomasComponent newWithUser: each)) ];
+														with: 'Registrar síntomas'.
+													aCanvas space.
+													aCanvas submitButton
+														callback: [ self registrarAusente: each ];
+														with: 'Registrar ausente' ].
 											aCanvas space.
 											aCanvas break.
 											aCanvas horizontalRule ] ] ] ] ]

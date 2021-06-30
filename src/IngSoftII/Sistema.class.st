@@ -559,8 +559,10 @@ Sistema >> obtenerViajesChofer: unChofer [
 
 { #category : #chofer }
 Sistema >> obtenerViajesPendientesChofer: unChofer [
-	^ (viajes select: [ :viaje | viaje obtenerChofer = unChofer ])
-		select: [ :viaje | viaje estado = 'pendiente' ]
+	^ ((viajes select: [ :viaje | viaje obtenerChofer = unChofer ])
+		select: [ :viaje | viaje estado = 'pendiente' ])
+		select:
+			[ :viaje | (viaje fecha = Date today) | (viaje fecha isAfter: Date today) ]
 ]
 
 { #category : #lugar }
