@@ -4,10 +4,16 @@ Class {
 	#instVars : [
 		'sintomas',
 		'temperatura',
-		'mensaje'
+		'mensaje',
+		'usuario'
 	],
 	#category : #'IngSoftII-ui-Chofer'
 }
+
+{ #category : #'instance creation' }
+RegistrarSintomasComponent class >> newWithUser:unUsuario [
+^self new initializeWithUser: unUsuario
+]
 
 { #category : #'as yet unclassified' }
 RegistrarSintomasComponent >> estadoGarganta [
@@ -91,6 +97,12 @@ RegistrarSintomasComponent >> initialize [
 	"temperatura := ' '"
 ]
 
+{ #category : #initialization }
+RegistrarSintomasComponent >> initializeWithUser: unUsuario [
+	self initialize.
+	usuario:=unUsuario
+]
+
 { #category : #'as yet unclassified' }
 RegistrarSintomasComponent >> registrarSintomas [
 	temperatura
@@ -101,9 +113,9 @@ RegistrarSintomasComponent >> registrarSintomas [
 		ifTrue: [ mensaje := 'La temperatura mínima es 36°'.
 			^ self ].
 	temperatura asInteger >= 38
-		ifTrue: [ self answer: 'Rechazado por fiebre' ]
+		ifTrue: [ usuario rechazar. self answer: 'Rechazado por fiebre' ]
 		ifFalse: [ (sintomas count: [ :sintoma | sintoma estado ]) >= 2
-				ifTrue: [ self answer: 'Rechazado por sintomas' ]
+				ifTrue: [ usuario rechazar. self answer: 'Rechazado por sintomas' ]
 				ifFalse: [ self answer: 'Aceptado' ] ]
 ]
 
@@ -135,12 +147,15 @@ RegistrarSintomasComponent >> renderContentOn: aCanvas [
 	aCanvas heading
 		level: 4;
 		with: mensaje.
+	usuario nombre
+		ifNil: [ aCanvas big: usuario nombreUsuario ]
+		ifNotNil: [ aCanvas big: usuario nombre ].
 	aCanvas
 		form: [ aCanvas text: ' Ingrese la temperatura del pasajero '.
 			aCanvas textInput
 				size: 1;
 				on: #temperatura of: self.
-				aCanvas space.
+			aCanvas space.
 			aCanvas small: 'Min. 36°'.
 			aCanvas break.
 			aCanvas break.
