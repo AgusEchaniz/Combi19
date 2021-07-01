@@ -88,6 +88,11 @@ Pasaje >> precio [
 	^ precio
 ]
 
+{ #category : #initialization }
+Pasaje >> rechazarPasaje [
+	estado := 'rechazado'
+]
+
 { #category : #accessing }
 Pasaje >> tieneViaje: unViaje [
 	^self viaje = unViaje

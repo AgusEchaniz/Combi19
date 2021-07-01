@@ -46,7 +46,7 @@ VerPasajesPasajeroComponent >> initializeWithPasajes: unosPasajes [
 
 { #category : #rendering }
 VerPasajesPasajeroComponent >> renderContentOn: aCanvas [
-	| cancelados pendientes enCurso finalizados |
+	| cancelados pendientes enCurso finalizados rechazados |
 	aCanvas
 		paragraph:
 			(BasicComponent newWithParent: self andHome: HomeComponentPasajero new).
@@ -93,7 +93,15 @@ VerPasajesPasajeroComponent >> renderContentOn: aCanvas [
 				select: [ :pasaje | pasaje estado = 'cancelado' ])
 				sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ].
 			cancelados ifEmpty: [ aCanvas text: 'No hay pasajes cancelados.' ].
-			self renderOn: aCanvas pasajes: cancelados ].
+			self renderOn: aCanvas pasajes: cancelados.
+			aCanvas heading
+				level: 4;
+				with: 'Rechazados: '.
+			rechazados := (pasajes
+				select: [ :pasaje | pasaje estado = 'rechazado' ])
+				sort: [ :pasajeA :pasajeB | pasajeA viaje fecha < pasajeB viaje fecha ].
+			rechazados ifEmpty: [ aCanvas text: 'No hay pasajes rechazados.' ].
+			self renderOn: aCanvas pasajes: rechazados ].
 	aCanvas horizontalRule.
 	aCanvas
 		form: [ aCanvas submitButton

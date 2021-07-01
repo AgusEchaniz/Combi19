@@ -76,7 +76,7 @@ Pasajero >> cargarTarjetaWithNumero: unNumero andCodigoSeguridad: unCodigo andFe
 Pasajero >> conCondicion: unaCondicion viajarA: unViaje [
 	(unaCondicion = 'Rechazado por fiebre'
 		or: unaCondicion = 'Rechazado por sintomas')
-		ifTrue: [ self cancelarPasajesDelViaje: unViaje.
+		ifTrue: [ self rechazarPasajesDelViaje: unViaje.
 			unViaje rechazarPasajero: self ]
 		ifFalse: [ unaCondicion = 'Ausente'
 				ifTrue: [ self cancelarPasajesDelViaje: unViaje ]
@@ -224,6 +224,15 @@ Pasajero >> rechazadoHasta [
 Pasajero >> rechazar [
 	rechazado:=true.
 	rechazadoHasta:=Date today addDays: 14.
+]
+
+{ #category : #'as yet unclassified' }
+Pasajero >> rechazarPasajesDelViaje: unViaje [
+	| pasajesA |
+	pasajesA := self pasajesDelViaje: unViaje.
+	pasajesA
+		ifEmpty: [ ^ self ]
+		ifNotEmpty: [ pasajesA do: [ :pasaje | pasaje rechazarPasaje ] ]
 ]
 
 { #category : #accessing }

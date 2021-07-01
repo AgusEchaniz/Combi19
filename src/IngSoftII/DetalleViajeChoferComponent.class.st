@@ -119,7 +119,9 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 										paragraph: [ aCanvas big: each nombreCompleto.
 											aCanvas space.
 											'Cancelado' = (estados at: (pasajeros indexOf: each))
-												ifFalse: [ aCanvas space.aCanvas strong: (estados at: (pasajeros indexOf: each)) asString.
+												ifFalse: [ aCanvas space.
+													aCanvas
+														strong: (estados at: (pasajeros indexOf: each)) asString.
 													((estados at: (pasajeros indexOf: each))
 														includesSubstring: 'Rechazado'
 														caseSensitive: false)
@@ -135,7 +137,7 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 													((DateAndTime now - viaje fechaCompleta) abs
 														<=
 															(Duration
-																days: 0
+																days: 30
 																hours: 0
 																minutes: 15
 																seconds: 0))

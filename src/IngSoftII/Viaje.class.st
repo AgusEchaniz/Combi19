@@ -57,6 +57,11 @@ Viaje >> eliminarPasajero: unUsuario [
 pasajeros remove:unUsuario ifAbsent:[]
 ]
 
+{ #category : #initialization }
+Viaje >> enCurso [
+	^ estado = 'En curso'
+]
+
 { #category : #accessing }
 Viaje >> estado [
 ^estado
