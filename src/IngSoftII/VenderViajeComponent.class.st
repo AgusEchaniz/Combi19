@@ -60,20 +60,20 @@ VenderViajeComponent >> renderVentaPasaje: aCanvas [
 		ifTrue: [ mensaje := 'Usuario Valido' , nombreUsuario printString ]
 		ifFalse: [ mensaje := 'Se creo el usuario:' , nombreUsuario printString
 				, ' con contraseña:123456' ].
-	((sintomas == '') | (sintomas = 'Cancelado'))
+	sintomas == '' | (sintomas = 'Cancelado')
 		ifTrue: [ aCanvas button
 				callback: [ self registrarVenta ];
 				with: 'Registrar Sintomas' ]
-		ifFalse: [ usuario membresia nombre = 'basico'
-				ifTrue: [ precio := viaje precio asInteger printString ]
-				ifFalse: [ (sintomas includesSubstring: 'Rechazado' caseSensitive: false)
+		ifFalse: [(sintomas includesSubstring: 'Rechazado' caseSensitive: false)
 						ifTrue: [ aCanvas big: 'El pasajero es sospechoso de covid, no puede viajar'.
 							usuario rechazar ]
-						ifFalse: [ precio := (10 * viaje precio asInteger / 100) printString ].
+						ifFalse: [ usuario membresia nombre = 'basico'
+				ifTrue: [ precio := viaje precio asInteger printString ]
+				ifFalse: [ precio := (10 * viaje precio asInteger / 100) printString ].
 					aCanvas paragraph: [ 'Total: ' , precio asInteger printString ].
 					aCanvas button
 						callback: [ self registrarVenta ];
-						with: 'Registrar Venta' ] ]
+						with: 'Registrar Venta' ] ] 
 ]
 
 { #category : #'as yet unclassified' }
