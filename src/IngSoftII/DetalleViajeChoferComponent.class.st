@@ -74,17 +74,18 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 			'Total pasajeros: ' , viaje cantidadVendidos asString
 				, ' pasajes disponibles: '
 				, viaje cantidadAsientosDisponibles asString.
-	viaje cantidadAsientosDisponibles > 0 & (viaje estado = 'pendiente')&
-													((DateAndTime now - viaje fechaCompleta) abs
-														<=
-															(Duration
-																days: 0
-																hours: 0
-																minutes: 15
-																seconds: 0))
+	viaje cantidadAsientosDisponibles > 0 & (viaje estado = 'pendiente')
+		&
+			((DateAndTime now - viaje fechaCompleta) abs
+				<=
+					(Duration
+						days: 0
+						hours: 0
+						minutes: 15
+						seconds: 0))
 		ifTrue: [ aCanvas
 				form: [ aCanvas submitButton
-						callback: [  ];
+						callback: [ self call: (VenderViajeComponent newWithViaje: viaje) ];
 						with: 'Vender pasaje' ] ].
 	aCanvas heading
 		level: 4;

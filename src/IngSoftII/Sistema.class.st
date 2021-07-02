@@ -551,6 +551,12 @@ Sistema >> obtenerPasajerosViaje: unViaje [
 	^ usuarios select: [:usuario | usuario pertenezcoAlViaje: unViaje ]
 ]
 
+{ #category : #usuario }
+Sistema >> obtenerUsuarioConNU:unNombreUsuario [
+	^usuarios
+		select:[ :usuario | usuario seLlama:unNombreUsuario]
+]
+
 { #category : #chofer }
 Sistema >> obtenerViajesChofer: unChofer [
 	^ (viajes select: [ :viaje | viaje obtenerChofer = unChofer ])
