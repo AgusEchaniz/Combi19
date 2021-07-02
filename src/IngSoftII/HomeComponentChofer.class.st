@@ -25,10 +25,6 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 	aCanvas anchor
 		callback: [ self call: (VerViajesChoferComponent newWithViajes: viajesChofer) ];
 		with: [ aCanvas button: 'Ver viajes' ].
-	"para probar: "
-	aCanvas anchor
-		callback: [ self call: RegistrarSintomasComponent new ];
-		with: [ aCanvas button: 'Registrar sintomas' ].
 	aCanvas horizontalRule.
 	viajesChofer
 		detect: [ :viaje | viaje estado = 'En curso' ]
@@ -38,7 +34,7 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 			self renderProxViajeOn: aCanvas paraViaje: viaje ]
 		ifNone: [  ].
 	aCanvas heading: 'Proximo Viaje'.
-"	aCanvas break."
+	"	aCanvas break."
 	proxViajeChofer
 		ifNil: [ aCanvas strong: 'No tiene viajes pendientes asignados' ]
 		ifNotNil: [ self renderProxViajeOn: aCanvas paraViaje: proxViajeChofer ]
