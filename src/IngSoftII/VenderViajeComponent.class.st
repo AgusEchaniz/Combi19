@@ -24,6 +24,16 @@ VenderViajeComponent >> initializeWithViaje: unViaje [
 	sintomas:=''
 ]
 
+{ #category : #accessing }
+VenderViajeComponent >> nombreUsuario [
+^nombreUsuario 
+]
+
+{ #category : #accessing }
+VenderViajeComponent >> nombreUsuario:unNombre [
+nombreUsuario :=unNombre 
+]
+
 { #category : #'as yet unclassified' }
 VenderViajeComponent >> registrarVenta [
 	viaje venderPasaje: 1.
@@ -57,23 +67,23 @@ VenderViajeComponent >> renderContentOn: aCanvas [
 { #category : #rendering }
 VenderViajeComponent >> renderVentaPasaje: aCanvas [
 	self validarUsuario
-		ifTrue: [ mensaje := 'Usuario Valido' , nombreUsuario printString ]
-		ifFalse: [ mensaje := 'Se creo el usuario:' , nombreUsuario printString
+		ifTrue: [ mensaje := 'Usuario Valido' ,  nombreUsuario printString ]
+		ifFalse: [ mensaje := 'Se creo el usuario:' ,  nombreUsuario printString
 				, ' con contraseña:123456' ].
 	sintomas == '' | (sintomas = 'Cancelado')
 		ifTrue: [ aCanvas button
 				callback: [ self registrarVenta ];
 				with: 'Registrar Sintomas' ]
-		ifFalse: [(sintomas includesSubstring: 'Rechazado' caseSensitive: false)
-						ifTrue: [ aCanvas big: 'El pasajero es sospechoso de covid, no puede viajar'.
-							usuario rechazar ]
-						ifFalse: [ usuario membresia nombre = 'basico'
-				ifTrue: [ precio := viaje precio asInteger printString ]
-				ifFalse: [ precio := (10 * viaje precio asInteger / 100) printString ].
+		ifFalse: [ (sintomas includesSubstring: 'Rechazado' caseSensitive: false)
+				ifTrue: [ aCanvas big: 'El pasajero es sospechoso de covid, no puede viajar'.
+					usuario rechazar ]
+				ifFalse: [ usuario membresia nombre = 'basico'
+						ifTrue: [ precio := viaje precio asInteger printString ]
+						ifFalse: [ precio := (10 * viaje precio asInteger / 100) printString ].
 					aCanvas paragraph: [ 'Total: ' , precio asInteger printString ].
 					aCanvas button
 						callback: [ self registrarVenta ];
-						with: 'Registrar Venta' ] ] 
+						with: 'Registrar Venta' ] ]
 ]
 
 { #category : #'as yet unclassified' }

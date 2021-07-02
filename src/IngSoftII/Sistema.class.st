@@ -552,9 +552,8 @@ Sistema >> obtenerPasajerosViaje: unViaje [
 ]
 
 { #category : #usuario }
-Sistema >> obtenerUsuarioConNU:unNombreUsuario [
-	^usuarios
-		select:[ :usuario | usuario seLlama:unNombreUsuario]
+Sistema >> obtenerUsuarioConNU: unNombreUsuario [
+	^ usuarios detect: [ :usuario | usuario seLlama: unNombreUsuario ]
 ]
 
 { #category : #chofer }
