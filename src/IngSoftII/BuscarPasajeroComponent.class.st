@@ -64,7 +64,7 @@ BuscarPasajeroComponent >> renderContentOn: aCanvas [
 												newWithUser: usuario
 												andViaje: viaje
 												objetivo: 'presencial').
-									mensaje := 'Usuario: ' , nombreUsuario , ' ' , msj ];
+									mensaje := 'Usuario: ' , nombreUsuario , ' ',msj];
 								with: 'Registrar síntomas' ] ] ]
 ]
 
@@ -74,7 +74,10 @@ BuscarPasajeroComponent >> renderPasajeroOn: aCanvas [
 		ifTrue: [ mensaje := 'Ingrese un nombre de usuario'.
 			^ self ].
 	self validarUsuario
-		ifTrue: [ mensaje := 'Usuario Valido' , nombreUsuario printString, ' ' ]
+		ifTrue: [ usuario rechazado & (usuario rechazadoHasta >= Date today)
+				ifTrue: [ msj := 'Rechazado para viajar por sospecha de covid hasta el '
+						, usuario rechazadoHasta asString ].
+			mensaje := 'Usuario Válido' , nombreUsuario printString , ' ', msj ]
 		ifFalse: [ mensaje := 'Se creo el usuario: ' , nombreUsuario printString
 				, ' con contraseña: 123456 ' ]
 ]
