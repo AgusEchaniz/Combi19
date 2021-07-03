@@ -49,13 +49,13 @@ VenderViajeComponent >> renderContentOn: aCanvas [
 			aCanvas heading
 				level: 4;
 				with: 'Pasajero: ' , usuario nombreUsuario.
-	 usuario membresia nombre = 'basico'
-								ifTrue: [ precio := viaje precio asInteger ]
-								ifFalse: [ precio := 10 * viaje precio asInteger / 100 ].
-							aCanvas text: 'Total: ' , precio printString.
-							aCanvas break.
-							aCanvas break.
-							aCanvas submitButton
-								callback: [ self registrarVenta ];
-								with: 'Registrar Venta' ] 
+			usuario membresia nombre = 'basico'
+				ifTrue: [ precio := viaje precio asInteger ]
+				ifFalse: [ precio := 10 * viaje precio asInteger / 100 ].
+			aCanvas text: 'Total: ' , precio printString.
+			aCanvas break.
+			aCanvas break.
+			aCanvas submitButton
+				callback: [ self registrarVenta ];
+				with: 'Vender pasaje' ]
 ]

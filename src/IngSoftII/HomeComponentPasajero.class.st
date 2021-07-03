@@ -18,7 +18,13 @@ HomeComponentPasajero >> buscarViajes: aCanvas [
 	origenFilt = destinoFilt
 		ifTrue: [ mensaje := 'El lugar de origen y de destino no pueden ser iguales'.
 			^ self ].
-	self session user rechazado ifTrue:[(fechaFilt between: Date today and: self session user rechazadoHasta) ifTrue:[mensaje:='Usted es sospechoso de covid, no puede comprar pasajes hasta: ', self session user rechazadoHasta printString. ^self]].
+	self session user rechazado
+		ifTrue:
+			[ (fechaFilt between: Date today and: self session user rechazadoHasta)
+				ifTrue:
+					[ mensaje := 'Usted es sospechoso de covid, no puede comprar pasajes con fecha anterior al: '
+						, self session user rechazadoHasta printString.
+					^ self ] ].
 	self
 		call:
 			(VerViajesPasajeroComponent newWithViajes: self obtenerViajesFiltrados).
