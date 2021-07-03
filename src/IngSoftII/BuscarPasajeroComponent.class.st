@@ -75,22 +75,17 @@ BuscarPasajeroComponent >> renderPasajeroOn: aCanvas [
 	nombreUsuario = ' ' | nombreUsuario isEmpty
 		ifTrue: [ mensaje := 'Ingrese un nombre de usuario'.
 			^ self ].
-	self validarUsuario
-		= 'Usted no está habilitado par acceder a esta información'
-		ifTrue:
-			[ mensaje := 'Usted no está habilitado par acceder a esta información'.
-			^ self ]
-		ifFalse: [ self validarUsuario = 'true'
-				ifTrue: [ usuario rechazado
+	self validarUsuario ifTrue:[usuario soy='pasajero' 
+		ifTrue:[usuario rechazado
 						ifTrue: [ usuario rechazadoHasta >= Date today
 								ifTrue: [ msj := 'Rechazado para viajar por sospecha de covid hasta el '
-										, usuario rechazadoHasta asString ] ] ifFalse:[
-					mensaje := 'Usuario Válido' , nombreUsuario printString , ' '
-						, msj.
-					^ self ]]
-				ifFalse: [ mensaje := 'Se creo el usuario: ' , nombreUsuario printString
+										, usuario rechazadoHasta asString ] ].
+						mensaje := 'Usuario Válido' , nombreUsuario printString , ' ' , msj.
+							^ self ] ifFalse:[mensaje := 'Usted no está habilitado par acceder a esta información'.
+			^ self]]
+		ifFalse: [  mensaje := 'Se creo el usuario: ' , nombreUsuario printString
 						, ' con contraseña: 123456 '.
-					^ self ] ]
+					^ self ] 
 ]
 
 { #category : #'as yet unclassified' }
@@ -98,12 +93,12 @@ BuscarPasajeroComponent >> validarUsuario [
 	nombreUsuario
 		ifNotEmpty: [ (Sistema soleInstance existeUsuario: nombreUsuario)
 				ifTrue: [ usuario := Sistema soleInstance obtenerUsuarioConNU: nombreUsuario.
-					usuario soy = 'pasajero'
+					"usuario soy = 'pasajero'
 						ifTrue: [ ^ 'true' ]
-						ifFalse: [ ^ 'Usted no está habilitado par acceder a esta información' ] ]
+						ifFalse: [ ^ 'Usted no está habilitado par acceder a esta información' "^true ]
 				ifFalse: [ Sistema soleInstance
-						crearUsuarioPasajeroWithNombreDeUsuario: nombreUsuario.	
+						crearUsuarioPasajeroWithNombreDeUsuario: nombreUsuario.
 					usuario := Sistema soleInstance
 						obtenerUsuarioConNU: nombreUsuario.
-					^ 'false' ] ]
+					^ false ] ]
 ]
