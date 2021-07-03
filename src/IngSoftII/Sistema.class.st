@@ -216,6 +216,24 @@ Sistema >> crearUsuarioChoferWithNombreDeUsuario: unNombreDeUsuario andContrase�
 ]
 
 { #category : #usuario }
+Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario [ 
+	| usuario |
+	
+	usuarios
+				add:
+					(usuario := Pasajero
+						newWithNombreDeUsuario: unNombreDeUsuario
+						andContraseña: '123456'
+						andFechaNacimiento: ''
+						andNombre: ''
+						andApellido: ''
+						andDni: ''
+						andMembresia: MembresiaBasica new).
+			^ usuario .
+	
+]
+
+{ #category : #usuario }
 Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario andContraseña: unaContraseña andFechaNacimiento: unaFecha andNombre: unNombre andApellido: unApellido andDni: unDni andMembresia:unaMembresia [
 	| usuario |
 	(self
@@ -552,9 +570,8 @@ Sistema >> obtenerPasajerosViaje: unViaje [
 ]
 
 { #category : #usuario }
-Sistema >> obtenerUsuarioConNU:unNombreUsuario [
-	^usuarios
-		select:[ :usuario | usuario seLlama:unNombreUsuario]
+Sistema >> obtenerUsuarioConNU: unNombreUsuario [
+	^ usuarios detect: [ :usuario | usuario seLlama: unNombreUsuario ]
 ]
 
 { #category : #chofer }
