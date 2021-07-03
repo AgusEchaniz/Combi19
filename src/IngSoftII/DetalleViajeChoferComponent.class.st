@@ -31,11 +31,7 @@ DetalleViajeChoferComponent >> iniciarViaje [
 				conCondicion: (estados at: (pasajeros indexOf: pasajero))
 				viajarA: viaje ].
 	viaje iniciar.
-	self answer."
-	self
-		call:
-			(VerViajesChoferComponent
-				newWithViajes: (Sistema soleInstance obtenerViajesChofer: self session user))"
+	self answer
 ]
 
 { #category : #initialization }
@@ -55,8 +51,14 @@ DetalleViajeChoferComponent >> initializeWithViaje: unViaje [
 
 { #category : #initialization }
 DetalleViajeChoferComponent >> registrarAusente: unPasajero [
+	(estados at: (pasajeros indexOf: unPasajero)) = 'Ausente'
+	ifFalse:[viaje
+		devolverPasaje:
+			((unPasajero pasajesDelViaje: viaje)
+				sumNumbers: [ :pasaje | pasaje cantidad ])].
 	estados at: (pasajeros indexOf: unPasajero) put: 'Ausente'.
-	unPasajero conCondicion: 'Ausente'  viajarA: viaje
+	unPasajero conCondicion: 'Ausente' viajarA: viaje.
+	
 ]
 
 { #category : #initialization }
