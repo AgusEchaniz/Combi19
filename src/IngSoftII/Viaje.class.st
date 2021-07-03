@@ -109,6 +109,11 @@ Viaje >> incluyenPasajero: unUsuario [
 ]
 
 { #category : #'as yet unclassified' }
+Viaje >> incrementarPasaje: unaCantidadAsientos [
+	cantidadVendidos := cantidadVendidos + unaCantidadAsientos
+]
+
+{ #category : #'as yet unclassified' }
 Viaje >> iniciar [
 	estado := 'En curso'
 ]

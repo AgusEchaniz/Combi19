@@ -62,6 +62,15 @@ DetalleViajeChoferComponent >> registrarAusente: unPasajero [
 ]
 
 { #category : #initialization }
+DetalleViajeChoferComponent >> registrarPresenteDeAusente: unPasajero [
+	(estados at: (pasajeros indexOf: unPasajero)) = 'Ausente'
+		ifTrue: [ viaje
+				incrementarPasaje:
+					((unPasajero pasajesDelViaje: viaje)
+						sumNumbers: [ :pasaje | pasaje cantidad ]) ].
+]
+
+{ #category : #initialization }
 DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 	aCanvas
 		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
@@ -155,7 +164,7 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 																seconds: 0))
 												ifTrue: [ aCanvas break.
 													aCanvas submitButton
-														callback: [ estados
+														callback: [ self registrarPresenteDeAusente: each. estados
 																at: (pasajeros indexOf: each)
 																put: (self call: (RegistrarSintomasComponent newWithUser: each)) ];
 														with: 'Registrar síntomas'.
