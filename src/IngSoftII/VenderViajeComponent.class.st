@@ -34,7 +34,7 @@ VenderViajeComponent >> registrarVenta [
 				andCantidad: 1
 				andPrecio: precio
 				andInsumos: nil).
-	self call:HomeComponentChofer 
+	self call: HomeComponentChofer new
 ]
 
 { #category : #rendering }
