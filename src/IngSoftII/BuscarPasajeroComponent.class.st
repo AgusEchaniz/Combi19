@@ -7,7 +7,8 @@ Class {
 		'usuario',
 		'nombreUsuario',
 		'precio',
-		'sintomas'
+		'sintomas',
+		'msj'
 	],
 	#category : #'IngSoftII-ui-Chofer'
 }
@@ -22,7 +23,8 @@ BuscarPasajeroComponent >> initializeWithViaje: unViaje [
 	super initialize.
 	viaje := unViaje.
 	sintomas := ''.
-	precio:=0.
+	precio := 0.
+	msj:= ' '.
 ]
 
 { #category : #accessing }
@@ -37,7 +39,6 @@ nombreUsuario :=unNombre
 
 { #category : #rendering }
 BuscarPasajeroComponent >> renderContentOn: aCanvas [
-	| msj |
 	aCanvas
 		paragraph: (BasicComponent newWithParent: self andHome: HomeComponentChofer new).
 	aCanvas
@@ -47,24 +48,24 @@ BuscarPasajeroComponent >> renderContentOn: aCanvas [
 			aCanvas submitButton
 				callback: [ self renderPasajeroOn: aCanvas ];
 				with: 'Buscar'.
-							aCanvas submitButton
+			aCanvas submitButton
 				callback: [ self answer ];
 				with: 'Cancelar'.
-
 			aCanvas horizontalRule.
 			aCanvas heading
 				level: 4;
 				with: mensaje.
-			usuario ifNotNil:[
-			aCanvas submitButton
-				callback: [ msj := self
-						call:
-							(RegistrarSintomasComponent
-								newWithUser: usuario
-								andViaje: viaje
-								objetivo: 'presencial').
-					mensaje := 'Usuario: ' , nombreUsuario , msj asString ];
-				with: 'Registrar síntomas' ]]
+			usuario
+				ifNotNil: [ (msj includesSubstring: 'Rechazado' caseSensitive: false)
+						ifFalse: [ aCanvas submitButton
+								callback: [ msj := self
+										call:
+											(RegistrarSintomasComponent
+												newWithUser: usuario
+												andViaje: viaje
+												objetivo: 'presencial').
+									mensaje := 'Usuario: ' , nombreUsuario , ' ' , msj ];
+								with: 'Registrar síntomas' ] ] ]
 ]
 
 { #category : #rendering }
