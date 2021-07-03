@@ -104,8 +104,7 @@ RegistrarSintomasComponent >> initialize [
 	sintomas add: (Sintoma newWithNombre: 'Dolor de garganta').
 	sintomas add: (Sintoma newWithNombre: 'Dificultad respiratoria').
 	sintomas add: (Sintoma newWithNombre: 'Fiebre').
-	mensaje:=''
-	"temperatura := ' '"
+	mensaje := ''
 ]
 
 { #category : #initialization }
