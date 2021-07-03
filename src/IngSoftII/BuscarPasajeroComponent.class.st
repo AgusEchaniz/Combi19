@@ -73,9 +73,9 @@ BuscarPasajeroComponent >> renderPasajeroOn: aCanvas [
 		ifTrue: [ mensaje := 'Ingrese un nombre de usuario'.
 			^ self ].
 	self validarUsuario
-		ifTrue: [ mensaje := 'Usuario Valido' , nombreUsuario printString ]
+		ifTrue: [ mensaje := 'Usuario Valido' , nombreUsuario printString, ' ' ]
 		ifFalse: [ mensaje := 'Se creo el usuario: ' , nombreUsuario printString
-				, ' con contraseña: 123456' ]
+				, ' con contraseña: 123456 ' ]
 ]
 
 { #category : #'as yet unclassified' }
