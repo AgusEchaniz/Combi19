@@ -118,14 +118,22 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				with: 'Pasajeros presenciales: '.
 			self renderOn: aCanvas PasajerosPresenciales: viaje presenciales ].
 	aCanvas
-		form: [ (viaje estado = 'pendiente')
-				ifTrue:
-					[ self habilitadoAViajar
+		form: [ viaje estado = 'pendiente'
+				&
+					((DateAndTime now - viaje fechaCompleta) abs
+						<=
+							(Duration
+								days: 00
+								hours: 0
+								minutes: 15
+								seconds: 0))
+				ifTrue: [ self habilitadoAViajar
 						ifTrue: [ aCanvas submitButton
 								callback: [ self iniciarViaje ];
 								with: 'Iniciar Viaje' ].
-					aCanvas space ] . aCanvas submitButton
-					callback: [ self answer ];
+					aCanvas space ].
+			aCanvas submitButton
+				callback: [ self answer ];
 				with: 'Volver' ]
 ]
 
@@ -138,6 +146,12 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 							aCanvas
 								listItem: [ aCanvas
 										paragraph: [ aCanvas big: each nombreCompleto.
+											aCanvas space.
+											viaje estado = 'pendiente'
+												ifFalse: [ (viaje rechazados includes: each)
+														ifTrue: [ aCanvas strong: 'Rechazado' ]
+														ifFalse: [ (each pasajesDelViaje: viaje) first estado = 'cancelado'
+																ifTrue: [ aCanvas strong: 'Ausente' ] ] ].
 											aCanvas space.
 											'Cancelado' = (estados at: (pasajeros indexOf: each))
 												ifFalse: [ aCanvas space.
@@ -158,13 +172,14 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 													((DateAndTime now - viaje fechaCompleta) abs
 														<=
 															(Duration
-																days: 30
+																days: 00
 																hours: 0
 																minutes: 15
 																seconds: 0))
 												ifTrue: [ aCanvas break.
 													aCanvas submitButton
-														callback: [ self registrarPresenteDeAusente: each. estados
+														callback: [ self registrarPresenteDeAusente: each.
+															estados
 																at: (pasajeros indexOf: each)
 																put: (self call: (RegistrarSintomasComponent newWithUser: each)) ];
 														with: 'Registrar síntomas'.

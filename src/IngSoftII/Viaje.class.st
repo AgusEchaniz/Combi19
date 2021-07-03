@@ -135,7 +135,8 @@ Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: una
 	pasajeros := OrderedCollection new.
 	presenciales := OrderedCollection new.
 	precio := unPrecio.
-	estado := 'pendiente'
+	estado := 'pendiente'.
+	rechazados :=OrderedCollection new.
 ]
 
 { #category : #'as yet unclassified' }
