@@ -60,9 +60,9 @@ VenderViajeComponent >> renderVentaPasaje: aCanvas [
 		ifTrue: [ mensaje := 'Usuario Valido' , nombreUsuario printString ]
 		ifFalse: [ mensaje := 'Se creo el usuario:' , nombreUsuario printString
 				, ' con contraseña:123456' ].
-	((sintomas == '') | (sintomas = 'Cancelado'))
+	sintomas == '' | (sintomas = 'Cancelado')
 		ifTrue: [ aCanvas button
-				callback: [ self registrarVenta ];
+				callback: [ "" ];
 				with: 'Registrar Sintomas' ]
 		ifFalse: [ usuario membresia nombre = 'basico'
 				ifTrue: [ precio := viaje precio asInteger printString ]
