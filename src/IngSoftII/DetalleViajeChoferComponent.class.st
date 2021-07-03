@@ -81,10 +81,13 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				, viaje ruta lugarDestino nombre , ' ' , viaje horario asString.
 	aCanvas heading
 		level: 3;
-		with:
-			'Total pasajeros: ' , viaje cantidadVendidos asString
-				, ' pasajes disponibles: '
-				, viaje cantidadAsientosDisponibles asString.
+		with: 'Pasajes vendidos: ' , viaje cantidadVendidos asString.
+	viaje estado = 'pendiente'
+		ifTrue: [ aCanvas heading
+				level: 3;
+				with:
+					'Cantidad de asientos disponibles: '
+						, viaje cantidadAsientosDisponibles asString ].
 	viaje cantidadAsientosDisponibles > 0 & (viaje estado = 'pendiente')
 		&
 			((DateAndTime now - viaje fechaCompleta) abs
