@@ -81,13 +81,10 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				, viaje ruta lugarDestino nombre , ' ' , viaje horario asString.
 	aCanvas heading
 		level: 3;
-		with: 'Pasajes vendidos: ' , viaje cantidadVendidos asString.
-	(viaje estado = 'pendiente') ifTrue:[
-	aCanvas heading
-		level: 3;
 		with:
-			'Cantidad de asientos disponibles: '
-				, viaje cantidadAsientosDisponibles asString].
+			'Total pasajeros: ' , viaje cantidadVendidos asString
+				, ' pasajes disponibles: '
+				, viaje cantidadAsientosDisponibles asString.
 	viaje cantidadAsientosDisponibles > 0 & (viaje estado = 'pendiente')
 		&
 			((DateAndTime now - viaje fechaCompleta) abs
@@ -122,6 +119,14 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 			self renderOn: aCanvas PasajerosPresenciales: viaje presenciales ].
 	aCanvas
 		form: [ viaje estado = 'pendiente'
+				&
+					((DateAndTime now - viaje fechaCompleta) abs
+						<=
+							(Duration
+								days: 00
+								hours: 0
+								minutes: 15
+								seconds: 0))
 				ifTrue: [ self habilitadoAViajar
 						ifTrue: [ aCanvas submitButton
 								callback: [ self iniciarViaje ];
@@ -142,6 +147,12 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 								listItem: [ aCanvas
 										paragraph: [ aCanvas big: each nombreCompleto.
 											aCanvas space.
+											viaje estado = 'pendiente'
+												ifFalse: [ (viaje rechazados includes: each)
+														ifTrue: [ aCanvas strong: 'Rechazado' ]
+														ifFalse: [ (each pasajesDelViaje: viaje) first estado = 'cancelado'
+																ifTrue: [ aCanvas strong: 'Ausente' ] ] ].
+											aCanvas space.
 											'Cancelado' = (estados at: (pasajeros indexOf: each))
 												ifFalse: [ aCanvas space.
 													aCanvas
@@ -161,13 +172,14 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 													((DateAndTime now - viaje fechaCompleta) abs
 														<=
 															(Duration
-																days: 30
+																days: 00
 																hours: 0
 																minutes: 15
 																seconds: 0))
 												ifTrue: [ aCanvas break.
 													aCanvas submitButton
-														callback: [ self registrarPresenteDeAusente: each. estados
+														callback: [ self registrarPresenteDeAusente: each.
+															estados
 																at: (pasajeros indexOf: each)
 																put: (self call: (RegistrarSintomasComponent newWithUser: each)) ];
 														with: 'Registrar síntomas'.
