@@ -127,10 +127,10 @@ RegistrarSintomasComponent >> initializeWithUser: unUsuario
 
 { #category : #'as yet unclassified' }
 RegistrarSintomasComponent >> registrarSintomas [
-	temperatura
-		ifNil: [ mensaje := 'Por favor ingrese la temperatura del pasajero'.
+	temperatura isNil | temperatura isEmpty ifTrue:
+		 [ mensaje := 'Por favor ingrese la temperatura del pasajero'.
 			^ self ]
-		ifNotNil: [ self registrarTemperatura ].
+		ifFalse: [ self registrarTemperatura ].
 	temperatura asInteger < 36
 		ifTrue: [ mensaje := 'La temperatura mínima es 36°'.
 			^ self ].
@@ -147,8 +147,7 @@ RegistrarSintomasComponent >> registrarSintomas [
 									(VenderViajeComponent
 										newWithViaje: viaje
 										andPasajero: usuario
-										andEstado: 'Aceptado').
-							 ] ] ]
+										andEstado: 'Aceptado') ] ] ]
 ]
 
 { #category : #'as yet unclassified' }

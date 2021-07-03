@@ -58,6 +58,7 @@ VerViajesChoferComponent >> renderContentOn: aCanvas [
 		level: 4;
 		with: mensaje.
 	viajes
+		
 		ifNotEmpty: [ aCanvas heading
 				level: 4;
 				with: 'En curso: '.

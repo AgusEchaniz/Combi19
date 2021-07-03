@@ -75,17 +75,21 @@ BuscarPasajeroComponent >> renderPasajeroOn: aCanvas [
 	nombreUsuario = ' ' | nombreUsuario isEmpty
 		ifTrue: [ mensaje := 'Ingrese un nombre de usuario'.
 			^ self ].
-	self validarUsuario ifTrue:[usuario soy='pasajero' 
-		ifTrue:[usuario rechazado
+	self validarUsuario
+		ifTrue: [ usuario soy = 'pasajero'
+				ifTrue: [ usuario rechazado
 						ifTrue: [ usuario rechazadoHasta >= Date today
-								ifTrue: [ msj := 'Rechazado para viajar por sospecha de covid hasta el '
+								ifTrue: [ msj := ': Rechazado para viajar por sospecha de covid hasta el '
 										, usuario rechazadoHasta asString ] ].
-						mensaje := 'Usuario Válido' , nombreUsuario printString , ' ' , msj.
-							^ self ] ifFalse:[mensaje := 'Usted no está habilitado par acceder a esta información'.
-			^ self]]
-		ifFalse: [  mensaje := 'Se creo el usuario: ' , nombreUsuario printString
-						, ' con contraseña: 123456 '.
-					^ self ] 
+					mensaje := 'Usuario Válido ' , nombreUsuario printString , ' '
+						, usuario nombreCompleto , msj.
+					^ self ]
+				ifFalse:
+					[ mensaje := 'Usted no está habilitado para acceder a esta información'.
+					^ self ] ]
+		ifFalse: [ mensaje := 'Se creo el usuario: ' , nombreUsuario printString
+				, ' con contraseña: 123456 '.
+			^ self ]
 ]
 
 { #category : #'as yet unclassified' }

@@ -30,11 +30,11 @@ HomeComponentChofer >> renderContentOn: aCanvas [
 		detect: [ :viaje | viaje estado = 'En curso' ]
 		ifFound: [ :viaje | 
 			aCanvas heading: 'Viaje iniciado:'.
-			aCanvas break.
-			self renderProxViajeOn: aCanvas paraViaje: viaje ]
+			self renderProxViajeOn: aCanvas paraViaje: viaje.
+			aCanvas break .
+			aCanvas break]
 		ifNone: [  ].
 	aCanvas heading: 'Proximo Viaje'.
-	"	aCanvas break."
 	proxViajeChofer
 		ifNil: [ aCanvas strong: 'No tiene viajes pendientes asignados' ]
 		ifNotNil: [ self renderProxViajeOn: aCanvas paraViaje: proxViajeChofer ]
