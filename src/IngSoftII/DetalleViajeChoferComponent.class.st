@@ -105,15 +105,16 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 		ifNotEmpty: [ aCanvas heading
 				level: 4;
 				with: 'Pasajeros presenciales: '.
-			self renderOn: aCanvas PasajerosPresenciales: viaje presenciales ].	
+			self renderOn: aCanvas PasajerosPresenciales: viaje presenciales ].
 	aCanvas
-		form: [ self habilitadoAViajar
-				ifTrue: [ aCanvas submitButton
-						callback: [ self iniciarViaje ];
-						with: 'Iniciar Viaje' ].
-			aCanvas space.
-			aCanvas submitButton
-				callback: [ self answer ];
+		form: [ (viaje estado = 'pendiente')
+				ifTrue:
+					[ self habilitadoAViajar
+						ifTrue: [ aCanvas submitButton
+								callback: [ self iniciarViaje ];
+								with: 'Iniciar Viaje' ].
+					aCanvas space ] . aCanvas submitButton
+					callback: [ self answer ];
 				with: 'Volver' ]
 ]
 
