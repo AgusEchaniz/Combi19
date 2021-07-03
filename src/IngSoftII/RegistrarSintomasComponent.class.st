@@ -5,7 +5,9 @@ Class {
 		'sintomas',
 		'temperatura',
 		'mensaje',
-		'usuario'
+		'usuario',
+		'objetivo',
+		'viaje'
 	],
 	#category : #'IngSoftII-ui-Chofer'
 }
@@ -13,6 +15,15 @@ Class {
 { #category : #'instance creation' }
 RegistrarSintomasComponent class >> newWithUser:unUsuario [
 ^self new initializeWithUser: unUsuario
+]
+
+{ #category : #'instance creation' }
+RegistrarSintomasComponent class >> newWithUser: unUsuario
+								andViaje: unViaje
+								objetivo: unObjetivo [ 
+								^self new initializeWithUser: unUsuario
+								andViaje: unViaje
+								objetivo: unObjetivo 
 ]
 
 { #category : #'as yet unclassified' }
@@ -100,7 +111,19 @@ RegistrarSintomasComponent >> initialize [
 { #category : #initialization }
 RegistrarSintomasComponent >> initializeWithUser: unUsuario [
 	self initialize.
-	usuario:=unUsuario
+	usuario := unUsuario.
+	objetivo:=''.
+	viaje:=nil.
+]
+
+{ #category : #initialization }
+RegistrarSintomasComponent >> initializeWithUser: unUsuario
+		andViaje: unViaje
+		objetivo: unObjetivo [
+		
+	usuario:=unUsuario .
+	viaje:=unViaje .
+	objetivo:=unObjetivo 
 ]
 
 { #category : #'as yet unclassified' }
@@ -113,10 +136,20 @@ RegistrarSintomasComponent >> registrarSintomas [
 		ifTrue: [ mensaje := 'La temperatura mínima es 36°'.
 			^ self ].
 	temperatura asInteger >= 38
-		ifTrue: [ usuario rechazar. self answer: 'Rechazado por fiebre' ]
+		ifTrue: [ usuario rechazar.
+			self answer: 'Rechazado por fiebre' ]
 		ifFalse: [ (sintomas count: [ :sintoma | sintoma estado ]) >= 2
-				ifTrue: [ usuario rechazar. self answer: 'Rechazado por sintomas' ]
-				ifFalse: [ self answer: 'Aceptado' ] ]
+				ifTrue: [ usuario rechazar.
+					self answer: 'Rechazado por sintomas' ]
+				ifFalse: [ objetivo = ''
+						ifTrue: [ self answer: 'Aceptado' ]
+						ifFalse: [ self
+								call:
+									(VenderViajeComponent
+										newWithViaje: viaje
+										andPasajero: usuario
+										andEstado: 'Aceptado').
+							 ] ] ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -130,10 +163,10 @@ RegistrarSintomasComponent >> registrarTemperatura [
 { #category : #rendering }
 RegistrarSintomasComponent >> renderButtonsOn: aCanvas [
 	aCanvas horizontalRule.
+	aCanvas submitButton
+		callback: [ self registrarSintomas ];
+		with: 'Aceptar'.
 	 aCanvas submitButton
-				callback: [ self registrarSintomas ];
-				with: 'Aceptar'.
-			aCanvas submitButton
 				callback: [ self answer: 'Cancelado' ];
 				with: 'Cancelar' 
 ]

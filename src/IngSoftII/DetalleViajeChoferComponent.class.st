@@ -85,7 +85,7 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 						seconds: 0))
 		ifTrue: [ aCanvas
 				form: [ aCanvas submitButton
-						callback: [ self call: (VenderViajeComponent newWithViaje: viaje) ];
+						callback: [ self call: (BuscarPasajeroComponent  newWithViaje: viaje) ];
 						with: 'Vender pasaje' ] ].
 	aCanvas heading
 		level: 4;
