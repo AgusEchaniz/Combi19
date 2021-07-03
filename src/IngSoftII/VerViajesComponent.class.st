@@ -34,8 +34,8 @@ VerViajesComponent >> eliminarViaje: unViaje [
 
 { #category : #initialization }
 VerViajesComponent >> initialize [
-super initialize.
-viajes:=Sistema soleInstance viajes
+	super initialize.
+	viajes := (Sistema soleInstance viajes)sort:[:viajeA :viajeB| viajeA estado< viajeB estado]
 ]
 
 { #category : #initialization }
