@@ -31,7 +31,7 @@ DetalleViajeChoferComponent >> iniciarViaje [
 				conCondicion: (estados at: (pasajeros indexOf: pasajero))
 				viajarA: viaje ].
 	viaje iniciar.
-	self answer
+	self call: HomeComponentChofer new.
 ]
 
 { #category : #initialization }
