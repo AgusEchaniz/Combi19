@@ -57,16 +57,17 @@ BuscarPasajeroComponent >> renderContentOn: aCanvas [
 				with: mensaje.
 			usuario
 				ifNotNil: [ (msj includesSubstring: 'Rechazado' caseSensitive: false)
-						ifFalse: [ aCanvas submitButton
+						ifFalse: [ usuario soy = 'pasajero' ifTrue:[aCanvas submitButton
 								callback: [ msj := self
 										call:
 											(RegistrarSintomasComponent
 												newWithUser: usuario
 												andViaje: viaje
 												objetivo: 'presencial').
-									msj = 'Cancelado' ifTrue: [mensaje := 'Usuario: ' , nombreUsuario , ' ' ]
+									msj = 'Cancelado'
+										ifTrue: [ mensaje := 'Usuario: ' , nombreUsuario , ' ' ]
 										ifFalse: [ mensaje := 'Usuario: ' , nombreUsuario , ' ' , msj ] ];
-								with: 'Registrar síntomas' ] ] ]
+								with: 'Registrar síntomas' ] ] ]]
 ]
 
 { #category : #rendering }
@@ -75,29 +76,34 @@ BuscarPasajeroComponent >> renderPasajeroOn: aCanvas [
 		ifTrue: [ mensaje := 'Ingrese un nombre de usuario'.
 			^ self ].
 	self validarUsuario
-		ifTrue: [ usuario rechazado & (usuario rechazadoHasta >= Date today)
-				ifTrue: [ msj := 'Rechazado para viajar por sospecha de covid hasta el '
-						, usuario rechazadoHasta asString ].
-			mensaje := 'Usuario Válido' , nombreUsuario printString , ' ', msj ]
-		ifFalse: [ mensaje := 'Se creo el usuario: ' , nombreUsuario printString
-				, ' con contraseña: 123456 ' ]
+		= 'Usted no está habilitado par acceder a esta información'
+		ifTrue:
+			[ mensaje := 'Usted no está habilitado par acceder a esta información'.
+			^ self ]
+		ifFalse: [ self validarUsuario = 'true'
+				ifTrue: [ usuario rechazado
+						ifTrue: [ usuario rechazadoHasta >= Date today
+								ifTrue: [ msj := 'Rechazado para viajar por sospecha de covid hasta el '
+										, usuario rechazadoHasta asString ] ] ifFalse:[
+					mensaje := 'Usuario Válido' , nombreUsuario printString , ' '
+						, msj.
+					^ self ]]
+				ifFalse: [ mensaje := 'Se creo el usuario: ' , nombreUsuario printString
+						, ' con contraseña: 123456 '.
+					^ self ] ]
 ]
 
 { #category : #'as yet unclassified' }
 BuscarPasajeroComponent >> validarUsuario [
 	nombreUsuario
-		ifNotEmpty: [ (Sistema soleInstance existePasajero: nombreUsuario)
+		ifNotEmpty: [ (Sistema soleInstance existeUsuario: nombreUsuario)
 				ifTrue: [ usuario := Sistema soleInstance obtenerUsuarioConNU: nombreUsuario.
-					^ true ]
+					usuario soy = 'pasajero'
+						ifTrue: [ ^ 'true' ]
+						ifFalse: [ ^ 'Usted no está habilitado par acceder a esta información' ] ]
 				ifFalse: [ Sistema soleInstance
-						crearUsuarioPasajeroWithNombreDeUsuario: nombreUsuario.	"crearUsuarioPasajeroWithNombreDeUsuario: nombreUsuario
-				andContraseña: '123456'
-				andFechaNacimiento: ''
-				andNombre: ''
-				andApellido: ''
-				andDni: ''
-				andMembresia: MembresiaBasica new."
+						crearUsuarioPasajeroWithNombreDeUsuario: nombreUsuario.	
 					usuario := Sistema soleInstance
 						obtenerUsuarioConNU: nombreUsuario.
-					^ false ] ]
+					^ 'false' ] ]
 ]
