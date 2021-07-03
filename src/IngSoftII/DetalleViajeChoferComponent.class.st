@@ -81,10 +81,13 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				, viaje ruta lugarDestino nombre , ' ' , viaje horario asString.
 	aCanvas heading
 		level: 3;
+		with: 'Pasajes vendidos: ' , viaje cantidadVendidos asString.
+	(viaje estado = 'pendiente') ifTrue:[
+	aCanvas heading
+		level: 3;
 		with:
-			'Total pasajeros: ' , viaje cantidadVendidos asString
-				, ' pasajes disponibles: '
-				, viaje cantidadAsientosDisponibles asString.
+			'Cantidad de asientos disponibles: '
+				, viaje cantidadAsientosDisponibles asString].
 	viaje cantidadAsientosDisponibles > 0 & (viaje estado = 'pendiente')
 		&
 			((DateAndTime now - viaje fechaCompleta) abs
@@ -118,14 +121,14 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				with: 'Pasajeros presenciales: '.
 			self renderOn: aCanvas PasajerosPresenciales: viaje presenciales ].
 	aCanvas
-		form: [ (viaje estado = 'pendiente')
-				ifTrue:
-					[ self habilitadoAViajar
+		form: [ viaje estado = 'pendiente'
+				ifTrue: [ self habilitadoAViajar
 						ifTrue: [ aCanvas submitButton
 								callback: [ self iniciarViaje ];
 								with: 'Iniciar Viaje' ].
-					aCanvas space ] . aCanvas submitButton
-					callback: [ self answer ];
+					aCanvas space ].
+			aCanvas submitButton
+				callback: [ self answer ];
 				with: 'Volver' ]
 ]
 
