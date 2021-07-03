@@ -64,7 +64,8 @@ BuscarPasajeroComponent >> renderContentOn: aCanvas [
 												newWithUser: usuario
 												andViaje: viaje
 												objetivo: 'presencial').
-									mensaje := 'Usuario: ' , nombreUsuario , ' ',msj];
+									msj = 'Cancelado' ifTrue: [mensaje := 'Usuario: ' , nombreUsuario , ' ' ]
+										ifFalse: [ mensaje := 'Usuario: ' , nombreUsuario , ' ' , msj ] ];
 								with: 'Registrar síntomas' ] ] ]
 ]
 

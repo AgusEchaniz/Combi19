@@ -9,7 +9,8 @@ Class {
 		'pasajeros',
 		'precio',
 		'estado',
-		'rechazados'
+		'rechazados',
+		'presenciales'
 	],
 	#category : #'IngSoftII-model'
 }
@@ -20,6 +21,11 @@ Viaje class >> newWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: unaC
 		initializeWithRuta: unaRuta
 		andFecha: unaFecha
 		andCantidadAsientos: unaCantidadAsientos andPrecio:unPrecio
+]
+
+{ #category : #'as yet unclassified' }
+Viaje >> agregarPresencial: unUsuario [
+	presenciales add: unUsuario
 ]
 
 { #category : #'as yet unclassified' }
@@ -112,7 +118,7 @@ Viaje >> initialize [
 	super initialize.
 	cantidadVendidos := 0.
 	rechazados := OrderedCollection new.
-	
+	presenciales := OrderedCollection new.
 ]
 
 { #category : #'as yet unclassified' }
@@ -122,6 +128,7 @@ Viaje >> initializeWithRuta: unaRuta andFecha: unaFecha andCantidadAsientos: una
 	cantidadAsientos := unaCantidadAsientos.
 	cantidadVendidos := 0.
 	pasajeros := OrderedCollection new.
+	presenciales := OrderedCollection new.
 	precio := unPrecio.
 	estado := 'pendiente'
 ]
@@ -162,6 +169,11 @@ Viaje >> precio [
 ^precio
 ]
 
+{ #category : #initialization }
+Viaje >> presenciales [
+	^presenciales 
+]
+
 { #category : #'as yet unclassified' }
 Viaje >> rechazados [
 ^rechazados
@@ -181,6 +193,11 @@ Viaje >> ruta [
 { #category : #'as yet unclassified' }
 Viaje >> tieneFecha:unaFecha [ 
 ^fecha=unaFecha 
+]
+
+{ #category : #accessing }
+Viaje >> tienePresencial: unUsuario [
+	^presenciales includes: unUsuario
 ]
 
 { #category : #'as yet unclassified' }

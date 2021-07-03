@@ -47,7 +47,7 @@ DetalleViajeChoferComponent >> initializeVector [
 DetalleViajeChoferComponent >> initializeWithViaje: unViaje [
 	super initialize.
 	viaje := unViaje.
-	pasajeros := Sistema soleInstance obtenerPasajerosViaje: unViaje.
+	pasajeros := (Sistema soleInstance obtenerPasajerosViaje: unViaje) reject: [:pasajero | unViaje tienePresencial: pasajero].
 	mensaje := ' '.
 	estados := Array new: pasajeros size.
 	self initializeVector
@@ -85,7 +85,7 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 						seconds: 0))
 		ifTrue: [ aCanvas
 				form: [ aCanvas submitButton
-						callback: [ self call: (BuscarPasajeroComponent  newWithViaje: viaje) ];
+						callback: [ self call: (BuscarPasajeroComponent newWithViaje: viaje) ];
 						with: 'Vender pasaje' ] ].
 	aCanvas heading
 		level: 4;
@@ -98,6 +98,14 @@ DetalleViajeChoferComponent >> renderContentOn: aCanvas [
 				level: 4;
 				with: 'Pasajeros: '.
 			self renderOn: aCanvas Pasajeros: pasajeros ].
+	viaje presenciales
+		ifEmpty: [ aCanvas heading
+				level: 4;
+				with: 'No se realizaron ventas presenciales' ]
+		ifNotEmpty: [ aCanvas heading
+				level: 4;
+				with: 'Pasajeros presenciales: '.
+			self renderOn: aCanvas PasajerosPresenciales: viaje presenciales ].	
 	aCanvas
 		form: [ self habilitadoAViajar
 				ifTrue: [ aCanvas submitButton
@@ -155,4 +163,15 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 													aCanvas break ].
 											aCanvas space.
 											aCanvas horizontalRule ] ] ] ] ]
+]
+
+{ #category : #initialization }
+DetalleViajeChoferComponent >> renderOn: aCanvas PasajerosPresenciales: unosPasajeros [
+	^ aCanvas
+		form: [ aCanvas
+				unorderedList: [ unosPasajeros 
+						do: [ :each | 
+							aCanvas
+								listItem: [ aCanvas paragraph: [ aCanvas big: each nombreUsuario ].
+									aCanvas horizontalRule ] ] ] ]
 ]

@@ -27,6 +27,7 @@ VenderViajeComponent >> initializeWithViaje: unViaje andPasajero: unPasajero and
 { #category : #'as yet unclassified' }
 VenderViajeComponent >> registrarVenta [
 	viaje venderPasaje: 1.
+	viaje agregarPresencial: usuario.
 	usuario
 		agregarPasaje:
 			(Pasaje
@@ -34,7 +35,7 @@ VenderViajeComponent >> registrarVenta [
 				andCantidad: 1
 				andPrecio: precio
 				andInsumos: nil).
-	self call: HomeComponentChofer new
+	self call: (DetalleViajeChoferComponent newWithViaje: viaje)
 ]
 
 { #category : #rendering }
