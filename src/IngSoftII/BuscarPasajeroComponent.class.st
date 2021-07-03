@@ -73,16 +73,15 @@ BuscarPasajeroComponent >> renderPasajeroOn: aCanvas [
 		ifTrue: [ mensaje := 'Ingrese un nombre de usuario'.
 			^ self ].
 	self validarUsuario
-		ifTrue: [ mensaje := 'Usuario Valido' , nombreUsuario printString ]
+		ifTrue: [ mensaje := 'Usuario Valido' , usuario nombreUsuario  printString, ' ' ,usuario nombreCompleto ]
 		ifFalse: [ mensaje := 'Se creo el usuario: ' , nombreUsuario printString
 				, ' con contraseña: 123456' ]
 ]
 
 { #category : #'as yet unclassified' }
 BuscarPasajeroComponent >> validarUsuario [
-	
 	nombreUsuario
-		ifNotEmpty: [ (Sistema soleInstance existeUsuario: nombreUsuario)
+		ifNotEmpty: [ (Sistema soleInstance existePasajero: nombreUsuario)
 				ifTrue: [ usuario := Sistema soleInstance obtenerUsuarioConNU: nombreUsuario.
 					^ true ]
 				ifFalse: [ Sistema soleInstance

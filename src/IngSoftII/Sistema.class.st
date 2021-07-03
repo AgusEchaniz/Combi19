@@ -359,6 +359,15 @@ Sistema >> existeLocalidad: unaLocalidad paraProv: unaProvincia [
 ]
 
 { #category : #usuario }
+Sistema >> existePasajero: unNombreDeUsuario [
+	usuarios
+		detect:
+			[ :usuario | (usuario seLlama: unNombreDeUsuario) & (usuario soy = 'pasajero') ]
+		ifFound: [ ^ true ]
+		ifNone: [ ^ false ]
+]
+
+{ #category : #usuario }
 Sistema >> existeUsuario: unNombreDeUsuario [
 	usuarios
 		detect: [ :usuario | usuario seLlama:  unNombreDeUsuario ]
