@@ -169,7 +169,13 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 											aCanvas break.
 											aCanvas text: 'DNI: ' , each dni.
 											aCanvas space.
-											"aCanvas break."
+											aCanvas break.
+											aCanvas
+												text:
+													'Cantidad de pasajes: '
+														,
+															((each pasajesDelViaje: viaje)
+																sumNumbers: [ :pasaje | pasaje cantidad ]) asString.
 											viaje estado = 'pendiente'
 												&
 													((DateAndTime now - viaje fechaCompleta) abs
@@ -190,7 +196,7 @@ DetalleViajeChoferComponent >> renderOn: aCanvas Pasajeros: unosPasajeros [
 													aCanvas submitButton
 														callback: [ self registrarAusente: each ];
 														with: 'Registrar ausente'.
-													aCanvas break ].
+													"aCanvas break "].
 											aCanvas space.
 											aCanvas horizontalRule ] ] ] ] ]
 ]
