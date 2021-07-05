@@ -51,7 +51,7 @@ VenderViajeComponent >> renderContentOn: aCanvas [
 				with: 'Pasajero: ' , usuario nombreUsuario.
 			usuario membresia nombre = 'basico'
 				ifTrue: [ precio := viaje precio asInteger ]
-				ifFalse: [ precio := 10 * viaje precio asInteger / 100 ].
+				ifFalse: [ precio :=  viaje precio asInteger -(10 * viaje precio asInteger / 100) ].
 			aCanvas text: 'Total: ' , precio printString.
 			aCanvas break.
 			aCanvas break.
