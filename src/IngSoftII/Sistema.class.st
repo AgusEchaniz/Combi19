@@ -216,21 +216,19 @@ Sistema >> crearUsuarioChoferWithNombreDeUsuario: unNombreDeUsuario andContrase�
 ]
 
 { #category : #usuario }
-Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario [ 
+Sistema >> crearUsuarioPasajeroWithNombreDeUsuario: unNombreDeUsuario [
 	| usuario |
-	
 	usuarios
-				add:
-					(usuario := Pasajero
-						newWithNombreDeUsuario: unNombreDeUsuario
-						andContraseña: '123456'
-						andFechaNacimiento: ''
-						andNombre: ''
-						andApellido: ''
-						andDni: ''
-						andMembresia: MembresiaBasica new).
-			^ usuario .
-	
+		add:
+			(usuario := Pasajero
+				newWithNombreDeUsuario: unNombreDeUsuario
+				andContraseña: '123456'
+				andFechaNacimiento: Date today
+				andNombre: ''
+				andApellido: ''
+				andDni: ''
+				andMembresia: MembresiaBasica new).
+	^ usuario
 ]
 
 { #category : #usuario }

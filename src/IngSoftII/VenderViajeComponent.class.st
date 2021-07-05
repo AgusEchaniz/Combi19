@@ -34,7 +34,7 @@ VenderViajeComponent >> registrarVenta [
 				newWithViaje: viaje
 				andCantidad: 1
 				andPrecio: precio
-				andInsumos: nil).
+				andInsumos: OrderedCollection new).
 	self call: (DetalleViajeChoferComponent newWithViaje: viaje)
 ]
 
